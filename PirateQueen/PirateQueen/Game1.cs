@@ -4,10 +4,18 @@ using Microsoft.Xna.Framework.Input;
 
 namespace PirateQueen
 {
+    // Finite state machine:
+    enum GameState
+    {
+        Intro, Menu, Gameplay, Transition, Win
+    }
+
     public class Game1 : Game
     {
+        // Attributes:
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        GameState state;
 
         public Game1()
         {
@@ -17,7 +25,7 @@ namespace PirateQueen
         
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            state = GameState.Intro;
 
             base.Initialize();
         }
@@ -39,17 +47,41 @@ namespace PirateQueen
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            // TODO: Add your update logic here
+            
+            switch (state)
+            {
+                case (GameState.Intro):
+                    break;
+                case (GameState.Transition):
+                    break;
+                case (GameState.Win):
+                    break;
+                case (GameState.Menu):
+                    break;
+                case (GameState.Gameplay):
+                    break;
+            }
 
             base.Update(gameTime);
         }
         
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.MonoGameOrange);
 
-            // TODO: Add your drawing code here
+            switch (state)
+            {
+                case (GameState.Intro):
+                    break;
+                case (GameState.Transition):
+                    break;
+                case (GameState.Win):
+                    break;
+                case (GameState.Menu):
+                    break;
+                case (GameState.Gameplay):
+                    break;
+            }
 
             base.Draw(gameTime);
         }

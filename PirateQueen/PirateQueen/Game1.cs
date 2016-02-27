@@ -16,6 +16,10 @@ namespace PirateQueen
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         GameState state;
+        Vector2 center;
+
+        // Texture2Ds:
+        Texture2D lasrLogo;
 
         public Game1()
         {
@@ -26,6 +30,7 @@ namespace PirateQueen
         protected override void Initialize()
         {
             state = GameState.Intro;
+            center = new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2);
 
             base.Initialize();
         }
@@ -35,7 +40,8 @@ namespace PirateQueen
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            // Load sprites:
+            lasrLogo = Content.Load<Texture2D>("LASR");
         }
         
         protected override void UnloadContent()
@@ -69,9 +75,12 @@ namespace PirateQueen
         {
             GraphicsDevice.Clear(Color.MonoGameOrange);
 
+            spriteBatch.Begin();
+
             switch (state)
             {
                 case (GameState.Intro):
+                    spriteBatch.Draw(lasrLogo, new Vector2(center.X - (lasrLogo.Bounds.Width / 2) + 35, center.Y - (lasrLogo.Bounds.Height / 2) - 100), Color.White);
                     break;
                 case (GameState.Transition):
                     break;
@@ -82,6 +91,8 @@ namespace PirateQueen
                 case (GameState.Gameplay):
                     break;
             }
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

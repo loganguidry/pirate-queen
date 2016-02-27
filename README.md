@@ -1,2 +1,2 @@
 # Pirate Queen
-Pirate Queen by Team LASR
+Andrew Harding Presents: Pirate Queen in Association with Team LASR

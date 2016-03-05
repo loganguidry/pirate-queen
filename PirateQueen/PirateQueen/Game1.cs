@@ -20,6 +20,7 @@ namespace PirateQueen
 
         // Texture2Ds:
         Texture2D lasrLogo;
+        Texture2D startScreen;
 
         public Game1()
         {
@@ -42,6 +43,8 @@ namespace PirateQueen
 
             // Load sprites:
             lasrLogo = Content.Load<Texture2D>("LASR");
+            //
+
         }
         
         protected override void UnloadContent()
@@ -52,7 +55,7 @@ namespace PirateQueen
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+                //Exit();
             
             switch (state)
             {
@@ -62,8 +65,9 @@ namespace PirateQueen
                     break;
                 case (GameState.Win):
                     break;
-                case (GameState.Menu):
-                    break;
+                case (GameState.Menu): //menu meaning the start menu
+                        startScreen = Content.Load<Texture2D>("Start Menu.png");
+                        break;
                 case (GameState.Gameplay):
                     break;
             }
@@ -87,6 +91,7 @@ namespace PirateQueen
                 case (GameState.Win):
                     break;
                 case (GameState.Menu):
+                    //spriteBatch.Draw(startScreen, new Vector2(center.X - ()))
                     break;
                 case (GameState.Gameplay):
                     break;

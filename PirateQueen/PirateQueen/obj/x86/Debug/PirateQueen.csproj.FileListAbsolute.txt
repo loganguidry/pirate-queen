@@ -1,0 +1,10 @@
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\OpenTK.dll.config
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\PirateQueen.exe
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\PirateQueen.pdb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\MonoGame.Framework.dll
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\NVorbis.dll
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\OpenTK.dll
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.csprojResolveAssemblyReference.cache
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.exe
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.pdb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\LASR.xnb

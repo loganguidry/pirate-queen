@@ -8,3 +8,4 @@ C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\Pira
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.exe
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.pdb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\LASR.xnb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Start Menu.xnb

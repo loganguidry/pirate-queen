@@ -17,6 +17,11 @@ namespace PirateQueen
         SpriteBatch spriteBatch;
         GameState state;
         Vector2 center;
+        Vector2 screenSize;
+
+        // User input:
+        KeyboardState kbState;
+        KeyboardState oldKbState;
 
         // Texture2Ds:
         Texture2D lasrLogo;
@@ -30,8 +35,10 @@ namespace PirateQueen
         
         protected override void Initialize()
         {
+            // Initialize variables:
             state = GameState.Intro;
-            center = new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2);
+            screenSize = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
+            center = screenSize / 2;
 
             base.Initialize();
         }
@@ -43,8 +50,7 @@ namespace PirateQueen
 
             // Load sprites:
             lasrLogo = Content.Load<Texture2D>("LASR");
-            //
-
+            startScreen = Content.Load<Texture2D>("Start Menu");
         }
         
         protected override void UnloadContent()
@@ -54,20 +60,25 @@ namespace PirateQueen
         
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                //Exit();
+            // Get keyboard input:
+            oldKbState = kbState;
+            kbState = Keyboard.GetState();
+
+            if (KeyPress(Keys.Escape))
+                Exit();
             
             switch (state)
             {
                 case (GameState.Intro):
+                    if (KeyPress(Keys.Enter))
+                        state = GameState.Menu;
                     break;
                 case (GameState.Transition):
                     break;
                 case (GameState.Win):
                     break;
-                case (GameState.Menu): //menu meaning the start menu
-                        startScreen = Content.Load<Texture2D>("Start Menu.png");
-                        break;
+                case (GameState.Menu):
+                    break;
                 case (GameState.Gameplay):
                     break;
             }
@@ -91,7 +102,7 @@ namespace PirateQueen
                 case (GameState.Win):
                     break;
                 case (GameState.Menu):
-                    //spriteBatch.Draw(startScreen, new Vector2(center.X - ()))
+                    spriteBatch.Draw(startScreen, new Vector2(center.X - (startScreen.Bounds.Width / 2), center.Y - (startScreen.Bounds.Height / 2)), Color.White);
                     break;
                 case (GameState.Gameplay):
                     break;
@@ -100,6 +111,11 @@ namespace PirateQueen
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public bool KeyPress (Keys key)
+        {
+            return kbState.IsKeyDown(key) && !oldKbState.IsKeyDown(key);
         }
     }
 }

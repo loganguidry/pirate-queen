@@ -14,8 +14,12 @@ namespace PirateQueen
     public class Game1 : Game
     {
         // Constants:
-        float PLAYER_WALKING_SPEED = 2.5f;
+        float GRAVITY = 1f;
+        float PLAYER_WALKING_SPEED = 3f;
         float PLAYER_RUNNING_SPEED = 5f;
+        float PLAYER_FRICTION = 0.9f;
+        float PLAYER_ACCELERATION = 0.25f;
+        float PLAYER_JUMP_FORCE = 16f;
 
         // Attributes:
         GraphicsDeviceManager graphics;
@@ -40,6 +44,8 @@ namespace PirateQueen
 
         // Player:
         Texture2D playerSprite;
+        Vector2 playerVelocity;
+        bool onGround;
 
         public Game1()
         {
@@ -54,6 +60,7 @@ namespace PirateQueen
             screenSize = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
             center = screenSize / 2;
             playerPosition = new Vector2(screenSize.X / 2, screenSize.Y - 200);
+            onGround = true;
 
             base.Initialize();
         }
@@ -87,9 +94,10 @@ namespace PirateQueen
             oldKbState = kbState;
             kbState = Keyboard.GetState();
 
+            // Exit the game:
             if (KeyPress(Keys.Escape))
                 Exit();
-            
+
             switch (state)
             {
                 case (GameState.Intro):
@@ -115,31 +123,8 @@ namespace PirateQueen
                     //if (KeyPress(Keys.Escape))
                     //    TogglePause();
 
-                    // Movement:
-                    if (kbState.IsKeyDown(Keys.Left) || kbState.IsKeyDown(Keys.A))
-                    {
-                        // Walk or run:
-                        if (kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift))
-                            playerPosition.X -= PLAYER_RUNNING_SPEED;
-                        else
-                            playerPosition.X -= PLAYER_WALKING_SPEED;
-
-                        // Keep in-screen:
-                        if (playerPosition.X <= playerSprite.Width / 2)
-                            playerPosition.X = playerSprite.Width / 2;
-                    }
-                    if (kbState.IsKeyDown(Keys.Right) || kbState.IsKeyDown(Keys.D))
-                    {
-                        // Walk or run:
-                        if (kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift))
-                            playerPosition.X += PLAYER_RUNNING_SPEED;
-                        else
-                            playerPosition.X += PLAYER_WALKING_SPEED;
-
-                        // Keep in-screen:
-                        if (playerPosition.X >= screenSize.X - (playerSprite.Width / 2))
-                            playerPosition.X = screenSize.X - (playerSprite.Width / 2);
-                    }
+                    // Control the player:
+                    ControlPlayer();
 
                     break;
             }
@@ -152,13 +137,14 @@ namespace PirateQueen
         
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.MonoGameOrange);
+            GraphicsDevice.Clear(new Color(123, 213, 255));
 
             spriteBatch.Begin();
 
             switch (state)
             {
                 case (GameState.Intro):
+                    GraphicsDevice.Clear(Color.MonoGameOrange);
                     spriteBatch.Draw(lasrLogo, new Vector2(center.X - (lasrLogo.Bounds.Width / 2) + 35, center.Y - (lasrLogo.Bounds.Height / 2) - 100), Color.White);
                     break;
 
@@ -190,6 +176,119 @@ namespace PirateQueen
         public bool KeyPress (Keys key)
         {
             return kbState.IsKeyDown(key) && !oldKbState.IsKeyDown(key);
+        }
+
+        public void ControlPlayer ()
+        {
+            // Friction for horizontal movement:
+            if (!kbState.IsKeyDown(Keys.Left) && !kbState.IsKeyDown(Keys.A) && !kbState.IsKeyDown(Keys.Right) && !kbState.IsKeyDown(Keys.D) && onGround)
+            {
+                playerVelocity.X *= PLAYER_FRICTION;
+            }
+
+            // Acceleration for horizontal movement:
+            if (kbState.IsKeyDown(Keys.Left) || kbState.IsKeyDown(Keys.A))
+            {
+                playerVelocity.X -= PLAYER_ACCELERATION;
+                if (kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift))
+                {
+                    if (playerVelocity.X < -PLAYER_RUNNING_SPEED)
+                    {
+                        playerVelocity.X = -PLAYER_RUNNING_SPEED;
+                    }
+                }
+                else
+                {
+                    if (playerVelocity.X < -PLAYER_WALKING_SPEED)
+                    {
+                        playerVelocity.X = -PLAYER_WALKING_SPEED;
+                    }
+                }
+            }
+            if (kbState.IsKeyDown(Keys.Right) || kbState.IsKeyDown(Keys.D))
+            {
+                playerVelocity.X += PLAYER_ACCELERATION;
+                if (kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift))
+                {
+                    if (playerVelocity.X > PLAYER_RUNNING_SPEED)
+                    {
+                        playerVelocity.X = PLAYER_RUNNING_SPEED;
+                    }
+                }
+                else
+                {
+                    if (playerVelocity.X > PLAYER_WALKING_SPEED)
+                    {
+                        playerVelocity.X = PLAYER_WALKING_SPEED;
+                    }
+                }
+            }
+
+            // Check if on ground:
+            onGround = playerPosition.Y >= screenSize.Y - 200;
+
+            // Jump:
+            if (onGround && kbState.IsKeyDown(Keys.Space))// KeyPress(Keys.Space))
+            {
+                playerVelocity.Y = -PLAYER_JUMP_FORCE;
+            }
+
+            // Gravity:
+            if (!onGround)
+            {
+                playerVelocity.Y += GRAVITY;
+            }
+
+            // Move player:
+            playerPosition += playerVelocity;
+
+            // Keep on-screen:
+            if (playerPosition.X <= playerSprite.Width / 2)
+            {
+                playerPosition.X = playerSprite.Width / 2;
+                playerVelocity.X = 0;
+            }
+            if (playerPosition.X >= screenSize.X - (playerSprite.Width / 2))
+            {
+                playerPosition.X = screenSize.X - (playerSprite.Width / 2);
+                playerVelocity.X = 0;
+            }
+
+            // Keep on ground:
+            if (playerPosition.Y > screenSize.Y - 200)
+            {
+                playerPosition.Y = screenSize.Y - 200;
+                playerVelocity.Y = 0;
+                onGround = true;
+            }
+
+            /*
+            // Movement:
+            if (kbState.IsKeyDown(Keys.Left) || kbState.IsKeyDown(Keys.A))
+            {
+                // Walk or run:
+                if (kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift))
+                    playerPosition.X -= PLAYER_RUNNING_SPEED;
+                else
+                    playerPosition.X -= PLAYER_WALKING_SPEED;
+
+                // Keep in-screen:
+                if (playerPosition.X <= playerSprite.Width / 2)
+                    playerPosition.X = playerSprite.Width / 2;
+            }
+            if (kbState.IsKeyDown(Keys.Right) || kbState.IsKeyDown(Keys.D))
+            {
+                // Walk or run:
+                if (kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift))
+                    playerPosition.X += PLAYER_RUNNING_SPEED;
+                else
+                    playerPosition.X += PLAYER_WALKING_SPEED;
+
+                // Keep in-screen:
+                if (playerPosition.X >= screenSize.X - (playerSprite.Width / 2))
+                    playerPosition.X = screenSize.X - (playerSprite.Width / 2);
+            }
+            */
         }
     }
 }

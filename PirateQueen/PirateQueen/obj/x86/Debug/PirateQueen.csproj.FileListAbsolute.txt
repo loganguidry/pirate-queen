@@ -12,3 +12,9 @@ C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\OpenTK.d
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.csprojResolveAssemblyReference.cache
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.exe
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.pdb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Level1\BG2.xnb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Level1\BG1.xnb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Level1\BG3.xnb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Level1\BG4.xnb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Level1\BG5.xnb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Crosshair.xnb

@@ -31,21 +31,28 @@ namespace PirateQueen
         double dt;
         double lastFrameTime;
         double currentFrameTime;
+        bool paused = false;
+        int currentLevelFrame;
+        int currentLevel;
 
         // User input:
         KeyboardState kbState;
         KeyboardState oldKbState;
+        MouseState mouseState;
 
         // Texture2Ds:
         Texture2D lasrLogo;
         Texture2D startScreen;
         Texture2D groundSprite;
-        Texture2D background;
+        Texture2D cursorSprite;
 
         // Player:
         Texture2D playerSprite;
         Vector2 playerVelocity;
         bool onGround;
+
+        // Frames:
+        Texture2D[] frameBackgrounds;
 
         public Game1()
         {
@@ -61,6 +68,9 @@ namespace PirateQueen
             center = screenSize / 2;
             playerPosition = new Vector2(screenSize.X / 2, screenSize.Y - 200);
             onGround = true;
+            frameBackgrounds = new Texture2D[5];
+            currentLevelFrame = 0;
+            currentLevel = 0;
 
             base.Initialize();
         }
@@ -73,9 +83,9 @@ namespace PirateQueen
             // Load sprites:
             lasrLogo = Content.Load<Texture2D>("LASR");
             startScreen = Content.Load<Texture2D>("Start Menu");
-            background = Content.Load<Texture2D>("Background");
             groundSprite = Content.Load<Texture2D>("Floor1");
             playerSprite = Content.Load<Texture2D>("Player");
+            cursorSprite = Content.Load<Texture2D>("Crosshair");
         }
         
         protected override void UnloadContent()
@@ -94,9 +104,8 @@ namespace PirateQueen
             oldKbState = kbState;
             kbState = Keyboard.GetState();
 
-            // Exit the game:
-            if (KeyPress(Keys.Escape))
-                Exit();
+            // Get mouse input:
+            mouseState = Mouse.GetState();
 
             switch (state)
             {
@@ -110,21 +119,31 @@ namespace PirateQueen
                     break;
 
                 case (GameState.Win):
+                    if (KeyPress(Keys.Enter))
+                        state = GameState.Menu;
                     break;
 
                 case (GameState.Menu):
                     // Start game:
                     if (KeyPress(Keys.Enter))
-                        state = GameState.Gameplay;
+                        StartGame();
                     break;
 
                 case (GameState.Gameplay):
                     // Toggle pause:
-                    //if (KeyPress(Keys.Escape))
-                    //    TogglePause();
+                    if (KeyPress(Keys.Escape))
+                        TogglePause();
+
+                    // Skip the rest of this code if paused:
+                    if (paused)
+                        break;
 
                     // Control the player:
                     ControlPlayer();
+
+                    // Debug: Move on to the next frame:
+                    if (KeyPress(Keys.E))
+                        NextFrame();
 
                     break;
             }
@@ -160,13 +179,16 @@ namespace PirateQueen
 
                 case (GameState.Gameplay):
                     // Draw the background:
-                    spriteBatch.Draw(background, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
+                    spriteBatch.Draw(frameBackgrounds[currentLevelFrame], new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
                     // Draw the ground:
-                    spriteBatch.Draw(groundSprite, new Vector2(0, screenSize.Y - 200), Color.White);
+                    //spriteBatch.Draw(groundSprite, new Vector2(0, screenSize.Y - 200), Color.White);
                     // Draw the player:
                     spriteBatch.Draw(playerSprite, playerPosition - new Vector2(playerSprite.Width / 2, playerSprite.Height), Color.White);
                     break;
             }
+
+            // Draw the cursor:
+            spriteBatch.Draw(cursorSprite, new Vector2(mouseState.Position.X, mouseState.Position.Y) - (screenSize / 2) - new Vector2(cursorSprite.Width / 2f, cursorSprite.Height / 2f), Color.White);
 
             spriteBatch.End();
 
@@ -261,34 +283,83 @@ namespace PirateQueen
                 playerVelocity.Y = 0;
                 onGround = true;
             }
+        }
 
-            /*
-            // Movement:
-            if (kbState.IsKeyDown(Keys.Left) || kbState.IsKeyDown(Keys.A))
+        public void TogglePause ()
+        {
+            paused = !paused;
+        }
+
+        public void StartGame()
+        {
+            // Set variables:
+            currentLevel = 0;
+            currentLevelFrame = 0;
+
+            // Reset player:
+            playerPosition = new Vector2(screenSize.X / 2, screenSize.Y - 200);
+            playerVelocity = Vector2.Zero;
+            onGround = true;
+
+            // Start level 1:
+            NextLevel();
+
+            // Change to gameplay:
+            state = GameState.Gameplay;
+        }
+
+        public void NextLevel ()
+        {
+            // Check if the player is on the last level:
+            if (currentLevel >= 5)
             {
-                // Walk or run:
-                if (kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift))
-                    playerPosition.X -= PLAYER_RUNNING_SPEED;
-                else
-                    playerPosition.X -= PLAYER_WALKING_SPEED;
-
-                // Keep in-screen:
-                if (playerPosition.X <= playerSprite.Width / 2)
-                    playerPosition.X = playerSprite.Width / 2;
+                WinGame();
+                return;
             }
-            if (kbState.IsKeyDown(Keys.Right) || kbState.IsKeyDown(Keys.D))
+
+            // Increase level:
+            currentLevel++;
+            currentLevelFrame = 0;
+
+            try
             {
-                // Walk or run:
-                if (kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift))
-                    playerPosition.X += PLAYER_RUNNING_SPEED;
-                else
-                    playerPosition.X += PLAYER_WALKING_SPEED;
-
-                // Keep in-screen:
-                if (playerPosition.X >= screenSize.X - (playerSprite.Width / 2))
-                    playerPosition.X = screenSize.X - (playerSprite.Width / 2);
+                // Load level backgrounds:
+                frameBackgrounds[0] = Content.Load<Texture2D>("Level" + currentLevel + "/BG1");
+                frameBackgrounds[1] = Content.Load<Texture2D>("Level" + currentLevel + "/BG2");
+                frameBackgrounds[2] = Content.Load<Texture2D>("Level" + currentLevel + "/BG3");
+                frameBackgrounds[3] = Content.Load<Texture2D>("Level" + currentLevel + "/BG4");
+                frameBackgrounds[4] = Content.Load<Texture2D>("Level" + currentLevel + "/BG5");
             }
-            */
+            catch
+            {
+                // If the backgrounds failed to load, set them to the default background:
+                frameBackgrounds[0] = Content.Load<Texture2D>("Background");
+                frameBackgrounds[1] = Content.Load<Texture2D>("Background");
+                frameBackgrounds[2] = Content.Load<Texture2D>("Background");
+                frameBackgrounds[3] = Content.Load<Texture2D>("Background");
+                frameBackgrounds[4] = Content.Load<Texture2D>("Background");
+            }
+        }
+
+        public void NextFrame ()
+        {
+            // Check if the player is on the last frame:
+            if (currentLevelFrame >= 4)
+            {
+                NextLevel();
+                return;
+            }
+
+            // Increase frame:
+            currentLevelFrame++;
+
+            // Animate (move background and stuff left)
+        }
+
+        public void WinGame ()
+        {
+            // Change to the win animation state:
+            state = GameState.Win;
         }
     }
 }

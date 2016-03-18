@@ -3,6 +3,14 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 
+/*
+ * Team LASR
+ * Logan Guidry, Ron Dodge, Andrew Harding, Siddie Schrock
+ *
+ * Milestone 2:
+ * Logan Guidry, Andrew Harding
+*/
+
 namespace PirateQueen
 {
     // Finite state machine:
@@ -14,12 +22,12 @@ namespace PirateQueen
     public class Game1 : Game
     {
         // Constants:
-        float GRAVITY = 1f;
-        float PLAYER_WALKING_SPEED = 3f;
-        float PLAYER_RUNNING_SPEED = 5f;
-        float PLAYER_FRICTION = 0.9f;
-        float PLAYER_ACCELERATION = 0.25f;
-        float PLAYER_JUMP_FORCE = 16f;
+        const float GRAVITY = 1f;
+        const float PLAYER_WALKING_SPEED = 3f;
+        const float PLAYER_RUNNING_SPEED = 5f;
+        const float PLAYER_FRICTION = 0.9f;
+        const float PLAYER_ACCELERATION = 0.25f;
+        const float PLAYER_JUMP_FORCE = 16f;
 
         // Attributes:
         GraphicsDeviceManager graphics;
@@ -34,6 +42,7 @@ namespace PirateQueen
         bool paused = false;
         int currentLevelFrame;
         int currentLevel;
+        float groundPosition;
 
         // User input:
         KeyboardState kbState;
@@ -60,7 +69,6 @@ namespace PirateQueen
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferWidth = 1024;
             graphics.PreferredBackBufferHeight = 768;
-            
         }
         
         protected override void Initialize()
@@ -69,7 +77,8 @@ namespace PirateQueen
             state = GameState.Intro;
             screenSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             center = screenSize / 2;
-            playerPosition = new Vector2(screenSize.X / 2, screenSize.Y - 200);
+            groundPosition = screenSize.Y - 250;
+            playerPosition = new Vector2(screenSize.X / 2, groundPosition);
             onGround = true;
             frameBackgrounds = new Texture2D[5];
             currentLevelFrame = 0;
@@ -184,7 +193,7 @@ namespace PirateQueen
                     // Draw the background:
                     spriteBatch.Draw(frameBackgrounds[currentLevelFrame], new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
                     // Draw the ground:
-                    //spriteBatch.Draw(groundSprite, new Vector2(0, screenSize.Y - 200), Color.White);
+                    //spriteBatch.Draw(groundSprite, new Vector2(0, groundPosition), Color.White);
                     // Draw the player:
                     spriteBatch.Draw(playerSprite, playerPosition - new Vector2(playerSprite.Width / 2, playerSprite.Height), Color.White);
                     break;
@@ -250,7 +259,7 @@ namespace PirateQueen
             }
 
             // Check if on ground:
-            onGround = playerPosition.Y >= screenSize.Y - 200;
+            onGround = playerPosition.Y >= groundPosition;
 
             // Jump:
             if (onGround && kbState.IsKeyDown(Keys.Space))// KeyPress(Keys.Space))
@@ -280,9 +289,9 @@ namespace PirateQueen
             }
 
             // Keep on ground:
-            if (playerPosition.Y > screenSize.Y - 200)
+            if (playerPosition.Y > groundPosition)
             {
-                playerPosition.Y = screenSize.Y - 200;
+                playerPosition.Y = groundPosition;
                 playerVelocity.Y = 0;
                 onGround = true;
             }
@@ -300,7 +309,7 @@ namespace PirateQueen
             currentLevelFrame = 0;
 
             // Reset player:
-            playerPosition = new Vector2(screenSize.X / 2, screenSize.Y - 200);
+            playerPosition = new Vector2(screenSize.X / 2, groundPosition);
             playerVelocity = Vector2.Zero;
             onGround = true;
 

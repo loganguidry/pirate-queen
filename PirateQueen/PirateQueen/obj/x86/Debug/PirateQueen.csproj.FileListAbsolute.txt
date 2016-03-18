@@ -18,3 +18,23 @@ C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Level1\BG4.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Level1\BG5.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Crosshair.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.exe
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.pdb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\OpenTK.dll.config
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\LASR.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Start Menu.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Floor1.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Background.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Player.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Level1\BG4.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Level1\BG5.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Crosshair.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Level1\BG1.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Level1\BG2.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Level1\BG3.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\PirateQueen.exe
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\PirateQueen.pdb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\MonoGame.Framework.dll
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\OpenTK.dll
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.csprojResolveAssemblyReference.cache
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\NVorbis.dll

@@ -58,13 +58,16 @@ namespace PirateQueen
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 1024;
+            graphics.PreferredBackBufferHeight = 768;
+            
         }
         
         protected override void Initialize()
         {
             // Initialize variables:
             state = GameState.Intro;
-            screenSize = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
+            screenSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             center = screenSize / 2;
             playerPosition = new Vector2(screenSize.X / 2, screenSize.Y - 200);
             onGround = true;

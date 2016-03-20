@@ -7,8 +7,11 @@ using System;
  * Team LASR
  * Logan Guidry, Ron Dodge, Andrew Harding, Siddie Schrock
  *
- * Milestone 2:
- * Logan Guidry, Andrew Harding
+ * Controls:
+ *  WASD/Arrows - Move
+ *  Space - Jump
+ *  E - Advance to next 'stage' (debugging)
+ *  Enter - Advance to next screen (intro -> main menu -> game)
 */
 
 namespace PirateQueen
@@ -25,8 +28,8 @@ namespace PirateQueen
         static public float GRAVITY = 1f;
         static public float PLAYER_WALKING_SPEED = 3f;
         static public float PLAYER_RUNNING_SPEED = 5f;
-        static public float PLAYER_FRICTION = 0.9f;
-        static public float PLAYER_ACCELERATION = 0.25f;
+        static public float PLAYER_FRICTION = 0.8f;
+        static public float PLAYER_ACCELERATION = 1f;
         static public float PLAYER_JUMP_FORCE = 16f;
 
         // Public static variables:
@@ -81,6 +84,9 @@ namespace PirateQueen
 
             // Create player:
             player = new Player(Content.Load<Texture2D>("Player"), new Vector2(screenSize.X / 2, groundPosition));
+
+            // Load data:
+            Saving.LoadData();
 
             base.Initialize();
         }

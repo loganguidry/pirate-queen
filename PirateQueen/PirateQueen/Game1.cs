@@ -22,27 +22,29 @@ namespace PirateQueen
     public class Game1 : Game
     {
         // Constants:
-        const float GRAVITY = 1f;
-        const float PLAYER_WALKING_SPEED = 3f;
-        const float PLAYER_RUNNING_SPEED = 5f;
-        const float PLAYER_FRICTION = 0.9f;
-        const float PLAYER_ACCELERATION = 0.25f;
-        const float PLAYER_JUMP_FORCE = 16f;
+        static public float GRAVITY = 1f;
+        static public float PLAYER_WALKING_SPEED = 3f;
+        static public float PLAYER_RUNNING_SPEED = 5f;
+        static public float PLAYER_FRICTION = 0.9f;
+        static public float PLAYER_ACCELERATION = 0.25f;
+        static public float PLAYER_JUMP_FORCE = 16f;
+
+        // Public static variables:
+        static public int currentLevel;
+        static public int currentLevelStage;
+        static public Vector2 screenSize;
+        static public Vector2 center;
+        static public float groundPosition;
 
         // Attributes:
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         GameState state;
-        Vector2 center;
-        Vector2 screenSize;
-        Vector2 playerPosition;
         double dt;
         double lastFrameTime;
         double currentFrameTime;
         bool paused = false;
-        int currentLevelFrame;
-        int currentLevel;
-        float groundPosition;
+        Player player;
 
         // User input:
         KeyboardState kbState;
@@ -54,11 +56,6 @@ namespace PirateQueen
         Texture2D startScreen;
         Texture2D groundSprite;
         Texture2D cursorSprite;
-
-        // Player:
-        Texture2D playerSprite;
-        Vector2 playerVelocity;
-        bool onGround;
 
         // Frames:
         Texture2D[] frameBackgrounds;
@@ -78,11 +75,12 @@ namespace PirateQueen
             screenSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             center = screenSize / 2;
             groundPosition = screenSize.Y - 250;
-            playerPosition = new Vector2(screenSize.X / 2, groundPosition);
-            onGround = true;
             frameBackgrounds = new Texture2D[5];
-            currentLevelFrame = 0;
             currentLevel = 0;
+            currentLevelStage = 0;
+
+            // Create player:
+            player = new Player(Content.Load<Texture2D>("Player"), new Vector2(screenSize.X / 2, groundPosition));
 
             base.Initialize();
         }
@@ -96,7 +94,6 @@ namespace PirateQueen
             lasrLogo = Content.Load<Texture2D>("LASR");
             startScreen = Content.Load<Texture2D>("Start Menu");
             groundSprite = Content.Load<Texture2D>("Floor1");
-            playerSprite = Content.Load<Texture2D>("Player");
             cursorSprite = Content.Load<Texture2D>("Crosshair");
         }
         
@@ -107,7 +104,7 @@ namespace PirateQueen
         
         protected override void Update(GameTime gameTime)
         {
-            // Get delta time:
+            // Get delta time for smooth movement:
             lastFrameTime = currentFrameTime;
             currentFrameTime = gameTime.ElapsedGameTime.TotalMilliseconds;
             dt = 1 - ((currentFrameTime - lastFrameTime) / (1 / 60.0));
@@ -151,7 +148,7 @@ namespace PirateQueen
                         break;
 
                     // Control the player:
-                    ControlPlayer();
+                    player.Move(kbState);
 
                     // Debug: Move on to the next frame:
                     if (KeyPress(Keys.E))
@@ -191,11 +188,11 @@ namespace PirateQueen
 
                 case (GameState.Gameplay):
                     // Draw the background:
-                    spriteBatch.Draw(frameBackgrounds[currentLevelFrame], new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
+                    spriteBatch.Draw(frameBackgrounds[currentLevelStage], new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
                     // Draw the ground:
                     //spriteBatch.Draw(groundSprite, new Vector2(0, groundPosition), Color.White);
                     // Draw the player:
-                    spriteBatch.Draw(playerSprite, playerPosition - new Vector2(playerSprite.Width / 2, playerSprite.Height), Color.White);
+                    spriteBatch.Draw(player.sprite, player.position - new Vector2(player.sprite.Width / 2, player.sprite.Height), Color.White);
                     break;
             }
 
@@ -212,91 +209,6 @@ namespace PirateQueen
             return kbState.IsKeyDown(key) && !oldKbState.IsKeyDown(key);
         }
 
-        public void ControlPlayer ()
-        {
-            // Friction for horizontal movement:
-            if (!kbState.IsKeyDown(Keys.Left) && !kbState.IsKeyDown(Keys.A) && !kbState.IsKeyDown(Keys.Right) && !kbState.IsKeyDown(Keys.D) && onGround)
-            {
-                playerVelocity.X *= PLAYER_FRICTION;
-            }
-
-            // Acceleration for horizontal movement:
-            if (kbState.IsKeyDown(Keys.Left) || kbState.IsKeyDown(Keys.A))
-            {
-                playerVelocity.X -= PLAYER_ACCELERATION;
-                if (kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift))
-                {
-                    if (playerVelocity.X < -PLAYER_RUNNING_SPEED)
-                    {
-                        playerVelocity.X = -PLAYER_RUNNING_SPEED;
-                    }
-                }
-                else
-                {
-                    if (playerVelocity.X < -PLAYER_WALKING_SPEED)
-                    {
-                        playerVelocity.X = -PLAYER_WALKING_SPEED;
-                    }
-                }
-            }
-            if (kbState.IsKeyDown(Keys.Right) || kbState.IsKeyDown(Keys.D))
-            {
-                playerVelocity.X += PLAYER_ACCELERATION;
-                if (kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift))
-                {
-                    if (playerVelocity.X > PLAYER_RUNNING_SPEED)
-                    {
-                        playerVelocity.X = PLAYER_RUNNING_SPEED;
-                    }
-                }
-                else
-                {
-                    if (playerVelocity.X > PLAYER_WALKING_SPEED)
-                    {
-                        playerVelocity.X = PLAYER_WALKING_SPEED;
-                    }
-                }
-            }
-
-            // Check if on ground:
-            onGround = playerPosition.Y >= groundPosition;
-
-            // Jump:
-            if (onGround && kbState.IsKeyDown(Keys.Space))// KeyPress(Keys.Space))
-            {
-                playerVelocity.Y = -PLAYER_JUMP_FORCE;
-            }
-
-            // Gravity:
-            if (!onGround)
-            {
-                playerVelocity.Y += GRAVITY;
-            }
-
-            // Move player:
-            playerPosition += playerVelocity;
-
-            // Keep on-screen:
-            if (playerPosition.X <= playerSprite.Width / 2)
-            {
-                playerPosition.X = playerSprite.Width / 2;
-                playerVelocity.X = 0;
-            }
-            if (playerPosition.X >= screenSize.X - (playerSprite.Width / 2))
-            {
-                playerPosition.X = screenSize.X - (playerSprite.Width / 2);
-                playerVelocity.X = 0;
-            }
-
-            // Keep on ground:
-            if (playerPosition.Y > groundPosition)
-            {
-                playerPosition.Y = groundPosition;
-                playerVelocity.Y = 0;
-                onGround = true;
-            }
-        }
-
         public void TogglePause ()
         {
             paused = !paused;
@@ -306,12 +218,10 @@ namespace PirateQueen
         {
             // Set variables:
             currentLevel = 0;
-            currentLevelFrame = 0;
+            currentLevelStage = 0;
 
             // Reset player:
-            playerPosition = new Vector2(screenSize.X / 2, groundPosition);
-            playerVelocity = Vector2.Zero;
-            onGround = true;
+            player.Reset();
 
             // Start level 1:
             NextLevel();
@@ -331,7 +241,7 @@ namespace PirateQueen
 
             // Increase level:
             currentLevel++;
-            currentLevelFrame = 0;
+            currentLevelStage = 0;
 
             try
             {
@@ -356,14 +266,14 @@ namespace PirateQueen
         public void NextFrame ()
         {
             // Check if the player is on the last frame:
-            if (currentLevelFrame >= 4)
+            if (currentLevelStage >= 4)
             {
                 NextLevel();
                 return;
             }
 
             // Increase frame:
-            currentLevelFrame++;
+            currentLevelStage++;
 
             // Animate (move background and stuff left)
         }

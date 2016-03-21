@@ -101,10 +101,9 @@ namespace PirateQueen
             if (Game1.currentLevel == 1 && Game1.currentLevelStage == 0)
             {
                 // Can't walk into the ocean on level 1, frame 1:
-                if (position.X <= 350)
+                if (position.X <= 425)
                 {
-                    position.X = 350;
-                    velocity.X = 0;
+                    velocity.X = Math.Max (1, velocity.X);
                 }
             }
             if (position.X <= sprite.Width / 2)

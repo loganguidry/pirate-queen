@@ -1,7 +1,5 @@
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\OpenTK.dll.config
-C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\LASR.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Start Menu.xnb
-C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Floor1.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Background.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Player.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\PirateQueen.exe
@@ -38,3 +36,6 @@ J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\MonoGame.Framework.
 J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\OpenTK.dll
 J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.csprojResolveAssemblyReference.cache
 J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\NVorbis.dll
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Intro.xnb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\StartMenuUpgradedPNG.xnb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Vignette.xnb

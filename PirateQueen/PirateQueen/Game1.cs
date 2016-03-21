@@ -57,8 +57,8 @@ namespace PirateQueen
         // Texture2Ds:
         Texture2D lasrLogo;
         Texture2D startScreen;
-        Texture2D groundSprite;
         Texture2D cursorSprite;
+        Texture2D vignetteSprite;
 
         // Frames:
         Texture2D[] frameBackgrounds;
@@ -97,10 +97,10 @@ namespace PirateQueen
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Load sprites:
-            lasrLogo = Content.Load<Texture2D>("LASR");
-            startScreen = Content.Load<Texture2D>("Start Menu");
-            groundSprite = Content.Load<Texture2D>("Floor1");
+            lasrLogo = Content.Load<Texture2D>("Intro");
+            startScreen = Content.Load<Texture2D>("StartMenuUpgradedPNG");
             cursorSprite = Content.Load<Texture2D>("Crosshair");
+            vignetteSprite = Content.Load<Texture2D>("Vignette");
         }
         
         protected override void UnloadContent()
@@ -178,8 +178,7 @@ namespace PirateQueen
             switch (state)
             {
                 case (GameState.Intro):
-                    GraphicsDevice.Clear(Color.MonoGameOrange);
-                    spriteBatch.Draw(lasrLogo, new Vector2(center.X - (lasrLogo.Bounds.Width / 2) + 35, center.Y - (lasrLogo.Bounds.Height / 2) - 100), Color.White);
+                    spriteBatch.Draw(lasrLogo, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
                     break;
 
                 case (GameState.Transition):
@@ -195,12 +194,13 @@ namespace PirateQueen
                 case (GameState.Gameplay):
                     // Draw the background:
                     spriteBatch.Draw(frameBackgrounds[currentLevelStage], new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
-                    // Draw the ground:
-                    //spriteBatch.Draw(groundSprite, new Vector2(0, groundPosition), Color.White);
                     // Draw the player:
                     spriteBatch.Draw(player.sprite, player.position - new Vector2(player.sprite.Width / 2, player.sprite.Height), Color.White);
                     break;
             }
+            
+            // Draw the vignette:
+            spriteBatch.Draw(vignetteSprite, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
 
             // Draw the cursor:
             spriteBatch.Draw(cursorSprite, new Vector2(mouseState.Position.X, mouseState.Position.Y) - (screenSize / 2) - new Vector2(cursorSprite.Width / 2f, cursorSprite.Height / 2f), Color.White);

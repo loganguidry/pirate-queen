@@ -13,15 +13,25 @@ namespace PirateQueen
         Vector2 velocity;
         bool onGround;
         int health;
+        AnimatedSprite animIdle;
+        AnimatedSprite animWalk;
+        AnimatedSprite animRun;
+        AnimatedSprite animAttack;
+        string currentAnimation;
 
         // Constructor:
-        public Player (Texture2D img, Vector2 pos)
+        public Player (Texture2D sprt, Texture2D walk, Vector2 pos)
         {
-            sprite = img;
+            // Set attributes:
+            sprite = sprt;
             position = pos;
             velocity = Vector2.Zero;
             onGround = true;
             health = 100;
+            currentAnimation = "Idle";
+
+            // Load animations:
+            animWalk = new AnimatedSprite(walk, 6, 3, 2, new Vector2(72, 72), 100);
         }
 
         // Reset:
@@ -42,7 +52,7 @@ namespace PirateQueen
             }
 
             // Acceleration for horizontal movement:
-            if (kbState.IsKeyDown(Keys.Left) || kbState.IsKeyDown(Keys.A))
+            if (kbState.IsKeyDown(Keys.A))
             {
                 velocity.X -= Game1.PLAYER_ACCELERATION;
                 if (kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift))
@@ -60,7 +70,7 @@ namespace PirateQueen
                     }
                 }
             }
-            if (kbState.IsKeyDown(Keys.Right) || kbState.IsKeyDown(Keys.D))
+            if (kbState.IsKeyDown(Keys.D))
             {
                 velocity.X += Game1.PLAYER_ACCELERATION;
                 if (kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift))
@@ -95,7 +105,7 @@ namespace PirateQueen
             }
 
             // Move player:
-            position += velocity;
+            position += new Vector2(velocity.X * (float)Game1.dt, velocity.Y * (float)Game1.dt);
 
             // Keep on-screen:
             if (Game1.currentLevel == 1 && Game1.currentLevelStage == 0)
@@ -103,18 +113,19 @@ namespace PirateQueen
                 // Can't walk into the ocean on level 1, frame 1:
                 if (position.X <= 425)
                 {
+                    position.X = 425;
                     velocity.X = Math.Max (1, velocity.X);
                 }
             }
             if (position.X <= sprite.Width / 2)
             {
                 position.X = sprite.Width / 2;
-                velocity.X = 0;
+                velocity.X = velocity.X = Math.Max(1, velocity.X);
             }
             if (position.X >= Game1.screenSize.X - (sprite.Width / 2))
             {
                 position.X = Game1.screenSize.X - (sprite.Width / 2);
-                velocity.X = 0;
+                velocity.X = velocity.X = Math.Min(-1, velocity.X);
             }
 
             // Keep on ground:
@@ -124,6 +135,56 @@ namespace PirateQueen
                 velocity.Y = 0;
                 onGround = true;
             }
+        }
+
+        // Attack:
+        public void Attack (KeyboardState kbState)
+        {
+            // Attack:
+            if (kbState.IsKeyDown(Keys.Left))
+            {
+
+            }
+            if (kbState.IsKeyDown(Keys.Right))
+            {
+
+            }
+        }
+
+        // Animation:
+        public void Animate (GameTime gt)
+        {
+            // Change animation:
+            if (velocity.X <= -0.1f && onGround)
+                currentAnimation = "Walk Left";
+            else if (velocity.X >= 0.1f && onGround)
+                currentAnimation = "Walk Right";
+            else
+                currentAnimation = "Idle";
+
+            // Update animations:
+            if (currentAnimation == "Walk Left")
+                animWalk.Update(gt);
+            if (currentAnimation == "Walk Right")
+                animWalk.Update(gt);
+        }
+
+        // Draw animation:
+        public void Draw (SpriteBatch sb, Vector2 pos)
+        {
+            if (currentAnimation == "Walk Left")
+                animWalk.Draw(sb, pos);
+            if (currentAnimation == "Walk Right")
+                animWalk.Draw(sb, pos);
+        }
+
+        // Take damage:
+        public void Damage (int amount)
+        {
+            health -= amount;
+
+            //if (health <= 0)
+            //    Die();
         }
     }
 }

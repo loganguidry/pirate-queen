@@ -23,6 +23,7 @@ namespace PirateQueen
                 BinaryWriter writer = new BinaryWriter(File.OpenWrite(dataFile));
 
                 // Fill file with data:
+                // level, score, whatever
                 //writer.Write(Game1.PLAYER_WALKING_SPEED); //int
 
                 // Close the file:
@@ -66,6 +67,7 @@ namespace PirateQueen
                 BinaryReader reader = new BinaryReader(File.OpenRead(dataFile));
 
                 // Get data:
+                // level, score, whatever
                 //Game1.PLAYER_WALKING_SPEED = reader.ReadInt32();
 
                 // Close the file:
@@ -74,6 +76,7 @@ namespace PirateQueen
             catch
             {
                 // Error loading data, reset variables:
+                // level, score, whatever
 
                 // Try creating the data file:
                 Directory.CreateDirectory("C:/pirate-queen");

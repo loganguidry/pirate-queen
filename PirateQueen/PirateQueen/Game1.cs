@@ -38,16 +38,17 @@ namespace PirateQueen
         static public Vector2 screenSize;
         static public Vector2 center;
         static public float groundPosition;
+        static public double dt;
 
         // Attributes:
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         GameState state;
-        double dt;
         double lastFrameTime;
         double currentFrameTime;
         bool paused = false;
         Player player;
+        SpriteFont debugFont;
 
         // User input:
         KeyboardState kbState;
@@ -56,7 +57,9 @@ namespace PirateQueen
 
         // Texture2Ds:
         Texture2D lasrLogo;
-        Texture2D startScreen;
+        Texture2D menuBackgroundSprite;
+        Texture2D menuPlayButtonSprite;
+        Texture2D menuHeaderSprite;
         Texture2D cursorSprite;
         Texture2D vignetteSprite;
 
@@ -83,11 +86,16 @@ namespace PirateQueen
             currentLevelStage = 0;
 
             // Create player:
-            player = new Player(Content.Load<Texture2D>("Player"), new Vector2(screenSize.X / 2, groundPosition));
+            player = new Player(
+                Content.Load<Texture2D>("Player"),
+                Content.Load<Texture2D>("Animations/Walk"),
+                new Vector2(screenSize.X / 2, groundPosition)
+            );
 
             // Load data:
             Saving.LoadData();
 
+            IsMouseVisible = true;
             base.Initialize();
         }
         
@@ -96,9 +104,14 @@ namespace PirateQueen
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // Load fonts:
+            debugFont = Content.Load<SpriteFont>("Arial");
+
             // Load sprites:
             lasrLogo = Content.Load<Texture2D>("Intro");
-            startScreen = Content.Load<Texture2D>("StartMenuUpgradedPNG");
+            menuBackgroundSprite = Content.Load<Texture2D>("MainMenuBackground");
+            menuPlayButtonSprite = Content.Load<Texture2D>("PlayButton");
+            menuHeaderSprite = Content.Load<Texture2D>("PirateQueenHeader");
             cursorSprite = Content.Load<Texture2D>("Crosshair");
             vignetteSprite = Content.Load<Texture2D>("Vignette");
         }
@@ -155,6 +168,8 @@ namespace PirateQueen
 
                     // Control the player:
                     player.Move(kbState);
+                    player.Attack(kbState);
+                    player.Animate(gameTime);
 
                     // Debug: Move on to the next frame:
                     if (KeyPress(Keys.E))
@@ -188,14 +203,24 @@ namespace PirateQueen
                     break;
 
                 case (GameState.Menu):
-                    spriteBatch.Draw(startScreen, new Vector2(center.X - (startScreen.Bounds.Width / 2), center.Y - (startScreen.Bounds.Height / 2)), Color.White);
+                    // Draw the background:
+                    spriteBatch.Draw(menuBackgroundSprite, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
+                    // Draw the play button:
+                    spriteBatch.Draw(menuPlayButtonSprite, new Rectangle((int)((screenSize.X / 2) - (menuPlayButtonSprite.Width / 2)), (int)((screenSize.Y / 2) - (menuPlayButtonSprite.Height / 2)), menuPlayButtonSprite.Width, menuPlayButtonSprite.Height), Color.White);
+                    // Draw the header:
+                    spriteBatch.Draw(menuHeaderSprite, new Rectangle((int)((screenSize.X / 2) - (menuHeaderSprite.Width / 2)), (int)((screenSize.Y / 4) - (menuHeaderSprite.Height / 2)), menuHeaderSprite.Width, menuHeaderSprite.Height), Color.White);
                     break;
 
                 case (GameState.Gameplay):
                     // Draw the background:
                     spriteBatch.Draw(frameBackgrounds[currentLevelStage], new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
-                    // Draw the player:
+                    // Draw the player debugging rectangle:
                     spriteBatch.Draw(player.sprite, player.position - new Vector2(player.sprite.Width / 2, player.sprite.Height), Color.White);
+                    // Draw the player:
+                    player.Draw(
+                        spriteBatch,
+                        player.position - new Vector2(player.sprite.Width + 5, player.sprite.Height + 30)
+                    );
                     break;
             }
             

@@ -72,7 +72,7 @@ namespace OptionSetter
                 // Open the file:
                 Directory.CreateDirectory("C:/pirate-queen");
                 BinaryReader reader = new BinaryReader(File.OpenRead("C:/pirate-queen/settings.dat"));
-
+                
                 // Get data:
                 walkingSpeed = reader.ReadInt32();
                 runningSpeed = reader.ReadInt32();
@@ -85,10 +85,14 @@ namespace OptionSetter
                 // Error loading data, reset variables and try creating file:
                 walkingSpeed = 3;
                 runningSpeed = 5;
-                Directory.CreateDirectory("C:/pirate-queen");
-                Stream stream = File.OpenWrite("C:/pirate-queen/settings.dat");
-                BinaryWriter writer = new BinaryWriter(stream);
-                writer.Close();
+                if(Directory.Exists("C:/pirate-queen") != true)
+                {
+                    Directory.CreateDirectory("C:/pirate-queen");
+                    Stream stream = File.OpenWrite("C:/pirate-queen/settings.dat");
+                    BinaryWriter writer = new BinaryWriter(stream);
+                    writer.Close();
+                    stream.Close();
+                }
             }
 
             // Set elements:

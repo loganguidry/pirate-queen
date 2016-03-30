@@ -19,9 +19,7 @@ C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\
 J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.exe
 J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.pdb
 J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\OpenTK.dll.config
-J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\LASR.xnb
 J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Start Menu.xnb
-J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Floor1.xnb
 J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Background.xnb
 J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Player.xnb
 J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Level1\BG4.xnb
@@ -44,3 +42,11 @@ C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\PirateQueenHeader.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Arial.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Animations\Walk.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Intro.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\StartMenuUpgradedPNG.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Vignette.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\MainMenuBackground.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\PlayButton.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\PirateQueenHeader.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Arial.xnb
+J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Animations\Walk.xnb

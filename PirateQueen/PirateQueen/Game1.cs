@@ -194,6 +194,8 @@ namespace PirateQueen
             {
                 case (GameState.Intro):
                     spriteBatch.Draw(lasrLogo, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
+                    // Draw the vignette:
+                    spriteBatch.Draw(vignetteSprite, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
                     break;
 
                 case (GameState.Transition):
@@ -209,6 +211,8 @@ namespace PirateQueen
                     spriteBatch.Draw(menuPlayButtonSprite, new Rectangle((int)((screenSize.X / 2) - (menuPlayButtonSprite.Width / 2)), (int)((screenSize.Y / 2) - (menuPlayButtonSprite.Height / 2)), menuPlayButtonSprite.Width, menuPlayButtonSprite.Height), Color.White);
                     // Draw the header:
                     spriteBatch.Draw(menuHeaderSprite, new Rectangle((int)((screenSize.X / 2) - (menuHeaderSprite.Width / 2)), (int)((screenSize.Y / 4) - (menuHeaderSprite.Height / 2)), menuHeaderSprite.Width, menuHeaderSprite.Height), Color.White);
+                    // Draw the vignette:
+                    spriteBatch.Draw(vignetteSprite, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
                     break;
 
                 case (GameState.Gameplay):
@@ -223,9 +227,6 @@ namespace PirateQueen
                     );
                     break;
             }
-            
-            // Draw the vignette:
-            spriteBatch.Draw(vignetteSprite, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
 
             // Draw the cursor:
             spriteBatch.Draw(cursorSprite, new Vector2(mouseState.Position.X, mouseState.Position.Y) - (screenSize / 2) - new Vector2(cursorSprite.Width / 2f, cursorSprite.Height / 2f), Color.White);

@@ -54,10 +54,13 @@ namespace PirateQueen
                 Game1.PLAYER_WALKING_SPEED = 3;
                 Game1.PLAYER_RUNNING_SPEED = 5;
 
-                // Try creating the settings file:
-                Directory.CreateDirectory("C:/pirate-queen");
-                BinaryWriter writer = new BinaryWriter(File.OpenWrite(settingsFile));
-                writer.Close();
+                // Try creating the settings file if one doesn't exist
+                if(Directory.Exists("C:/pirate-queen") != true)
+                {
+                    Directory.CreateDirectory("C:/pirate-queen");
+                    BinaryWriter writer = new BinaryWriter(File.OpenWrite(settingsFile));
+                    writer.Close();
+                }
             }
 
             try

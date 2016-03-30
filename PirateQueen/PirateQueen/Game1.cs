@@ -21,6 +21,11 @@ namespace PirateQueen
     {
         Intro, Menu, Gameplay, Transition, Win
     }
+    //ButtonState:
+    enum ButtonState
+    {
+        Hover, Click
+    }
 
     public class Game1 : Game
     {
@@ -40,6 +45,15 @@ namespace PirateQueen
         static public float groundPosition;
         static public double dt;
 
+        //Constants(ButtonState):
+        const int NUM_OF_BUTTONS = 2,
+            PLAY_BUTTON = 0,
+            SETTINGS_BUTTON = 1,
+            PLAY_HEIGHT = 100,
+            PLAY_WIDTH = 250,
+            SETTINGS_HEIGHT = 85,
+            SETTINGS_WIDTH = 200;
+
         // Attributes:
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -57,11 +71,15 @@ namespace PirateQueen
 
         // Texture2Ds:
         Texture2D lasrLogo;
-        Texture2D menuBackgroundSprite;
-        Texture2D menuPlayButtonSprite;
-        Texture2D menuHeaderSprite;
+        //Texture2D menuBackgroundSprite;
+        //Texture2D menuPlayButtonSprite;
+        //Texture2D menuHeaderSprite;
+        Texture2D startScreen;
         Texture2D cursorSprite;
         Texture2D vignetteSprite;
+        Texture2D pButton;
+        Texture2D sButton;
+
 
         // Frames:
         Texture2D[] frameBackgrounds;
@@ -109,9 +127,10 @@ namespace PirateQueen
 
             // Load sprites:
             lasrLogo = Content.Load<Texture2D>("Intro");
-            menuBackgroundSprite = Content.Load<Texture2D>("MainMenuBackground");
-            menuPlayButtonSprite = Content.Load<Texture2D>("PlayButton");
-            menuHeaderSprite = Content.Load<Texture2D>("PirateQueenHeader");
+            //menuBackgroundSprite = Content.Load<Texture2D>("MainMenuBackground");
+            //menuPlayButtonSprite = Content.Load<Texture2D>("PlayButton");
+            //menuHeaderSprite = Content.Load<Texture2D>("PirateQueenHeader");
+            startScreen = Content.Load<Texture2D>("ActualStartScreen");
             cursorSprite = Content.Load<Texture2D>("Crosshair");
             vignetteSprite = Content.Load<Texture2D>("Vignette");
         }
@@ -159,6 +178,7 @@ namespace PirateQueen
 
                 case (GameState.Gameplay):
                     // Toggle pause:
+                    IsMouseVisible = false;
                     if (KeyPress(Keys.Escape))
                         TogglePause();
 
@@ -205,12 +225,16 @@ namespace PirateQueen
                     break;
 
                 case (GameState.Menu):
-                    // Draw the background:
+                    /*// Draw the background:
                     spriteBatch.Draw(menuBackgroundSprite, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
                     // Draw the play button:
                     spriteBatch.Draw(menuPlayButtonSprite, new Rectangle((int)((screenSize.X / 2) - (menuPlayButtonSprite.Width / 2)), (int)((screenSize.Y / 2) - (menuPlayButtonSprite.Height / 2)), menuPlayButtonSprite.Width, menuPlayButtonSprite.Height), Color.White);
                     // Draw the header:
                     spriteBatch.Draw(menuHeaderSprite, new Rectangle((int)((screenSize.X / 2) - (menuHeaderSprite.Width / 2)), (int)((screenSize.Y / 4) - (menuHeaderSprite.Height / 2)), menuHeaderSprite.Width, menuHeaderSprite.Height), Color.White);
+                    */
+                    //Draw the Start Screen Menu:
+                    spriteBatch.Draw
+
                     // Draw the vignette:
                     spriteBatch.Draw(vignetteSprite, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
                     break;

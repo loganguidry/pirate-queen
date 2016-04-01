@@ -1,6 +1,6 @@
 using System;
 
-namespace YourFavouriteNamespace
+namespace PirateQueen
 {
     public static class Easing
     {

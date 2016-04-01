@@ -233,7 +233,7 @@ namespace PirateQueen
                     spriteBatch.Draw(menuHeaderSprite, new Rectangle((int)((screenSize.X / 2) - (menuHeaderSprite.Width / 2)), (int)((screenSize.Y / 4) - (menuHeaderSprite.Height / 2)), menuHeaderSprite.Width, menuHeaderSprite.Height), Color.White);
                     */
                     //Draw the Start Screen Menu:
-                    spriteBatch.Draw
+                    spriteBatch.Draw(startScreen, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
 
                     // Draw the vignette:
                     spriteBatch.Draw(vignetteSprite, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);

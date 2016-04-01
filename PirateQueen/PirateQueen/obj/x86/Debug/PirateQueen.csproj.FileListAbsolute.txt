@@ -90,3 +90,4 @@ C:\Users\Siddie\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\SharpDX
 C:\Users\Siddie\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.csprojResolveAssemblyReference.cache
 C:\Users\Siddie\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.exe
 C:\Users\Siddie\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.pdb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\ActualStartScreen.xnb

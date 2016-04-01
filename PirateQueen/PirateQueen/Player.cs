@@ -46,7 +46,7 @@ namespace PirateQueen
         public void Move (KeyboardState kbState)
         {
             // Friction for horizontal movement:
-            if (!kbState.IsKeyDown(Keys.Left) && !kbState.IsKeyDown(Keys.A) && !kbState.IsKeyDown(Keys.Right) && !kbState.IsKeyDown(Keys.D) && onGround)
+            if (!kbState.IsKeyDown(Keys.A) && !kbState.IsKeyDown(Keys.D) && onGround)
             {
                 velocity.X *= Game1.PLAYER_FRICTION;
             }

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 /*
  * Team LASR
@@ -66,6 +67,11 @@ namespace PirateQueen
         bool paused = false;
         Player player;
         SpriteFont debugFont;
+        List<Enemy> Enemies;
+        float leftFrameBackgroundPosition;
+        float leftFrameBackgroundPositionTarget;
+        float rightFrameBackgroundPosition;
+        float rightFrameBackgroundPositionTarget;
 
         // User input:
         KeyboardState kbState;
@@ -105,6 +111,11 @@ namespace PirateQueen
             frameBackgrounds = new Texture2D[5];
             currentLevel = 0;
             currentLevelStage = 0;
+            Enemies = new List<Enemy>();
+            leftFrameBackgroundPosition = 0f;
+            leftFrameBackgroundPositionTarget = leftFrameBackgroundPosition;
+            rightFrameBackgroundPosition = screenSize.X;
+            rightFrameBackgroundPositionTarget = rightFrameBackgroundPosition;
 
             // Create player:
             player = new Player(
@@ -195,6 +206,18 @@ namespace PirateQueen
                     player.Attack(kbState);
                     player.Animate(gameTime);
 
+                    // Enemy AI:
+                    foreach (Enemy enemy in Enemies)
+                    {
+                        enemy.Move(kbState);
+                        enemy.Attack(kbState);
+                        enemy.Animate(gameTime);
+                    }
+
+                    // Animate backgrounds:
+                    leftFrameBackgroundPosition += (leftFrameBackgroundPositionTarget - leftFrameBackgroundPosition) * 0.05f;
+                    rightFrameBackgroundPosition += (rightFrameBackgroundPositionTarget - rightFrameBackgroundPosition) * 0.05f;
+
                     // Debug: Move on to the next frame:
                     if (KeyPress(Keys.E))
                         NextFrame();
@@ -247,7 +270,13 @@ namespace PirateQueen
 
                 case (GameState.Gameplay):
                     // Draw background:
-                    spriteBatch.Draw(frameBackgrounds[currentLevelStage], new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
+                    if (currentLevelStage > 0)
+                    {
+                        spriteBatch.Draw(frameBackgrounds[currentLevelStage - 1], new Rectangle((int)leftFrameBackgroundPosition, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
+                        spriteBatch.Draw(frameBackgrounds[currentLevelStage], new Rectangle((int)rightFrameBackgroundPosition, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
+                    }
+                    else
+                        spriteBatch.Draw(frameBackgrounds[currentLevelStage], new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
                     // Draw player hitbox:
                     if (Debugging)
                         spriteBatch.Draw(player.sprite, player.position - new Vector2(player.sprite.Width / 2, player.sprite.Height), Color.White);
@@ -256,6 +285,9 @@ namespace PirateQueen
                         spriteBatch,
                         player.position - new Vector2(player.sprite.Width + 5, player.sprite.Height + 30)
                     );
+                    // Draw enemies:
+                    foreach (Enemy enemy in Enemies)
+                        enemy.Draw(spriteBatch, enemy.position - new Vector2(player.sprite.Width + 5, player.sprite.Height + 30));
                     break;
             }
             
@@ -282,6 +314,7 @@ namespace PirateQueen
             // Set variables:
             currentLevel = 0;
             currentLevelStage = 0;
+            Enemies.Clear();
 
             // Reset player:
             player.Reset();
@@ -338,7 +371,22 @@ namespace PirateQueen
             // Increase frame:
             currentLevelStage++;
 
-            // Animate (move background and stuff left)
+            // Animate (move background and stuff left):
+            leftFrameBackgroundPosition = 0;
+            leftFrameBackgroundPositionTarget = -screenSize.X;
+            rightFrameBackgroundPosition = screenSize.X;
+            rightFrameBackgroundPositionTarget = 0;
+
+            // Spawn enemies:
+            for (int i = 0; i <= 5; i++)
+            {
+                Enemy enemy = new Enemy(
+                    Content.Load<Texture2D>("Player"),
+                    Content.Load<Texture2D>("Animations/Walk"),
+                    new Vector2(screenSize.X - 100, groundPosition)
+                );
+                Enemies.Add(enemy);
+            }
         }
 
         public void WinGame ()

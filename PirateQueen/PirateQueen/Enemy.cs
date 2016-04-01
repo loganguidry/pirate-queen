@@ -10,14 +10,14 @@ namespace PirateQueen
         // Attributes:
         public Texture2D sprite;
         public Vector2 position;
-        Vector2 velocity;
-        bool onGround;
-        int health;
-        AnimatedSprite animIdle;
-        AnimatedSprite animWalk;
-        AnimatedSprite animRun;
-        AnimatedSprite animAttack;
-        string currentAnimation;
+        private Vector2 velocity;
+        private bool onGround;
+        private int health;
+        private AnimatedSprite animIdle;
+        private AnimatedSprite animWalk;
+        private AnimatedSprite animRun;
+        private AnimatedSprite animAttack;
+        private string currentAnimation;
 
         // Constructor:
         public Enemy(Texture2D sprt, Texture2D walk, Vector2 pos)
@@ -93,7 +93,7 @@ namespace PirateQueen
             onGround = position.Y >= Game1.groundPosition;
 
             // Jump:
-            if (onGround && kbState.IsKeyDown(Keys.Space))// KeyPress(Keys.Space))
+            if (onGround && kbState.IsKeyDown(Keys.Space))
             {
                 velocity.Y = -Game1.PLAYER_JUMP_FORCE;
             }
@@ -104,7 +104,7 @@ namespace PirateQueen
                 velocity.Y += Game1.GRAVITY;
             }
 
-            // Move player:
+            // Move enemy:
             position += new Vector2(velocity.X * (float)Game1.dt, velocity.Y * (float)Game1.dt);
 
             // Keep on-screen:
@@ -172,7 +172,7 @@ namespace PirateQueen
         // Draw animation:
         public void Draw(SpriteBatch sb, Vector2 pos)
         {
-            // Draw player (animation):
+            // Draw enemy (animation):
             if (currentAnimation == "Walk Left")
                 animWalk.Draw(sb, pos);
             if (currentAnimation == "Walk Right")

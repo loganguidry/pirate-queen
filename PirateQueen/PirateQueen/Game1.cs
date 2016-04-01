@@ -72,6 +72,8 @@ namespace PirateQueen
         float leftFrameBackgroundPositionTarget;
         float rightFrameBackgroundPosition;
         float rightFrameBackgroundPositionTarget;
+        private static object syncObj = new object();
+        Random rgen;
 
         // User input:
         KeyboardState kbState;
@@ -116,14 +118,17 @@ namespace PirateQueen
             leftFrameBackgroundPositionTarget = leftFrameBackgroundPosition;
             rightFrameBackgroundPosition = screenSize.X;
             rightFrameBackgroundPositionTarget = rightFrameBackgroundPosition;
+            rgen = new Random();
 
             // Create player:
             player = new Player(
                 Content.Load<Texture2D>("Player"),
+                Content.Load<Texture2D>("Player"),
                 Content.Load<Texture2D>("Animations/Walk"),
+                Content.Load<Texture2D>("Player"),
+                Content.Load<Texture2D>("Player"),
                 new Vector2(screenSize.X / 2, groundPosition)
             );
-            player.debugSprite = Content.Load<Texture2D>("Debug_5x5");
 
             // Load data:
             Saving.LoadData();
@@ -279,15 +284,15 @@ namespace PirateQueen
                         spriteBatch.Draw(frameBackgrounds[currentLevelStage], new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
                     // Draw player hitbox:
                     if (Debugging)
-                        spriteBatch.Draw(player.sprite, player.position - new Vector2(player.sprite.Width / 2, player.sprite.Height), Color.White);
+                        spriteBatch.Draw(player.debugSprite, player.position - new Vector2(player.debugSprite.Width / 2, player.debugSprite.Height), Color.White);
                     // Draw player:
                     player.Draw(
                         spriteBatch,
-                        player.position - new Vector2(player.sprite.Width + 5, player.sprite.Height + 30)
+                        player.position - new Vector2(player.debugSprite.Width + 5, player.debugSprite.Height + 30)
                     );
                     // Draw enemies:
                     foreach (Enemy enemy in Enemies)
-                        enemy.Draw(spriteBatch, enemy.position - new Vector2(player.sprite.Width + 5, player.sprite.Height + 30));
+                        enemy.Draw(spriteBatch, enemy.position - new Vector2(player.debugSprite.Width + 5, player.debugSprite.Height + 30));
                     break;
             }
             
@@ -357,6 +362,9 @@ namespace PirateQueen
                 frameBackgrounds[3] = Content.Load<Texture2D>("Background");
                 frameBackgrounds[4] = Content.Load<Texture2D>("Background");
             }
+
+            // Spawn enemies:
+            SpawnEnemies();
         }
 
         public void NextFrame ()
@@ -378,21 +386,34 @@ namespace PirateQueen
             rightFrameBackgroundPositionTarget = 0;
 
             // Spawn enemies:
-            for (int i = 0; i <= 5; i++)
-            {
-                Enemy enemy = new Enemy(
-                    Content.Load<Texture2D>("Player"),
-                    Content.Load<Texture2D>("Animations/Walk"),
-                    new Vector2(screenSize.X - 100, groundPosition)
-                );
-                Enemies.Add(enemy);
-            }
+            SpawnEnemies();
         }
 
         public void WinGame ()
         {
             // Change to the win animation state:
             state = GameState.Win;
+        }
+
+        public void SpawnEnemies ()
+        {
+            for (int i = 0; i <= 5; i++)
+            {
+                Enemy enemy = new Enemy(
+                    Content.Load<Texture2D>("Player"),
+                    Content.Load<Texture2D>("Animations/Walk"),
+                    new Vector2(screenSize.X - 100 + RandomInt(0, 100), groundPosition)
+                );
+                Enemies.Add(enemy);
+            }
+        }
+
+        public int RandomInt (int min, int max)
+        {
+            lock (syncObj)
+            {
+                return rgen.Next(min, max);
+            }
         }
     }
 }

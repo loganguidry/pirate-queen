@@ -9,7 +9,6 @@ namespace PirateQueen
     {
         // Attributes:
         public Texture2D debugSprite;
-        public Texture2D sprite;
         public Vector2 position;
         Vector2 velocity;
         bool onGround;
@@ -21,10 +20,10 @@ namespace PirateQueen
         string currentAnimation;
 
         // Constructor:
-        public Player (Texture2D sprt, Texture2D walk, Vector2 pos)
+        public Player (Texture2D debug, Texture2D idle, Texture2D walk, Texture2D run, Texture2D attack, Vector2 pos)
         {
             // Set attributes:
-            sprite = sprt;
+            debugSprite = debug;
             position = pos;
             velocity = Vector2.Zero;
             onGround = true;
@@ -32,7 +31,10 @@ namespace PirateQueen
             currentAnimation = "Idle";
 
             // Load animations:
+            animIdle = new AnimatedSprite(idle, 6, 3, 2, new Vector2(72, 72), 100);
             animWalk = new AnimatedSprite(walk, 6, 3, 2, new Vector2(72, 72), 100);
+            animRun = new AnimatedSprite(run, 6, 3, 2, new Vector2(72, 72), 100);
+            animAttack = new AnimatedSprite(attack, 6, 3, 2, new Vector2(72, 72), 100);
         }
 
         // Reset:
@@ -118,14 +120,14 @@ namespace PirateQueen
                     velocity.X = Math.Max (1, velocity.X);
                 }
             }
-            if (position.X <= sprite.Width / 2)
+            if (position.X <= debugSprite.Width / 2)
             {
-                position.X = sprite.Width / 2;
+                position.X = debugSprite.Width / 2;
                 velocity.X = velocity.X = Math.Max(1, velocity.X);
             }
-            if (position.X >= Game1.screenSize.X - (sprite.Width / 2))
+            if (position.X >= Game1.screenSize.X - (debugSprite.Width / 2))
             {
-                position.X = Game1.screenSize.X - (sprite.Width / 2);
+                position.X = Game1.screenSize.X - (debugSprite.Width / 2);
                 velocity.X = velocity.X = Math.Min(-1, velocity.X);
             }
 

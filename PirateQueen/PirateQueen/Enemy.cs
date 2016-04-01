@@ -5,10 +5,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace PirateQueen
 {
-    class Player
+    class Enemy
     {
         // Attributes:
-        public Texture2D debugSprite;
         public Texture2D sprite;
         public Vector2 position;
         Vector2 velocity;
@@ -21,7 +20,7 @@ namespace PirateQueen
         string currentAnimation;
 
         // Constructor:
-        public Player (Texture2D sprt, Texture2D walk, Vector2 pos)
+        public Enemy(Texture2D sprt, Texture2D walk, Vector2 pos)
         {
             // Set attributes:
             sprite = sprt;
@@ -36,7 +35,7 @@ namespace PirateQueen
         }
 
         // Reset:
-        public void Reset ()
+        public void Reset()
         {
             position = new Vector2(Game1.screenSize.X / 2, Game1.groundPosition);
             velocity = Vector2.Zero;
@@ -44,7 +43,7 @@ namespace PirateQueen
         }
 
         // Movement:
-        public void Move (KeyboardState kbState)
+        public void Move(KeyboardState kbState)
         {
             // Friction for horizontal movement:
             if (!kbState.IsKeyDown(Keys.A) && !kbState.IsKeyDown(Keys.D) && onGround)
@@ -115,7 +114,7 @@ namespace PirateQueen
                 if (position.X <= 425)
                 {
                     position.X = 425;
-                    velocity.X = Math.Max (1, velocity.X);
+                    velocity.X = Math.Max(1, velocity.X);
                 }
             }
             if (position.X <= sprite.Width / 2)
@@ -139,7 +138,7 @@ namespace PirateQueen
         }
 
         // Attack:
-        public void Attack (KeyboardState kbState)
+        public void Attack(KeyboardState kbState)
         {
             // Attack:
             if (kbState.IsKeyDown(Keys.Left))
@@ -153,7 +152,7 @@ namespace PirateQueen
         }
 
         // Animation:
-        public void Animate (GameTime gt)
+        public void Animate(GameTime gt)
         {
             // Change animation:
             if (velocity.X <= -0.1f && onGround)
@@ -171,7 +170,7 @@ namespace PirateQueen
         }
 
         // Draw animation:
-        public void Draw (SpriteBatch sb, Vector2 pos)
+        public void Draw(SpriteBatch sb, Vector2 pos)
         {
             // Draw player (animation):
             if (currentAnimation == "Walk Left")
@@ -181,7 +180,7 @@ namespace PirateQueen
         }
 
         // Take damage:
-        public void Damage (int amount)
+        public void Damage(int amount)
         {
             health -= amount;
 

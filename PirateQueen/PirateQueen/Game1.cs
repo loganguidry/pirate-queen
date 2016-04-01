@@ -29,6 +29,9 @@ namespace PirateQueen
 
     public class Game1 : Game
     {
+        // Debug mode:
+        static public bool Debugging = true;
+
         // Constants:
         static public float GRAVITY = 1f;
         static public float PLAYER_WALKING_SPEED = 3f;
@@ -77,8 +80,8 @@ namespace PirateQueen
         Texture2D startScreen;
         Texture2D cursorSprite;
         Texture2D vignetteSprite;
-        Texture2D pButton;
-        Texture2D sButton;
+        Texture2D playButton;
+        Texture2D settingsButton;
 
 
         // Frames:
@@ -109,6 +112,7 @@ namespace PirateQueen
                 Content.Load<Texture2D>("Animations/Walk"),
                 new Vector2(screenSize.X / 2, groundPosition)
             );
+            player.debugSprite = Content.Load<Texture2D>("Debug_5x5");
 
             // Load data:
             Saving.LoadData();
@@ -213,8 +217,9 @@ namespace PirateQueen
             switch (state)
             {
                 case (GameState.Intro):
+                    // Draw logo:
                     spriteBatch.Draw(lasrLogo, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
-                    // Draw the vignette:
+                    // Draw vignette:
                     spriteBatch.Draw(vignetteSprite, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
                     break;
 
@@ -225,35 +230,37 @@ namespace PirateQueen
                     break;
 
                 case (GameState.Menu):
-                    /*// Draw the background:
+                    /*
+                    // Draw background:
                     spriteBatch.Draw(menuBackgroundSprite, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
-                    // Draw the play button:
+                    // Draw play button:
                     spriteBatch.Draw(menuPlayButtonSprite, new Rectangle((int)((screenSize.X / 2) - (menuPlayButtonSprite.Width / 2)), (int)((screenSize.Y / 2) - (menuPlayButtonSprite.Height / 2)), menuPlayButtonSprite.Width, menuPlayButtonSprite.Height), Color.White);
-                    // Draw the header:
+                    // Draw header:
                     spriteBatch.Draw(menuHeaderSprite, new Rectangle((int)((screenSize.X / 2) - (menuHeaderSprite.Width / 2)), (int)((screenSize.Y / 4) - (menuHeaderSprite.Height / 2)), menuHeaderSprite.Width, menuHeaderSprite.Height), Color.White);
                     */
-                    //Draw the Start Screen Menu:
+                    //Draw Start Screen Menu:
                     spriteBatch.Draw(startScreen, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
 
-                    // Draw the vignette:
+                    // Draw vignette:
                     spriteBatch.Draw(vignetteSprite, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
                     break;
 
                 case (GameState.Gameplay):
-                    // Draw the background:
+                    // Draw background:
                     spriteBatch.Draw(frameBackgrounds[currentLevelStage], new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
-                    // Draw the player debugging rectangle:
-                    spriteBatch.Draw(player.sprite, player.position - new Vector2(player.sprite.Width / 2, player.sprite.Height), Color.White);
-                    // Draw the player:
+                    // Draw player hitbox:
+                    if (Debugging)
+                        spriteBatch.Draw(player.sprite, player.position - new Vector2(player.sprite.Width / 2, player.sprite.Height), Color.White);
+                    // Draw player:
                     player.Draw(
                         spriteBatch,
                         player.position - new Vector2(player.sprite.Width + 5, player.sprite.Height + 30)
                     );
                     break;
             }
-
+            
             // Draw the cursor:
-            spriteBatch.Draw(cursorSprite, new Vector2(mouseState.Position.X, mouseState.Position.Y) - (screenSize / 2) - new Vector2(cursorSprite.Width / 2f, cursorSprite.Height / 2f), Color.White);
+            spriteBatch.Draw(cursorSprite, new Vector2(mouseState.Position.X, mouseState.Position.Y) - new Vector2(cursorSprite.Width / 2f, cursorSprite.Height / 2f), Color.White);
 
             spriteBatch.End();
 

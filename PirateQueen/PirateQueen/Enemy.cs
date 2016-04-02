@@ -39,13 +39,13 @@ namespace PirateQueen
             {
                 case "normal":
                 default:
-                    speed = rgen.Next (40, 90) / 10f;
+                    speed = rgen.Next (20, 50) / 10f;
                     break;
                 case "fast":
-                    speed = rgen.Next(91, 150) / 10f ;
+                    speed = rgen.Next(51, 100) / 10f ;
                     break;
                 case "heavy":
-                    speed = rgen.Next(15, 39) / 10f;
+                    speed = rgen.Next(10, 19) / 10f;
                     break;
             }
 
@@ -65,9 +65,9 @@ namespace PirateQueen
         public void Move(KeyboardState kbState)
         {
             // Get information:
-            bool playerToLeft = Game1.player.position.X < position.X;
-            bool playerToRight = Game1.player.position.X > position.X;
-            bool jump = rgen.Next(0, 100) == 1;
+            bool playerToLeft = Game1.player.position.X + (Game1.player.debugSprite.Width / 2f) < position.X;
+            bool playerToRight = Game1.player.position.X - (Game1.player.debugSprite.Width / 2f) > position.X;
+            bool jump = rgen.Next(0, 1000) == 1;
 
             // Friction for horizontal movement:
             if (!playerToLeft && !playerToRight && onGround)
@@ -177,13 +177,12 @@ namespace PirateQueen
         public void Draw(SpriteBatch sb, Vector2 pos)
         {
             // Draw enemy (animation):
-            animWalk.Draw(sb, pos);
-            /*
             if (currentAnimation == "Walk Left")
+                animWalk.Draw(sb, pos, true);
+            else if (currentAnimation == "Walk Right")
                 animWalk.Draw(sb, pos);
-            if (currentAnimation == "Walk Right")
+            else
                 animWalk.Draw(sb, pos);
-            */
         }
 
         // Take damage:

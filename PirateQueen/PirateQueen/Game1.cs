@@ -395,12 +395,13 @@ namespace PirateQueen
 
         public void SpawnEnemies ()
         {
+            Random newRgen = new Random(rgen.Next(9999));
             for (int i = 0; i <= 5; i++)
             {
                 Enemy enemy = new Enemy(
                     Content.Load<Texture2D>("Player"),
                     Content.Load<Texture2D>("Animations/Walk"),
-                    new Vector2(screenSize.X - 100 + rgen.Next(0, 100), groundPosition),
+                    new Vector2(screenSize.X + newRgen.Next((int)screenSize.X), groundPosition),
                     rgen.Next(0, 99999)
                 );
                 Enemies.Add(enemy);

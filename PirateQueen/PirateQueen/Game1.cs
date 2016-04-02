@@ -48,6 +48,7 @@ namespace PirateQueen
         static public Vector2 center;
         static public float groundPosition;
         static public double dt;
+        static public Player player;
 
         //Constants(ButtonState):
         const int NUM_OF_BUTTONS = 2,
@@ -65,14 +66,12 @@ namespace PirateQueen
         double lastFrameTime;
         double currentFrameTime;
         bool paused = false;
-        Player player;
         SpriteFont debugFont;
         List<Enemy> Enemies;
         float leftFrameBackgroundPosition;
         float leftFrameBackgroundPositionTarget;
         float rightFrameBackgroundPosition;
         float rightFrameBackgroundPositionTarget;
-        private static object syncObj = new object();
         Random rgen;
 
         // User input:
@@ -90,7 +89,6 @@ namespace PirateQueen
         Texture2D vignetteSprite;
         Texture2D playButton;
         Texture2D settingsButton;
-
 
         // Frames:
         Texture2D[] frameBackgrounds;
@@ -402,17 +400,10 @@ namespace PirateQueen
                 Enemy enemy = new Enemy(
                     Content.Load<Texture2D>("Player"),
                     Content.Load<Texture2D>("Animations/Walk"),
-                    new Vector2(screenSize.X - 100 + RandomInt(0, 100), groundPosition)
+                    new Vector2(screenSize.X - 100 + rgen.Next(0, 100), groundPosition),
+                    rgen.Next(0, 99999)
                 );
                 Enemies.Add(enemy);
-            }
-        }
-
-        public int RandomInt (int min, int max)
-        {
-            lock (syncObj)
-            {
-                return rgen.Next(min, max);
             }
         }
     }

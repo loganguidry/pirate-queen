@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace PirateQueen
 {
-    class Player
+    public class Player
     {
         // Attributes:
         public Texture2D debugSprite;
@@ -176,10 +176,13 @@ namespace PirateQueen
         public void Draw (SpriteBatch sb, Vector2 pos)
         {
             // Draw player (animation):
+            animWalk.Draw(sb, pos);
+            /*
             if (currentAnimation == "Walk Left")
                 animWalk.Draw(sb, pos);
             if (currentAnimation == "Walk Right")
                 animWalk.Draw(sb, pos);
+            */
         }
 
         // Take damage:

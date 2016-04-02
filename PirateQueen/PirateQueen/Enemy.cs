@@ -8,27 +8,46 @@ namespace PirateQueen
     class Enemy
     {
         // Attributes:
-        public Texture2D sprite;
+        public Texture2D debugSprite;
         public Vector2 position;
         private Vector2 velocity;
         private bool onGround;
         private int health;
         private AnimatedSprite animIdle;
         private AnimatedSprite animWalk;
-        private AnimatedSprite animRun;
         private AnimatedSprite animAttack;
         private string currentAnimation;
+        private float speed;
+        private string type;
+        private Random rgen;
 
         // Constructor:
-        public Enemy(Texture2D sprt, Texture2D walk, Vector2 pos)
+        public Enemy(Texture2D sprt, Texture2D walk, Vector2 pos, int randomSeed)
         {
             // Set attributes:
-            sprite = sprt;
+            debugSprite = sprt;
             position = pos;
             velocity = Vector2.Zero;
             onGround = true;
             health = 100;
             currentAnimation = "Idle";
+            type = "normal";
+            rgen = new Random(randomSeed);
+
+            // Load enemy attributes:
+            switch (type)
+            {
+                case "normal":
+                default:
+                    speed = rgen.Next (40, 90) / 10f;
+                    break;
+                case "fast":
+                    speed = rgen.Next(91, 150) / 10f ;
+                    break;
+                case "heavy":
+                    speed = rgen.Next(15, 39) / 10f;
+                    break;
+            }
 
             // Load animations:
             animWalk = new AnimatedSprite(walk, 6, 3, 2, new Vector2(72, 72), 100);
@@ -45,47 +64,32 @@ namespace PirateQueen
         // Movement:
         public void Move(KeyboardState kbState)
         {
+            // Get information:
+            bool playerToLeft = Game1.player.position.X < position.X;
+            bool playerToRight = Game1.player.position.X > position.X;
+            bool jump = rgen.Next(0, 100) == 1;
+
             // Friction for horizontal movement:
-            if (!kbState.IsKeyDown(Keys.A) && !kbState.IsKeyDown(Keys.D) && onGround)
+            if (!playerToLeft && !playerToRight && onGround)
             {
                 velocity.X *= Game1.PLAYER_FRICTION;
             }
 
             // Acceleration for horizontal movement:
-            if (kbState.IsKeyDown(Keys.A))
+            if (playerToLeft)
             {
                 velocity.X -= Game1.PLAYER_ACCELERATION;
-                if (kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift))
+                if (velocity.X < -speed)
                 {
-                    if (velocity.X < -Game1.PLAYER_RUNNING_SPEED)
-                    {
-                        velocity.X = -Game1.PLAYER_RUNNING_SPEED;
-                    }
-                }
-                else
-                {
-                    if (velocity.X < -Game1.PLAYER_WALKING_SPEED)
-                    {
-                        velocity.X = -Game1.PLAYER_WALKING_SPEED;
-                    }
+                    velocity.X = -speed;
                 }
             }
-            if (kbState.IsKeyDown(Keys.D))
+            if (playerToRight)
             {
                 velocity.X += Game1.PLAYER_ACCELERATION;
-                if (kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift))
+                if (velocity.X > speed)
                 {
-                    if (velocity.X > Game1.PLAYER_RUNNING_SPEED)
-                    {
-                        velocity.X = Game1.PLAYER_RUNNING_SPEED;
-                    }
-                }
-                else
-                {
-                    if (velocity.X > Game1.PLAYER_WALKING_SPEED)
-                    {
-                        velocity.X = Game1.PLAYER_WALKING_SPEED;
-                    }
+                    velocity.X = speed;
                 }
             }
 
@@ -93,7 +97,7 @@ namespace PirateQueen
             onGround = position.Y >= Game1.groundPosition;
 
             // Jump:
-            if (onGround && kbState.IsKeyDown(Keys.Space))
+            if (onGround && jump)
             {
                 velocity.Y = -Game1.PLAYER_JUMP_FORCE;
             }
@@ -117,14 +121,14 @@ namespace PirateQueen
                     velocity.X = Math.Max(1, velocity.X);
                 }
             }
-            if (position.X <= sprite.Width / 2)
+            if (position.X <= debugSprite.Width / 2)
             {
-                position.X = sprite.Width / 2;
+                position.X = debugSprite.Width / 2;
                 velocity.X = velocity.X = Math.Max(1, velocity.X);
             }
-            if (position.X >= Game1.screenSize.X - (sprite.Width / 2))
+            if (position.X >= Game1.screenSize.X - (debugSprite.Width / 2))
             {
-                position.X = Game1.screenSize.X - (sprite.Width / 2);
+                position.X = Game1.screenSize.X - (debugSprite.Width / 2);
                 velocity.X = velocity.X = Math.Min(-1, velocity.X);
             }
 
@@ -173,10 +177,13 @@ namespace PirateQueen
         public void Draw(SpriteBatch sb, Vector2 pos)
         {
             // Draw enemy (animation):
+            animWalk.Draw(sb, pos);
+            /*
             if (currentAnimation == "Walk Left")
                 animWalk.Draw(sb, pos);
             if (currentAnimation == "Walk Right")
                 animWalk.Draw(sb, pos);
+            */
         }
 
         // Take damage:

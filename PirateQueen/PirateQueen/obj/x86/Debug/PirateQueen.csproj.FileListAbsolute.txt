@@ -92,3 +92,5 @@ C:\Users\Siddie\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\Pir
 C:\Users\Siddie\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.pdb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\ActualStartScreen.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Debug_5x5.xnb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\White.xnb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\HealthBar.xnb

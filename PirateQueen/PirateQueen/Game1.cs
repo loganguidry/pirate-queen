@@ -41,6 +41,10 @@ namespace PirateQueen
         static public float PLAYER_ACCELERATION = 1f;
         static public float PLAYER_JUMP_FORCE = 16f;
 
+        // Public static textures:
+        static public Texture2D white2x2square;
+        static public Texture2D healthBarSprite;
+
         // Public static variables:
         static public int currentLevel;
         static public int currentLevelStage;
@@ -76,6 +80,7 @@ namespace PirateQueen
         double lastEnemySpawnTime;
         double enemySpawnDelay;
         int stageEnemies;
+        UI ui;
 
         // User input:
         KeyboardState kbState;
@@ -121,6 +126,7 @@ namespace PirateQueen
             rightFrameBackgroundPositionTarget = rightFrameBackgroundPosition;
             rgen = new Random();
             enemySpawnDelay = 2;
+            ui = new UI();
 
             // Create player:
             player = new Player(
@@ -149,12 +155,11 @@ namespace PirateQueen
 
             // Load sprites:
             lasrLogo = Content.Load<Texture2D>("Intro");
-            //menuBackgroundSprite = Content.Load<Texture2D>("MainMenuBackground");
-            //menuPlayButtonSprite = Content.Load<Texture2D>("PlayButton");
-            //menuHeaderSprite = Content.Load<Texture2D>("PirateQueenHeader");
             startScreen = Content.Load<Texture2D>("ActualStartScreen");
             cursorSprite = Content.Load<Texture2D>("Crosshair");
             vignetteSprite = Content.Load<Texture2D>("Vignette");
+            white2x2square = Content.Load<Texture2D>("White");
+            healthBarSprite = Content.Load<Texture2D>("HealthBar");
         }
         
         protected override void UnloadContent()
@@ -299,6 +304,8 @@ namespace PirateQueen
                     // Draw enemies:
                     foreach (Enemy enemy in Enemies)
                         enemy.Draw(spriteBatch, enemy.position - new Vector2(player.debugSprite.Width + 5, player.debugSprite.Height + 30));
+                    // Draw health bar:
+                    ui.Draw();
                     break;
             }
             

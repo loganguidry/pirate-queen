@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.lblTitle = new System.Windows.Forms.Label();
             this.lblWalkingSpeed = new System.Windows.Forms.Label();
             this.sliderWalkingSpeed = new System.Windows.Forms.TrackBar();
@@ -42,7 +43,9 @@
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
+            this.lblTitle.BackColor = System.Drawing.Color.Transparent;
             this.lblTitle.Font = new System.Drawing.Font("Monotype Corsiva", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.lblTitle.Location = new System.Drawing.Point(95, 9);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(180, 40);
@@ -52,7 +55,9 @@
             // lblWalkingSpeed
             // 
             this.lblWalkingSpeed.AutoSize = true;
+            this.lblWalkingSpeed.BackColor = System.Drawing.Color.Transparent;
             this.lblWalkingSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWalkingSpeed.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.lblWalkingSpeed.Location = new System.Drawing.Point(21, 57);
             this.lblWalkingSpeed.Name = "lblWalkingSpeed";
             this.lblWalkingSpeed.Size = new System.Drawing.Size(138, 24);
@@ -61,6 +66,7 @@
             // 
             // sliderWalkingSpeed
             // 
+            this.sliderWalkingSpeed.BackColor = System.Drawing.Color.Peru;
             this.sliderWalkingSpeed.Location = new System.Drawing.Point(165, 57);
             this.sliderWalkingSpeed.Maximum = 14;
             this.sliderWalkingSpeed.Name = "sliderWalkingSpeed";
@@ -74,7 +80,9 @@
             // 
             this.lblWalkingSpeedData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblWalkingSpeedData.AutoSize = true;
+            this.lblWalkingSpeedData.BackColor = System.Drawing.Color.Transparent;
             this.lblWalkingSpeedData.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWalkingSpeedData.ForeColor = System.Drawing.SystemColors.ActiveBorder;
             this.lblWalkingSpeedData.Location = new System.Drawing.Point(125, 81);
             this.lblWalkingSpeedData.Name = "lblWalkingSpeedData";
             this.lblWalkingSpeedData.Size = new System.Drawing.Size(18, 20);
@@ -86,7 +94,9 @@
             // 
             this.lblRunningSpeedData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblRunningSpeedData.AutoSize = true;
+            this.lblRunningSpeedData.BackColor = System.Drawing.Color.Transparent;
             this.lblRunningSpeedData.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRunningSpeedData.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.lblRunningSpeedData.Location = new System.Drawing.Point(125, 143);
             this.lblRunningSpeedData.Name = "lblRunningSpeedData";
             this.lblRunningSpeedData.Size = new System.Drawing.Size(18, 20);
@@ -96,6 +106,7 @@
             // 
             // sliderRunningSpeed
             // 
+            this.sliderRunningSpeed.BackColor = System.Drawing.Color.Peru;
             this.sliderRunningSpeed.Location = new System.Drawing.Point(165, 119);
             this.sliderRunningSpeed.Maximum = 14;
             this.sliderRunningSpeed.Name = "sliderRunningSpeed";
@@ -108,7 +119,9 @@
             // lblRunningSpeed
             // 
             this.lblRunningSpeed.AutoSize = true;
+            this.lblRunningSpeed.BackColor = System.Drawing.Color.Transparent;
             this.lblRunningSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRunningSpeed.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.lblRunningSpeed.Location = new System.Drawing.Point(16, 119);
             this.lblRunningSpeed.Name = "lblRunningSpeed";
             this.lblRunningSpeed.Size = new System.Drawing.Size(143, 24);
@@ -119,6 +132,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(372, 215);
             this.Controls.Add(this.lblRunningSpeedData);
             this.Controls.Add(this.sliderRunningSpeed);

@@ -168,6 +168,7 @@ namespace PirateQueen
             lastFrameTime = currentFrameTime;
             currentFrameTime = gameTime.TotalGameTime.TotalSeconds;
             dt = ((currentFrameTime - lastFrameTime) / (1 / 60.0));
+            Console.WriteLine(dt);
 
             // Get keyboard input:
             oldKbState = kbState;
@@ -214,7 +215,6 @@ namespace PirateQueen
                     player.Animate(gameTime);
 
                     // Spawn new enemies:
-                    Console.WriteLine(dt);
                     SpawnEnemy();
 
                     // Enemy AI:
@@ -423,7 +423,7 @@ namespace PirateQueen
 
         public void SpawnEnemy ()
         {
-            if (currentFrameTime - lastEnemySpawnTime >= enemySpawnDelay)
+            if (currentFrameTime - lastEnemySpawnTime >= enemySpawnDelay && Enemies.Count < stageEnemies)
             {
                 lastEnemySpawnTime = currentFrameTime;
                 Random newRgen = new Random(rgen.Next(9999));

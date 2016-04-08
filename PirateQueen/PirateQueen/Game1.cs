@@ -216,7 +216,7 @@ namespace PirateQueen
 
                     // Control the player:
                     player.Move(kbState);
-                    player.Attack(kbState);
+                    
                     player.Animate(gameTime);
 
                     // Spawn new enemies:
@@ -282,6 +282,9 @@ namespace PirateQueen
 
                     // Draw vignette:
                     spriteBatch.Draw(vignetteSprite, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
+
+                    
+
                     break;
 
                 case (GameState.Gameplay):

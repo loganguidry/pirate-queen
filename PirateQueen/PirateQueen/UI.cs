@@ -8,7 +8,7 @@ namespace PirateQueen
 {
     public class UI
     {
-        public void Draw()
+        public void Draw(SpriteBatch sb)
         {
 
         }

@@ -305,7 +305,7 @@ namespace PirateQueen
                     foreach (Enemy enemy in Enemies)
                         enemy.Draw(spriteBatch, enemy.position - new Vector2(player.debugSprite.Width + 5, player.debugSprite.Height + 30));
                     // Draw health bar:
-                    ui.Draw();
+                    ui.Draw(spriteBatch);
                     break;
             }
             

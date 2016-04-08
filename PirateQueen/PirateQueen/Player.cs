@@ -12,7 +12,7 @@ namespace PirateQueen
         public Vector2 position;
         Vector2 velocity;
         bool onGround;
-        int health;
+        public int health;
         AnimatedSprite animIdle;
         AnimatedSprite animWalk;
         AnimatedSprite animRun;
@@ -96,7 +96,7 @@ namespace PirateQueen
             onGround = position.Y >= Game1.groundPosition;
 
             // Jump:
-            if (onGround && kbState.IsKeyDown(Keys.W))// KeyPress(Keys.Space))
+            if (onGround && kbState.IsKeyDown(Keys.W))
             {
                 velocity.Y = -Game1.PLAYER_JUMP_FORCE;
             }
@@ -138,20 +138,17 @@ namespace PirateQueen
                 velocity.Y = 0;
                 onGround = true;
             }
+
+            // Attack:
+            if (kbState.IsKeyDown(Keys.Space))
+                Attack(kbState);
         }
 
         // Attack:
         public void Attack (KeyboardState kbState)
         {
-            // Attack:
-            if (kbState.IsKeyDown(Keys.Left))
-            {
-
-            }
-            if (kbState.IsKeyDown(Keys.Right))
-            {
-
-            }
+            Console.WriteLine("Debug: Attack() in Player.cs: lower HP by 1 when space is down");
+            Game1.player.Damage(1);
         }
 
         // Animation:
@@ -189,8 +186,14 @@ namespace PirateQueen
         {
             health -= amount;
 
-            //if (health <= 0)
-            //    Die();
+            if (health <= 0)
+                Die();
+        }
+
+        // Die:
+        public void Die ()
+        {
+            health = 0;
         }
     }
 }

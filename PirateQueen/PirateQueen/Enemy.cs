@@ -20,6 +20,8 @@ namespace PirateQueen
         private float speed;
         private string type;
         private Random rgen;
+        bool nextToPlayer;
+        bool attacking;
 
         // Constructor:
         public Enemy(Texture2D sprt, Texture2D walk, Vector2 pos, int randomSeed)
@@ -33,6 +35,8 @@ namespace PirateQueen
             currentAnimation = "Idle";
             type = "normal";
             rgen = new Random(randomSeed);
+            nextToPlayer = false;
+            attacking = false;
 
             // Load enemy attributes:
             switch (type)
@@ -71,27 +75,24 @@ namespace PirateQueen
 
             // Friction for horizontal movement:
             if (!playerToLeft && !playerToRight && onGround)
-            {
                 velocity.X *= Game1.PLAYER_FRICTION;
-            }
 
             // Acceleration for horizontal movement:
+            nextToPlayer = false;
             if (playerToLeft)
             {
                 velocity.X -= Game1.PLAYER_ACCELERATION;
                 if (velocity.X < -speed)
-                {
                     velocity.X = -speed;
-                }
             }
-            if (playerToRight)
+            else if (playerToRight)
             {
                 velocity.X += Game1.PLAYER_ACCELERATION;
                 if (velocity.X > speed)
-                {
                     velocity.X = speed;
-                }
             }
+            else
+                nextToPlayer = true;
 
             // Check if on ground:
             onGround = position.Y >= Game1.groundPosition;
@@ -145,14 +146,8 @@ namespace PirateQueen
         public void Attack(KeyboardState kbState)
         {
             // Attack:
-            if (kbState.IsKeyDown(Keys.Left))
-            {
-
-            }
-            if (kbState.IsKeyDown(Keys.Right))
-            {
-
-            }
+            if (nextToPlayer && !attacking)
+                Game1.player.Damage(1);
         }
 
         // Animation:

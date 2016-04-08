@@ -96,7 +96,7 @@ namespace PirateQueen
             onGround = position.Y >= Game1.groundPosition;
 
             // Jump:
-            if (onGround && kbState.IsKeyDown(Keys.Space))// KeyPress(Keys.Space))
+            if (onGround && kbState.IsKeyDown(Keys.W))// KeyPress(Keys.Space))
             {
                 velocity.Y = -Game1.PLAYER_JUMP_FORCE;
             }

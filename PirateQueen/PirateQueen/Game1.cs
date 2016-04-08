@@ -73,6 +73,9 @@ namespace PirateQueen
         float rightFrameBackgroundPosition;
         float rightFrameBackgroundPositionTarget;
         Random rgen;
+        double lastEnemySpawnTime;
+        double enemySpawnDelay;
+        int stageEnemies;
 
         // User input:
         KeyboardState kbState;
@@ -117,6 +120,7 @@ namespace PirateQueen
             rightFrameBackgroundPosition = screenSize.X;
             rightFrameBackgroundPositionTarget = rightFrameBackgroundPosition;
             rgen = new Random();
+            enemySpawnDelay = 2;
 
             // Create player:
             player = new Player(
@@ -162,8 +166,8 @@ namespace PirateQueen
         {
             // Get delta time for smooth movement:
             lastFrameTime = currentFrameTime;
-            currentFrameTime = gameTime.ElapsedGameTime.TotalMilliseconds;
-            dt = 1 - ((currentFrameTime - lastFrameTime) / (1 / 60.0));
+            currentFrameTime = gameTime.TotalGameTime.TotalSeconds;
+            dt = ((currentFrameTime - lastFrameTime) / (1 / 60.0));
 
             // Get keyboard input:
             oldKbState = kbState;
@@ -208,6 +212,10 @@ namespace PirateQueen
                     player.Move(kbState);
                     player.Attack(kbState);
                     player.Animate(gameTime);
+
+                    // Spawn new enemies:
+                    Console.WriteLine(dt);
+                    SpawnEnemy();
 
                     // Enemy AI:
                     foreach (Enemy enemy in Enemies)
@@ -362,7 +370,9 @@ namespace PirateQueen
             }
 
             // Spawn enemies:
-            SpawnEnemies();
+            //SpawnEnemies();
+            lastEnemySpawnTime = currentFrameTime;
+            stageEnemies = 5;
         }
 
         public void NextFrame ()
@@ -384,7 +394,9 @@ namespace PirateQueen
             rightFrameBackgroundPositionTarget = 0;
 
             // Spawn enemies:
-            SpawnEnemies();
+            //SpawnEnemies();
+            lastEnemySpawnTime = currentFrameTime;
+            stageEnemies = 5;
         }
 
         public void WinGame ()
@@ -393,6 +405,7 @@ namespace PirateQueen
             state = GameState.Win;
         }
 
+        /*
         public void SpawnEnemies ()
         {
             Random newRgen = new Random(rgen.Next(9999));
@@ -404,6 +417,22 @@ namespace PirateQueen
                     new Vector2(screenSize.X + newRgen.Next((int)screenSize.X), groundPosition),
                     rgen.Next(0, 99999)
                 );
+                Enemies.Add(enemy);
+            }
+        }*/
+
+        public void SpawnEnemy ()
+        {
+            if (currentFrameTime - lastEnemySpawnTime >= enemySpawnDelay)
+            {
+                lastEnemySpawnTime = currentFrameTime;
+                Random newRgen = new Random(rgen.Next(9999));
+                Enemy enemy = new Enemy(
+                        Content.Load<Texture2D>("Player"),
+                        Content.Load<Texture2D>("Animations/Walk"),
+                        new Vector2(screenSize.X + newRgen.Next((int)screenSize.X), groundPosition),
+                        rgen.Next(0, 99999)
+                    );
                 Enemies.Add(enemy);
             }
         }

@@ -50,9 +50,7 @@ namespace PirateQueen
         {
             // Friction for horizontal movement:
             if (!kbState.IsKeyDown(Keys.A) && !kbState.IsKeyDown(Keys.D) && onGround)
-            {
                 velocity.X *= Game1.PLAYER_FRICTION;
-            }
 
             // Acceleration for horizontal movement:
             if (kbState.IsKeyDown(Keys.A))
@@ -61,16 +59,12 @@ namespace PirateQueen
                 if (kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift))
                 {
                     if (velocity.X < -Game1.PLAYER_RUNNING_SPEED)
-                    {
                         velocity.X = -Game1.PLAYER_RUNNING_SPEED;
-                    }
                 }
                 else
                 {
                     if (velocity.X < -Game1.PLAYER_WALKING_SPEED)
-                    {
                         velocity.X = -Game1.PLAYER_WALKING_SPEED;
-                    }
                 }
             }
             if (kbState.IsKeyDown(Keys.D))
@@ -79,16 +73,12 @@ namespace PirateQueen
                 if (kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift))
                 {
                     if (velocity.X > Game1.PLAYER_RUNNING_SPEED)
-                    {
                         velocity.X = Game1.PLAYER_RUNNING_SPEED;
-                    }
                 }
                 else
                 {
                     if (velocity.X > Game1.PLAYER_WALKING_SPEED)
-                    {
                         velocity.X = Game1.PLAYER_WALKING_SPEED;
-                    }
                 }
             }
 
@@ -97,15 +87,11 @@ namespace PirateQueen
 
             // Jump:
             if (onGround && kbState.IsKeyDown(Keys.W))
-            {
                 velocity.Y = -Game1.PLAYER_JUMP_FORCE;
-            }
 
             // Gravity:
             if (!onGround)
-            {
                 velocity.Y += Game1.GRAVITY;
-            }
 
             // Move player:
             position += new Vector2(velocity.X * (float)Game1.dt, velocity.Y * (float)Game1.dt);

@@ -16,6 +16,8 @@ namespace PirateQueen
             // Draw health:
             sb.Draw(Game1.white2x2square, new Rectangle(175, 25, 350, 60), Color.MonoGameOrange);
             sb.Draw(Game1.white2x2square, new Rectangle(175, 25, (int)(350 * (Game1.player.health / 100.0)), 60), Color.DarkSeaGreen);
+
+            // Draw weapon:
         }
     }
 }

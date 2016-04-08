@@ -69,8 +69,8 @@ namespace PirateQueen
         public void Move(KeyboardState kbState)
         {
             // Get information:
-            bool playerToLeft = Game1.player.position.X + (Game1.player.debugSprite.Width / 2f) < position.X;
-            bool playerToRight = Game1.player.position.X - (Game1.player.debugSprite.Width / 2f) > position.X;
+            bool playerToLeft = Game1.player.position.X + (Game1.player.debugSprite.Width / 2f) < position.X - (debugSprite.Width / 2f);
+            bool playerToRight = Game1.player.position.X - (Game1.player.debugSprite.Width / 2f) > position.X + (debugSprite.Width / 2f);
             bool jump = rgen.Next(0, 1000) == 1;
 
             // Friction for horizontal movement:
@@ -99,15 +99,11 @@ namespace PirateQueen
 
             // Jump:
             if (onGround && jump)
-            {
                 velocity.Y = -Game1.PLAYER_JUMP_FORCE;
-            }
 
             // Gravity:
             if (!onGround)
-            {
                 velocity.Y += Game1.GRAVITY;
-            }
 
             // Move enemy:
             position += new Vector2(velocity.X * (float)Game1.dt, velocity.Y * (float)Game1.dt);

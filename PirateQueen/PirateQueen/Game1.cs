@@ -81,6 +81,8 @@ namespace PirateQueen
         double enemySpawnDelay;
         int stageEnemies;
         UI ui;
+        Rectangle playButton;
+        Rectangle settingsButton;
 
         // User input:
         KeyboardState kbState;
@@ -95,8 +97,8 @@ namespace PirateQueen
         Texture2D startScreen;
         Texture2D cursorSprite;
         Texture2D vignetteSprite;
-        Texture2D playButton;
-        Texture2D settingsButton;
+        //Texture2D playButton;
+        //Texture2D settingsButton;
 
         // Frames:
         Texture2D[] frameBackgrounds;
@@ -283,7 +285,17 @@ namespace PirateQueen
                     // Draw vignette:
                     spriteBatch.Draw(vignetteSprite, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
 
-                    
+                    //Creating the button rectangles
+                    playButton = new Rectangle(325, 275, 675, 175);
+                    settingsButton = new Rectangle(650, 725, 450, 125);
+                    Point mousePosition = mouseState.Position;
+                    //Is a button being clicked
+                    if(playButton.Contains(mousePosition))
+                    {
+                        mouseState = Mouse.GetState();
+                        
+                        //if(mouseState.LeftButton == ButtonState.Click && )
+                    }
 
                     break;
 

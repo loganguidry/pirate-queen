@@ -20,7 +20,7 @@ namespace PirateQueen
     // Finite state machine:
     enum GameState
     {
-        Intro, Menu, Gameplay, Transition, Win
+        Intro, Menu, Gameplay, Transition, Win, Lose
     }
     //ButtonState:
     /*enum ButtonState
@@ -53,6 +53,7 @@ namespace PirateQueen
         static public float groundPosition;
         static public double dt;
         static public Player player;
+        static public Enemy enemy;
 
         //Constants(ButtonState):
         const int NUM_OF_BUTTONS = 2,
@@ -213,7 +214,7 @@ namespace PirateQueen
                 case (GameState.Gameplay):
                     // Toggle pause:
                     IsMouseVisible = false;
-                    if (KeyPress(Keys.Escape))
+                    if (KeyPress(Keys.Enter))
                         TogglePause();
 
                     // Skip the rest of this code if paused:
@@ -244,6 +245,24 @@ namespace PirateQueen
                     if (KeyPress(Keys.E))
                         NextFrame();
 
+                    // all enemies killed
+                    /*if(enemy != null)
+                    {
+                        if (enemy.Die() == Enemies.Count)
+                        {
+                            NextFrame();
+                        }
+                    }*/
+
+                    // in case of death
+                    if (player.Die())
+                    {
+                        state = GameState.Lose;
+                    }
+                    break;
+
+                case (GameState.Lose):
+                    Exit();
                     break;
             }
 
@@ -456,7 +475,7 @@ namespace PirateQueen
             {
                 lastEnemySpawnTime = currentFrameTime;
                 Random newRgen = new Random(rgen.Next(9999));
-                Enemy enemy = new Enemy(
+                enemy = new Enemy(
                         Content.Load<Texture2D>("Player"),
                         Content.Load<Texture2D>("Animations/Walk"),
                         new Vector2(screenSize.X + newRgen.Next((int)screenSize.X), groundPosition),

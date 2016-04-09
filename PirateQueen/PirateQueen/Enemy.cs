@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace PirateQueen
 {
-    class Enemy
+    public class Enemy
     {
         // Attributes:
         public Texture2D debugSprite;
@@ -22,6 +22,8 @@ namespace PirateQueen
         private Random rgen;
         bool nextToPlayer;
         bool attacking;
+        bool alive = true;
+        int deadEnemies;
 
         // Constructor:
         public Enemy(Texture2D sprt, Texture2D walk, Vector2 pos, int randomSeed)
@@ -31,12 +33,13 @@ namespace PirateQueen
             position = pos;
             velocity = Vector2.Zero;
             onGround = true;
-            health = 100;
+            health = 5;
             currentAnimation = "Idle";
             type = "normal";
             rgen = new Random(randomSeed);
             nextToPlayer = false;
             attacking = false;
+            deadEnemies = 0;
 
             // Load enemy attributes:
             switch (type)
@@ -168,12 +171,15 @@ namespace PirateQueen
         public void Draw(SpriteBatch sb, Vector2 pos)
         {
             // Draw enemy (animation):
-            if (currentAnimation == "Walk Left")
-                animWalk.Draw(sb, pos, true);
-            else if (currentAnimation == "Walk Right")
-                animWalk.Draw(sb, pos);
-            else
-                animWalk.Draw(sb, pos);
+            if (alive)
+            {
+                if (currentAnimation == "Walk Left")
+                    animWalk.Draw(sb, pos, true);
+                else if (currentAnimation == "Walk Right")
+                    animWalk.Draw(sb, pos);
+                else
+                    animWalk.Draw(sb, pos);
+            }
         }
 
         // Take damage:
@@ -181,8 +187,18 @@ namespace PirateQueen
         {
             health -= amount;
 
-            //if (health <= 0)
-            //    Die();
+            if (health <= 0)
+            {
+                Die();
+            }
+        }
+
+        // dead
+        public int Die()
+        {
+            alive = false;
+            deadEnemies += 1;
+            return deadEnemies;
         }
     }
 }

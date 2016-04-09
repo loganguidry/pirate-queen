@@ -9,17 +9,19 @@ namespace PirateQueen
     public class Player : Game
     {
         // Attributes:
+        static public int MAX_HEALTH = 1000;
+        public int health;
         public Texture2D debugSprite;
         public Vector2 position;
         Vector2 velocity;
         bool onGround;
-        public int health;
         AnimatedSprite animIdle;
         AnimatedSprite animWalk;
         AnimatedSprite animRun;
         AnimatedSprite animAttack;
         string currentAnimation;
-        bool dead = false;
+        double lastAttackTime;
+        double attackDelay = 0.5;
 
         // Constructor:
         public Player (Texture2D debug, Texture2D idle, Texture2D walk, Texture2D run, Texture2D attack, Vector2 pos)
@@ -45,6 +47,7 @@ namespace PirateQueen
             position = new Vector2(Game1.screenSize.X / 2, Game1.groundPosition);
             velocity = Vector2.Zero;
             onGround = true;
+            health = 1000;
         }
 
         // Movement:
@@ -126,40 +129,21 @@ namespace PirateQueen
                 velocity.Y = 0;
                 onGround = true;
             }
-
-            bool enemyToLeft;
-            bool enemyToRight;
-            // Get information:
-            if(Game1.enemy != null)
-            {
-                enemyToLeft = Game1.enemy.position.X + (Game1.enemy.debugSprite.Width / 2f) < position.X - (Game1.enemy.debugSprite.Width / 2f);
-                enemyToRight = Game1.enemy.position.X - (Game1.enemy.debugSprite.Width / 2f) > position.X + (Game1.enemy.debugSprite.Width / 2f);
-            }
-            else
-            {
-                enemyToLeft = true;
-                enemyToRight = true;
-            }
-
-            // attack
-            if(enemyToLeft == false && enemyToRight == false)
-            {
-                if (kbState.IsKeyDown(Keys.Space))
-                {
-                    Attack(kbState);
-                }
-            }
+            
+            if (kbState.IsKeyDown(Keys.Space))
+                Attack();
         }
 
         // Attack:
-        public void Attack (KeyboardState kbState)
+        public void Attack ()
         {
-            Console.WriteLine("Debug: Attack() in Player.cs: lower HP by 1 when space is down");
-            //Game1.player.Damage(1);
-
-            if(Game1.enemy != null) // if no enemy is on screen and spacebar is hit, the game crashes
+            if (Game1.currentFrameTime - lastAttackTime >= attackDelay)
             {
-                Game1.enemy.Damage(1);
+                lastAttackTime = Game1.currentFrameTime;
+                Console.WriteLine("Player attacking. (Currently damages all enemies on screen.");
+
+                foreach (Enemy enemy in Game1.Enemies)
+                    enemy.Damage(50);
             }
         }
 
@@ -184,6 +168,10 @@ namespace PirateQueen
         // Draw animation:
         public void Draw (SpriteBatch sb, Vector2 pos)
         {
+            // Draw hitbox:
+            if (Game1.Debugging)
+                sb.Draw(debugSprite, position - new Vector2(debugSprite.Width / 2, debugSprite.Height), Color.White);
+
             // Draw player (animation):
             if (currentAnimation == "Walk Left")
                 animWalk.Draw(sb, pos, true);
@@ -197,16 +185,6 @@ namespace PirateQueen
         public void Damage (int amount)
         {
             health -= amount;
-        }
-
-        // Die:
-        public bool Die ()
-        {
-            if(health <= 0)
-            {
-                dead = true;
-            }
-            return dead;
         }
     }
 }

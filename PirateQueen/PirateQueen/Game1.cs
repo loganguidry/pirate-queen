@@ -22,6 +22,7 @@ namespace PirateQueen
     {
         Intro, Menu, Gameplay, Transition, Win, Lose
     }
+
     //ButtonState:
     /*enum ButtonState
     {
@@ -41,9 +42,10 @@ namespace PirateQueen
         static public float PLAYER_ACCELERATION = 1f;
         static public float PLAYER_JUMP_FORCE = 16f;
 
-        // Public static textures:
+        // Public static content:
         static public Texture2D white2x2square;
         static public Texture2D healthBarSprite;
+        static public SpriteFont basicFont;
 
         // Public static variables:
         static public int currentLevel;
@@ -52,8 +54,10 @@ namespace PirateQueen
         static public Vector2 center;
         static public float groundPosition;
         static public double dt;
+        static public double currentFrameTime;
         static public Player player;
-        static public Enemy enemy;
+        static public List<Enemy> Enemies;
+        static public List<DamagePopup> DamagePopups;
 
         //Constants(ButtonState):
         const int NUM_OF_BUTTONS = 2,
@@ -69,10 +73,7 @@ namespace PirateQueen
         SpriteBatch spriteBatch;
         GameState state;
         double lastFrameTime;
-        double currentFrameTime;
         bool paused = false;
-        SpriteFont debugFont;
-        List<Enemy> Enemies;
         float leftFrameBackgroundPosition;
         float leftFrameBackgroundPositionTarget;
         float rightFrameBackgroundPosition;
@@ -81,6 +82,7 @@ namespace PirateQueen
         double lastEnemySpawnTime;
         double enemySpawnDelay;
         int stageEnemies;
+        int spawnedEnemies;
         UI ui;
         Rectangle playButton;
         Rectangle settingsButton;
@@ -93,14 +95,9 @@ namespace PirateQueen
 
         // Texture2Ds:
         Texture2D lasrLogo;
-        //Texture2D menuBackgroundSprite;
-        //Texture2D menuPlayButtonSprite;
-        //Texture2D menuHeaderSprite;
         Texture2D startScreen;
         Texture2D cursorSprite;
         Texture2D vignetteSprite;
-        //Texture2D playButton;
-        //Texture2D settingsButton;
 
         // Frames:
         Texture2D[] frameBackgrounds;
@@ -131,6 +128,8 @@ namespace PirateQueen
             rgen = new Random();
             enemySpawnDelay = 2;
             ui = new UI();
+            spawnedEnemies = 0;
+            DamagePopups = new List<DamagePopup>();
 
             // Create player:
             player = new Player(
@@ -155,7 +154,7 @@ namespace PirateQueen
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Load fonts:
-            debugFont = Content.Load<SpriteFont>("Arial");
+            basicFont = Content.Load<SpriteFont>("Arial");
 
             // Load sprites:
             lasrLogo = Content.Load<Texture2D>("Intro");
@@ -180,7 +179,6 @@ namespace PirateQueen
             lastFrameTime = currentFrameTime;
             currentFrameTime = gameTime.TotalGameTime.TotalSeconds;
             dt = ((currentFrameTime - lastFrameTime) / (1 / 60.0));
-            Console.WriteLine(dt);
 
             // Get keyboard input:
             oldKbState = kbState;
@@ -205,8 +203,12 @@ namespace PirateQueen
                         state = GameState.Menu;
                     break;
 
+                case (GameState.Lose):
+                    if (KeyPress(Keys.Enter))
+                        state = GameState.Menu;
+                    break;
+
                 case (GameState.Menu):
-                    // Start game:
                     if (KeyPress(Keys.Enter))
                         StartGame();
                     break;
@@ -223,7 +225,6 @@ namespace PirateQueen
 
                     // Control the player:
                     player.Move(kbState);
-                    
                     player.Animate(gameTime);
 
                     // Spawn new enemies:
@@ -241,28 +242,35 @@ namespace PirateQueen
                     leftFrameBackgroundPosition += (leftFrameBackgroundPositionTarget - leftFrameBackgroundPosition) * 0.05f;
                     rightFrameBackgroundPosition += (rightFrameBackgroundPositionTarget - rightFrameBackgroundPosition) * 0.05f;
 
+                    // Animate damage indicators:
+                    foreach (DamagePopup popup in DamagePopups)
+                        popup.Move();
+
+                    // Check if the player is dead:
+                    if (player.health <= 0)
+                        state = GameState.Lose;
+
+                    // Check if enemies are dead:
+                    List<Enemy> deadEnemies = new List<Enemy>();
+                    foreach (Enemy enemy in Enemies)
+                    {
+                        if (enemy.health <= 0)
+                            deadEnemies.Add(enemy);
+                    }
+                    foreach (Enemy enemy in deadEnemies)
+                    {
+                        Enemies.Remove(enemy);
+                    }
+                    deadEnemies.Clear();
+
+                    // All enemies killed:
+                    if (Enemies.Count == 0 && spawnedEnemies == stageEnemies)
+                        NextFrame();
+
                     // Debug: Move on to the next frame:
                     if (KeyPress(Keys.E))
                         NextFrame();
 
-                    // all enemies killed
-                    /*if(enemy != null)
-                    {
-                        if (enemy.Die() == Enemies.Count)
-                        {
-                            NextFrame();
-                        }
-                    }*/
-
-                    // in case of death
-                    if (player.Die())
-                    {
-                        state = GameState.Lose;
-                    }
-                    break;
-
-                case (GameState.Lose):
-                    Exit();
                     break;
             }
 
@@ -294,14 +302,6 @@ namespace PirateQueen
                     break;
 
                 case (GameState.Menu):
-                    /*
-                    // Draw background:
-                    spriteBatch.Draw(menuBackgroundSprite, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
-                    // Draw play button:
-                    spriteBatch.Draw(menuPlayButtonSprite, new Rectangle((int)((screenSize.X / 2) - (menuPlayButtonSprite.Width / 2)), (int)((screenSize.Y / 2) - (menuPlayButtonSprite.Height / 2)), menuPlayButtonSprite.Width, menuPlayButtonSprite.Height), Color.White);
-                    // Draw header:
-                    spriteBatch.Draw(menuHeaderSprite, new Rectangle((int)((screenSize.X / 2) - (menuHeaderSprite.Width / 2)), (int)((screenSize.Y / 4) - (menuHeaderSprite.Height / 2)), menuHeaderSprite.Width, menuHeaderSprite.Height), Color.White);
-                    */
                     //Draw Start Screen Menu:
                     spriteBatch.Draw(startScreen, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
 
@@ -334,9 +334,6 @@ namespace PirateQueen
                     }
                     else
                         spriteBatch.Draw(frameBackgrounds[currentLevelStage], new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
-                    // Draw player hitbox:
-                    if (Debugging)
-                        spriteBatch.Draw(player.debugSprite, player.position - new Vector2(player.debugSprite.Width / 2, player.debugSprite.Height), Color.White);
                     // Draw player:
                     player.Draw(
                         spriteBatch,
@@ -345,13 +342,22 @@ namespace PirateQueen
                     // Draw enemies:
                     foreach (Enemy enemy in Enemies)
                         enemy.Draw(spriteBatch, enemy.position - new Vector2(player.debugSprite.Width + 5, player.debugSprite.Height + 30));
-                    // Draw health bar:
+                    // Draw damage indicators:
+                    foreach (DamagePopup popup in DamagePopups)
+                        spriteBatch.DrawString(basicFont, popup.text, popup.position, new Color(Color.Red, popup.transparency));
+                    // Draw UI:
                     ui.Draw(spriteBatch);
                     break;
             }
             
             // Draw the cursor:
             spriteBatch.Draw(cursorSprite, new Vector2(mCurrState.Position.X, mCurrState.Position.Y) - new Vector2(cursorSprite.Width / 2f, cursorSprite.Height / 2f), Color.White);
+
+            // Debugging information:
+            if (Debugging)
+                spriteBatch.DrawString(basicFont,
+                    "Player health: " + (player.health / (double)Player.MAX_HEALTH * 100).ToString() + "% [" + player.health + "/" + Player.MAX_HEALTH + "]",
+                    Vector2.Zero, Color.Green);
 
             spriteBatch.End();
 
@@ -374,6 +380,7 @@ namespace PirateQueen
             currentLevel = 0;
             currentLevelStage = 0;
             Enemies.Clear();
+            spawnedEnemies = 0;
 
             // Reset player:
             player.Reset();
@@ -418,9 +425,9 @@ namespace PirateQueen
             }
 
             // Spawn enemies:
-            //SpawnEnemies();
             lastEnemySpawnTime = currentFrameTime;
             stageEnemies = 5;
+            spawnedEnemies = 0;
         }
 
         public void NextFrame ()
@@ -442,9 +449,9 @@ namespace PirateQueen
             rightFrameBackgroundPositionTarget = 0;
 
             // Spawn enemies:
-            //SpawnEnemies();
             lastEnemySpawnTime = currentFrameTime;
             stageEnemies = 5;
+            spawnedEnemies = 0;
         }
 
         public void WinGame ()
@@ -453,35 +460,21 @@ namespace PirateQueen
             state = GameState.Win;
         }
 
-        /*
-        public void SpawnEnemies ()
-        {
-            Random newRgen = new Random(rgen.Next(9999));
-            for (int i = 0; i <= 5; i++)
-            {
-                Enemy enemy = new Enemy(
-                    Content.Load<Texture2D>("Player"),
-                    Content.Load<Texture2D>("Animations/Walk"),
-                    new Vector2(screenSize.X + newRgen.Next((int)screenSize.X), groundPosition),
-                    rgen.Next(0, 99999)
-                );
-                Enemies.Add(enemy);
-            }
-        }*/
-
         public void SpawnEnemy ()
         {
-            if (currentFrameTime - lastEnemySpawnTime >= enemySpawnDelay && Enemies.Count < stageEnemies)
+            if (currentFrameTime - lastEnemySpawnTime >= enemySpawnDelay && spawnedEnemies < stageEnemies)
             {
+                spawnedEnemies++;
                 lastEnemySpawnTime = currentFrameTime;
                 Random newRgen = new Random(rgen.Next(9999));
-                enemy = new Enemy(
+                Enemy newEnemy = new Enemy(
                         Content.Load<Texture2D>("Player"),
                         Content.Load<Texture2D>("Animations/Walk"),
                         new Vector2(screenSize.X + newRgen.Next((int)screenSize.X), groundPosition),
-                        rgen.Next(0, 99999)
+                        rgen.Next(0, 99999),
+                        "normal"
                     );
-                Enemies.Add(enemy);
+                Enemies.Add(newEnemy);
             }
         }
     }

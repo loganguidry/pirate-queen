@@ -6,11 +6,30 @@ using System.Collections.Generic;
 
 namespace PirateQueen
 {
-    class DamagePopup
+    public class DamagePopup
     {
-        public DamagePopup(SpriteBatch sb, Vector2 pos, string txt)
+        // Attributes:
+        double timeCreated;
+        public string text;
+        public Vector2 position;
+        public float transparency;
+        float targetY;
+
+        // Constructor:
+        public DamagePopup(Vector2 pos, string txt)
         {
-            //sb.DrawString(Game1.BASIC_FONT, txt, pos, Color.Red);
+            position = pos;
+            text = txt;
+            timeCreated = Game1.currentFrameTime;
+            targetY = pos.Y - 100;
+            transparency = 1;
+        }
+
+        // Movement:
+        public void Move()
+        {
+            position.Y += (targetY - position.Y) * 0.1f;
+            transparency -= 0.01f;
         }
     }
 }

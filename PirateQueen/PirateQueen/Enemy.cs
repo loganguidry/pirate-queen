@@ -10,9 +10,9 @@ namespace PirateQueen
         // Attributes:
         public Texture2D debugSprite;
         public Vector2 position;
+        public int health;
         private Vector2 velocity;
         private bool onGround;
-        private int health;
         private AnimatedSprite animIdle;
         private AnimatedSprite animWalk;
         private AnimatedSprite animAttack;
@@ -22,24 +22,21 @@ namespace PirateQueen
         private Random rgen;
         bool nextToPlayer;
         bool attacking;
-        bool alive = true;
-        int deadEnemies;
 
         // Constructor:
-        public Enemy(Texture2D sprt, Texture2D walk, Vector2 pos, int randomSeed)
+        public Enemy(Texture2D sprt, Texture2D walk, Vector2 pos, int randomSeed, string kind)
         {
             // Set attributes:
             debugSprite = sprt;
             position = pos;
             velocity = Vector2.Zero;
             onGround = true;
-            health = 5;
+            health = 100;
             currentAnimation = "Idle";
-            type = "normal";
+            type = kind;
             rgen = new Random(randomSeed);
             nextToPlayer = false;
             attacking = false;
-            deadEnemies = 0;
 
             // Load enemy attributes:
             switch (type)
@@ -170,35 +167,24 @@ namespace PirateQueen
         // Draw animation:
         public void Draw(SpriteBatch sb, Vector2 pos)
         {
+            // Draw hitbox:
+            if (Game1.Debugging)
+                sb.Draw(debugSprite, position - new Vector2(debugSprite.Width / 2, debugSprite.Height), Color.MonoGameOrange);
+
             // Draw enemy (animation):
-            if (alive)
-            {
-                if (currentAnimation == "Walk Left")
-                    animWalk.Draw(sb, pos, true);
-                else if (currentAnimation == "Walk Right")
-                    animWalk.Draw(sb, pos);
-                else
-                    animWalk.Draw(sb, pos);
-            }
+            if (currentAnimation == "Walk Left")
+                animWalk.Draw(sb, pos, true);
+            else if (currentAnimation == "Walk Right")
+                animWalk.Draw(sb, pos);
+            else
+                animWalk.Draw(sb, pos);
         }
 
         // Take damage:
         public void Damage(int amount)
         {
             health -= amount;
-
-            if (health <= 0)
-            {
-                Die();
-            }
-        }
-
-        // dead
-        public int Die()
-        {
-            alive = false;
-            deadEnemies += 1;
-            return deadEnemies;
+            Game1.DamagePopups.Add(new DamagePopup(position, amount.ToString()));
         }
     }
 }

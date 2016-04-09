@@ -23,10 +23,10 @@ namespace PirateQueen
         Intro, Menu, Gameplay, Transition, Win
     }
     //ButtonState:
-    enum ButtonState
+    /*enum ButtonState
     {
         Hover, Click
-    }
+    }*/
 
     public class Game1 : Game
     {
@@ -87,7 +87,8 @@ namespace PirateQueen
         // User input:
         KeyboardState kbState;
         KeyboardState oldKbState;
-        MouseState mouseState;
+        MouseState mCurrState;
+        MouseState mPrevState;
 
         // Texture2Ds:
         Texture2D lasrLogo;
@@ -171,6 +172,9 @@ namespace PirateQueen
         
         protected override void Update(GameTime gameTime)
         {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
+
             // Get delta time for smooth movement:
             lastFrameTime = currentFrameTime;
             currentFrameTime = gameTime.TotalGameTime.TotalSeconds;
@@ -182,7 +186,7 @@ namespace PirateQueen
             kbState = Keyboard.GetState();
 
             // Get mouse input:
-            mouseState = Mouse.GetState();
+            mCurrState = Mouse.GetState();
 
             switch (state)
             {
@@ -288,13 +292,16 @@ namespace PirateQueen
                     //Creating the button rectangles
                     playButton = new Rectangle(325, 275, 675, 175);
                     settingsButton = new Rectangle(650, 725, 450, 125);
-                    Point mousePosition = mouseState.Position;
+                    Point mousePosition = mCurrState.Position;
                     //Is a button being clicked
                     if(playButton.Contains(mousePosition))
                     {
-                        mouseState = Mouse.GetState();
-                        
-                        //if(mouseState.LeftButton == ButtonState.Click && )
+                        if(mCurrState.LeftButton == ButtonState.Pressed && 
+                            mPrevState.LeftButton == ButtonState.Released)
+                        {
+                            StartGame();
+                        }
+                        mPrevState = mCurrState;
                     }
 
                     break;
@@ -325,7 +332,7 @@ namespace PirateQueen
             }
             
             // Draw the cursor:
-            spriteBatch.Draw(cursorSprite, new Vector2(mouseState.Position.X, mouseState.Position.Y) - new Vector2(cursorSprite.Width / 2f, cursorSprite.Height / 2f), Color.White);
+            spriteBatch.Draw(cursorSprite, new Vector2(mCurrState.Position.X, mCurrState.Position.Y) - new Vector2(cursorSprite.Width / 2f, cursorSprite.Height / 2f), Color.White);
 
             spriteBatch.End();
 

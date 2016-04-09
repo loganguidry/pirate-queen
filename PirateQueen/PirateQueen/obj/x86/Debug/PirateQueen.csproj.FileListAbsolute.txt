@@ -41,7 +41,6 @@ C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\PlayButton.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\PirateQueenHeader.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Arial.xnb
-C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Animations\Walk.xnb
 J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Intro.xnb
 J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\StartMenuUpgradedPNG.xnb
 J:\sourcetree\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Vignette.xnb
@@ -129,3 +128,6 @@ J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\MonoGame.Framework.dll
 J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\NVorbis.dll
 J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\OpenTK.dll
 J:\sourcetree\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.csprojResolveAssemblyReference.cache
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Animations\Player\Walk.xnb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Animations\NormalEnemy\Walk.xnb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Animations\Player\WalkSwing.xnb

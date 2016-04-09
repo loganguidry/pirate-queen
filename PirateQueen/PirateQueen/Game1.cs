@@ -134,10 +134,11 @@ namespace PirateQueen
             // Create player:
             player = new Player(
                 Content.Load<Texture2D>("Player"),
-                Content.Load<Texture2D>("Player"),
-                Content.Load<Texture2D>("Animations/Walk"),
-                Content.Load<Texture2D>("Player"),
-                Content.Load<Texture2D>("Player"),
+                Content.Load<Texture2D>("Animations/Player/Walk"),
+                Content.Load<Texture2D>("Animations/Player/Walk"),
+                Content.Load<Texture2D>("Animations/Player/Walk"),
+                Content.Load<Texture2D>("Animations/Player/WalkSwing"),
+                Content.Load<Texture2D>("Animations/Player/WalkSwing"),
                 new Vector2(screenSize.X / 2, groundPosition)
             );
 
@@ -214,9 +215,10 @@ namespace PirateQueen
                     break;
 
                 case (GameState.Gameplay):
-                    // Toggle pause:
                     IsMouseVisible = false;
-                    if (KeyPress(Keys.Enter))
+
+                    // Toggle pause:
+                    if (KeyPress(Keys.P))
                         TogglePause();
 
                     // Skip the rest of this code if paused:
@@ -239,8 +241,8 @@ namespace PirateQueen
                     }
 
                     // Animate backgrounds:
-                    leftFrameBackgroundPosition += (leftFrameBackgroundPositionTarget - leftFrameBackgroundPosition) * 0.05f;
-                    rightFrameBackgroundPosition += (rightFrameBackgroundPositionTarget - rightFrameBackgroundPosition) * 0.05f;
+                    leftFrameBackgroundPosition += (leftFrameBackgroundPositionTarget - leftFrameBackgroundPosition) * 0.2f;
+                    rightFrameBackgroundPosition += (rightFrameBackgroundPositionTarget - rightFrameBackgroundPosition) * 0.2f;
 
                     // Animate damage indicators:
                     foreach (DamagePopup popup in DamagePopups)
@@ -258,9 +260,7 @@ namespace PirateQueen
                             deadEnemies.Add(enemy);
                     }
                     foreach (Enemy enemy in deadEnemies)
-                    {
                         Enemies.Remove(enemy);
-                    }
                     deadEnemies.Clear();
 
                     // All enemies killed:
@@ -273,9 +273,6 @@ namespace PirateQueen
 
                     break;
             }
-
-            // Update the debugging text:
-            //debugText = dt.ToString();
 
             base.Update(gameTime);
         }
@@ -356,7 +353,10 @@ namespace PirateQueen
             // Debugging information:
             if (Debugging)
                 spriteBatch.DrawString(basicFont,
-                    "Player health: " + (player.health / (double)Player.MAX_HEALTH * 100).ToString() + "% [" + player.health + "/" + Player.MAX_HEALTH + "]",
+                    "Player health: " + (player.health / (double)Player.MAX_HEALTH * 100).ToString() + "% [" + player.health + "/" + Player.MAX_HEALTH + "]\n" +
+                    "Current time: " + currentFrameTime + "\n" +
+                    "Level " + currentLevel + ", stage " + currentLevelStage + "\n" +
+                    "State: " + state.ToString(),
                     Vector2.Zero, Color.Green);
 
             spriteBatch.End();
@@ -466,11 +466,10 @@ namespace PirateQueen
             {
                 spawnedEnemies++;
                 lastEnemySpawnTime = currentFrameTime;
-                Random newRgen = new Random(rgen.Next(9999));
                 Enemy newEnemy = new Enemy(
                         Content.Load<Texture2D>("Player"),
-                        Content.Load<Texture2D>("Animations/Walk"),
-                        new Vector2(screenSize.X + newRgen.Next((int)screenSize.X), groundPosition),
+                        Content.Load<Texture2D>("Animations/NormalEnemy/Walk"),
+                        new Vector2(screenSize.X + rgen.Next(0, (int)screenSize.X), groundPosition),
                         rgen.Next(0, 99999),
                         "normal"
                     );

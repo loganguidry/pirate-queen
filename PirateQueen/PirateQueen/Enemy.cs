@@ -175,16 +175,16 @@ namespace PirateQueen
             if (currentAnimation == "Walk Left")
                 animWalk.Draw(sb, pos, true);
             else if (currentAnimation == "Walk Right")
-                animWalk.Draw(sb, pos);
+                animWalk.Draw(sb, pos, false);
             else
-                animWalk.Draw(sb, pos);
+                animWalk.Draw(sb, pos, false);
         }
 
         // Take damage:
         public void Damage(int amount)
         {
             health -= amount;
-            Game1.DamagePopups.Add(new DamagePopup(position, amount.ToString()));
+            Game1.DamagePopups.Add(new DamagePopup(position + new Vector2(-debugSprite.Width / 4, -debugSprite.Height - 50), amount.ToString()));
         }
     }
 }

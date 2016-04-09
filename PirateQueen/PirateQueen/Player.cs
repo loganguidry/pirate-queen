@@ -10,6 +10,7 @@ namespace PirateQueen
     {
         // Attributes:
         static public int MAX_HEALTH = 1000;
+        static public int SWORD_REACH = 175;
         public int health;
         public Texture2D debugSprite;
         public Vector2 position;
@@ -19,12 +20,16 @@ namespace PirateQueen
         AnimatedSprite animWalk;
         AnimatedSprite animRun;
         AnimatedSprite animAttack;
+        AnimatedSprite animAttackWalk;
         string currentAnimation;
         double lastAttackTime;
         double attackDelay = 0.5;
+        bool facingLeft;
+        public string weapon;
+        Random rgen;
 
         // Constructor:
-        public Player (Texture2D debug, Texture2D idle, Texture2D walk, Texture2D run, Texture2D attack, Vector2 pos)
+        public Player (Texture2D debug, Texture2D idle, Texture2D walk, Texture2D run, Texture2D attack, Texture2D attackWalk, Vector2 pos)
         {
             // Set attributes:
             debugSprite = debug;
@@ -33,12 +38,16 @@ namespace PirateQueen
             onGround = true;
             health = 1000;
             currentAnimation = "Idle";
+            facingLeft = false;
+            weapon = "Cutlass";
+            rgen = new Random();
 
             // Load animations:
-            animIdle = new AnimatedSprite(idle, 6, 3, 2, new Vector2(72, 72), 100);
-            animWalk = new AnimatedSprite(walk, 6, 3, 2, new Vector2(72, 72), 100);
-            animRun = new AnimatedSprite(run, 6, 3, 2, new Vector2(72, 72), 100);
-            animAttack = new AnimatedSprite(attack, 6, 3, 2, new Vector2(72, 72), 100);
+            animIdle = new AnimatedSprite(idle, 1, 1, 1, new Vector2(72, 72), 50);
+            animWalk = new AnimatedSprite(walk, 3, 3, 1, new Vector2(72, 72), 50);
+            animRun = new AnimatedSprite(run, 3, 3, 1, new Vector2(72, 72), 35);
+            animAttack = new AnimatedSprite(attack, 3, 3, 1, new Vector2(72, 72), 50);
+            animAttackWalk = new AnimatedSprite(attackWalk, 3, 3, 1, new Vector2(72, 72), 50);
         }
 
         // Reset:
@@ -55,14 +64,20 @@ namespace PirateQueen
         {
             // Friction for horizontal movement:
             if (!kbState.IsKeyDown(Keys.A) && !kbState.IsKeyDown(Keys.D) && onGround)
+            {
                 velocity.X *= Game1.PLAYER_FRICTION;
+                currentAnimation = "Idle";
+            }
 
             // Acceleration for horizontal movement:
             if (kbState.IsKeyDown(Keys.A))
             {
+                facingLeft = true;
+                currentAnimation = "Walk";
                 velocity.X -= Game1.PLAYER_ACCELERATION;
                 if (kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift))
                 {
+                    currentAnimation = "Run";
                     if (velocity.X < -Game1.PLAYER_RUNNING_SPEED)
                         velocity.X = -Game1.PLAYER_RUNNING_SPEED;
                 }
@@ -74,9 +89,12 @@ namespace PirateQueen
             }
             if (kbState.IsKeyDown(Keys.D))
             {
+                facingLeft = false;
+                currentAnimation = "Walk";
                 velocity.X += Game1.PLAYER_ACCELERATION;
                 if (kbState.IsKeyDown(Keys.LeftShift) || kbState.IsKeyDown(Keys.RightShift))
                 {
+                    currentAnimation = "Run";
                     if (velocity.X > Game1.PLAYER_RUNNING_SPEED)
                         velocity.X = Game1.PLAYER_RUNNING_SPEED;
                 }
@@ -140,10 +158,25 @@ namespace PirateQueen
             if (Game1.currentFrameTime - lastAttackTime >= attackDelay)
             {
                 lastAttackTime = Game1.currentFrameTime;
-                Console.WriteLine("Player attacking. (Currently damages all enemies on screen.");
+                string dir = "Right";
+                if (facingLeft)
+                    dir = "Left";
+                Console.WriteLine("Player attacking to the " + dir + " with " + weapon + ".");
 
-                foreach (Enemy enemy in Game1.Enemies)
-                    enemy.Damage(50);
+                // Swing sword:
+                if (weapon == "Cutlass")
+                {
+                    foreach (Enemy enemy in Game1.Enemies)
+                    {
+                        bool inFrontOfPlayer = false;
+                        if (facingLeft)
+                            inFrontOfPlayer = enemy.position.X <= position.X;
+                        else
+                            inFrontOfPlayer = enemy.position.X >= position.X;
+                        if (Tools.Distance(enemy.position, position) <= SWORD_REACH && inFrontOfPlayer)
+                            enemy.Damage(rgen.Next(20, 40));
+                    }
+                }
             }
         }
 
@@ -151,18 +184,42 @@ namespace PirateQueen
         public void Animate (GameTime gt)
         {
             // Change animation:
+            /*
             if (velocity.X <= -0.1f && onGround)
-                currentAnimation = "Walk Left";
+            {
+                currentAnimation = "Walk";
+                facingLeft = true;
+            }
             else if (velocity.X >= 0.1f && onGround)
-                currentAnimation = "Walk Right";
+            {
+                currentAnimation = "Walk";
+                facingLeft = false;
+            }
             else
                 currentAnimation = "Idle";
+            */
 
             // Update animations:
-            if (currentAnimation == "Walk Left")
+            if (currentAnimation == "Walk")
                 animWalk.Update(gt);
-            if (currentAnimation == "Walk Right")
-                animWalk.Update(gt);
+            else if (currentAnimation == "Run")
+                animRun.Update(gt);
+            else if (currentAnimation == "Idle")
+                animIdle.Update(gt);
+
+            if (Game1.currentFrameTime - lastAttackTime <= 0.15)
+            {
+                if (currentAnimation == "Walk" || currentAnimation == "Run")
+                {
+                    animAttackWalk.Update(gt);
+                    currentAnimation = "AttackWalk";
+                }
+                else
+                {
+                    animAttack.Update(gt);
+                    currentAnimation = "Attack";
+                }
+            }
         }
 
         // Draw animation:
@@ -173,12 +230,16 @@ namespace PirateQueen
                 sb.Draw(debugSprite, position - new Vector2(debugSprite.Width / 2, debugSprite.Height), Color.White);
 
             // Draw player (animation):
-            if (currentAnimation == "Walk Left")
-                animWalk.Draw(sb, pos, true);
-            else if (currentAnimation == "Walk Right")
-                animWalk.Draw(sb, pos);
-            else
-                animWalk.Draw(sb, pos);
+            if (currentAnimation == "Walk")
+                animWalk.Draw(sb, pos, facingLeft);
+            else if (currentAnimation == "Run")
+                animRun.Draw(sb, pos, facingLeft);
+            else if (currentAnimation == "Idle")
+                animIdle.Draw(sb, pos, facingLeft);
+            else if (currentAnimation == "Attack")
+                animAttack.Draw(sb, pos, facingLeft);
+            else if (currentAnimation == "AttackWalk")
+                animAttackWalk.Draw(sb, pos, facingLeft);
         }
 
         // Take damage:

@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Timers;
 
 namespace PirateQueen
 {
@@ -27,6 +29,7 @@ namespace PirateQueen
         bool facingLeft;
         public string weapon;
         Random rgen;
+        
 
         // Constructor:
         public Player (Texture2D debug, Texture2D idle, Texture2D walk, Texture2D run, Texture2D attack, Texture2D attackWalk, Vector2 pos)
@@ -246,6 +249,7 @@ namespace PirateQueen
         public void Damage (int amount)
         {
             health -= amount;
+
         }
     }
 }

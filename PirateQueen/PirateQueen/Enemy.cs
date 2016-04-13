@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Threading;
+
 
 namespace PirateQueen
 {
@@ -139,11 +141,12 @@ namespace PirateQueen
         }
 
         // Attack:
-        public void Attack(KeyboardState kbState)
+        public void Attack()
         {
-            // Attack:
-            if (nextToPlayer && !attacking)
-                Game1.player.Damage(1);
+            if (nextToPlayer && !attacking && (Game1.damageTime == 20 || Game1.damageTime == 40))
+                {
+                    Game1.player.Damage(30);
+                }
         }
 
         // Animation:

@@ -114,7 +114,6 @@ J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\Content\Vignette.xnb
 J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\Content\MainMenuBackground.xnb
 J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\Content\PlayButton.xnb
 J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\Content\PirateQueenHeader.xnb
-J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\Content\Animations\Walk.xnb
 J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\Content\ActualStartScreen.xnb
 J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\Content\Debug_5x5.xnb
 J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\Content\White.xnb
@@ -125,9 +124,13 @@ J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\Content\Weapons\Flintlock.xnb
 J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\PirateQueen.exe
 J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\PirateQueen.pdb
 J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\MonoGame.Framework.dll
-J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\NVorbis.dll
 J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\OpenTK.dll
 J:\sourcetree\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.csprojResolveAssemblyReference.cache
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Animations\Player\Walk.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Animations\NormalEnemy\Walk.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Animations\Player\WalkSwing.xnb
+J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\Content\Arial.xnb
+J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\Content\Animations\NormalEnemy\Walk.xnb
+J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\Content\Animations\Player\Walk.xnb
+J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\Content\Animations\Player\WalkSwing.xnb
+J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\NVorbis.dll

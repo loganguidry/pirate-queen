@@ -249,7 +249,7 @@ namespace PirateQueen
         public void Damage (int amount)
         {
             health -= amount;
-
+            Game1.DamagePopups.Add(new DamagePopup(position + new Vector2(-debugSprite.Width / 4, -debugSprite.Height - 50), amount.ToString()));
         }
     }
 }

@@ -22,14 +22,14 @@ namespace PirateQueen
             text = txt;
             timeCreated = Game1.currentFrameTime;
             targetY = pos.Y - 100;
-            transparency = 1;
+            transparency = 1f;
         }
 
         // Movement:
         public void Move()
         {
             position.Y += (targetY - position.Y) * 0.1f;
-            transparency -= 0.01f;
+            transparency -= 0.03f;
         }
     }
 }

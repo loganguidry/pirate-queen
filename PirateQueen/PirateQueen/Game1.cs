@@ -58,7 +58,6 @@ namespace PirateQueen
         static public Player player;
         static public List<Enemy> Enemies;
         static public List<DamagePopup> DamagePopups;
-        static public int damageTime = 0;
 
         //Constants(ButtonState):
         const int NUM_OF_BUTTONS = 2,
@@ -131,7 +130,6 @@ namespace PirateQueen
             ui = new UI();
             spawnedEnemies = 0;
             DamagePopups = new List<DamagePopup>();
-            
 
             // Create player:
             player = new Player(
@@ -182,12 +180,6 @@ namespace PirateQueen
             lastFrameTime = currentFrameTime;
             currentFrameTime = gameTime.TotalGameTime.TotalSeconds;
             dt = ((currentFrameTime - lastFrameTime) / (1 / 60.0));
-
-            damageTime++;
-            if(damageTime >= 60)
-            {
-                damageTime = 0;
-            }
 
             // Get keyboard input:
             oldKbState = kbState;
@@ -256,7 +248,6 @@ namespace PirateQueen
                     foreach (DamagePopup popup in DamagePopups)
                     {
                         popup.Move();
-                        popup.transparency = 0;
                     }
 
                     // Check if the player is dead:
@@ -352,7 +343,7 @@ namespace PirateQueen
                         enemy.Draw(spriteBatch, enemy.position - new Vector2(player.debugSprite.Width + 5, player.debugSprite.Height + 30));
                     // Draw damage indicators:
                     foreach (DamagePopup popup in DamagePopups)
-                        spriteBatch.DrawString(basicFont, popup.text, popup.position, new Color(Color.Red, popup.transparency));
+                        spriteBatch.DrawString(basicFont, popup.text, popup.position, new Color(0f, 0f, 0f, popup.transparency));
                     // Draw UI:
                     ui.Draw(spriteBatch);
                     break;

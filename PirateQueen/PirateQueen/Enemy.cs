@@ -9,10 +9,15 @@ namespace PirateQueen
 {
     public class Enemy
     {
+        // Settings:
+        int ATTACK_DELAY = 30;
+
         // Attributes:
         public Texture2D debugSprite;
         public Vector2 position;
         public int health;
+        private int damageMin;
+        private int damageMax;
         private Vector2 velocity;
         private bool onGround;
         private AnimatedSprite animIdle;
@@ -22,8 +27,8 @@ namespace PirateQueen
         private float speed;
         private string type;
         private Random rgen;
-        bool nextToPlayer;
-        bool attacking;
+        private int attackStep;
+        private bool nextToPlayer;
 
         // Constructor:
         public Enemy(Texture2D sprt, Texture2D walk, Vector2 pos, int randomSeed, string kind)
@@ -38,7 +43,7 @@ namespace PirateQueen
             type = kind;
             rgen = new Random(randomSeed);
             nextToPlayer = false;
-            attacking = false;
+            attackStep = 0;
 
             // Load enemy attributes:
             switch (type)
@@ -46,12 +51,18 @@ namespace PirateQueen
                 case "normal":
                 default:
                     speed = rgen.Next (20, 50) / 10f;
+                    damageMin = 20;
+                    damageMax = 40;
                     break;
                 case "fast":
-                    speed = rgen.Next(51, 100) / 10f ;
+                    speed = rgen.Next(51, 100) / 10f;
+                    damageMin = 10;
+                    damageMax = 25;
                     break;
                 case "heavy":
                     speed = rgen.Next(10, 19) / 10f;
+                    damageMin = 35;
+                    damageMax = 60;
                     break;
             }
 
@@ -143,10 +154,14 @@ namespace PirateQueen
         // Attack:
         public void Attack()
         {
-            if (nextToPlayer && !attacking && (Game1.damageTime == 20 || Game1.damageTime == 40))
-                {
-                    Game1.player.Damage(30);
-                }
+            // Increase attack timer:
+            attackStep++;
+            if (attackStep >= ATTACK_DELAY)
+                attackStep = 0;
+
+            // Attack:
+            if (nextToPlayer && attackStep == 0)
+                Game1.player.Damage(rgen.Next(damageMin, damageMax));
         }
 
         // Animation:

@@ -63,7 +63,7 @@ namespace PirateQueen
         }
 
         // Movement:
-        public void Move (KeyboardState kbState)
+        public void Move (KeyboardState kbState, MouseState msState)
         {
             // Friction for horizontal movement:
             if (!kbState.IsKeyDown(Keys.A) && !kbState.IsKeyDown(Keys.D) && onGround)
@@ -151,6 +151,7 @@ namespace PirateQueen
                 onGround = true;
             }
             
+            // Attack:
             if (kbState.IsKeyDown(Keys.Space))
                 Attack();
         }

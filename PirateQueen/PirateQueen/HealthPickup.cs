@@ -11,6 +11,8 @@ namespace PirateQueen
         // Attributes:
         Vector2 position;
         Vector2 velocity;
+        int width = 40;
+        int height = 40;
 
         // Constructor:
         public HealthPickup(Vector2 pos)
@@ -20,7 +22,7 @@ namespace PirateQueen
 
             // Set randomized upwards velocity:
             Random rgen = new Random();
-            velocity = new Vector2(rgen.Next(-5, 5), -10f);
+            velocity = new Vector2(rgen.Next(-15, 15), -30f);
         }
 
         // Movement:
@@ -33,22 +35,24 @@ namespace PirateQueen
             position += velocity;
 
             // Land on ground:
-            if (position.Y > Game1.groundPosition)
+            if (position.Y + (height / 2) > Game1.groundPosition)
             {
-                position.Y = Game1.groundPosition;
+                position.Y = Game1.groundPosition - (height / 2);
                 velocity = Vector2.Zero;
             }
 
+            // Hit wall on first level:
+            if (Game1.currentLevel == 1 && Game1.currentLevelStage == 0 && position.X < 425)
+                velocity.X = -velocity.X;
+
             // Hit wall:
-            if (position.X > Game1.screenSize.X || position.X < 0)
+            if (position.X + (width / 2) > Game1.screenSize.X || position.X - (width / 2) < 0)
                 velocity.X = -velocity.X;
         }
 
         // Draw:
         public void Draw(SpriteBatch sb)
         {
-            int width = 40;
-            int height = 40;
             sb.Draw(Game1.healthPickupSprite, new Rectangle((int)position.X - (width / 2), (int)position.Y - (height / 2), width, height), Color.White);
         }
     }

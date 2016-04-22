@@ -191,7 +191,7 @@ namespace PirateQueen
 
             // Get mouse input:
             mCurrState = Mouse.GetState();
-
+            
             switch (state)
             {
                 case (GameState.Intro):
@@ -234,7 +234,7 @@ namespace PirateQueen
                         pickup.Move();
 
                     // Control the player:
-                    player.Move(kbState);
+                    player.Move(kbState, mCurrState);
                     player.Animate(gameTime);
 
                     // Spawn new enemies:

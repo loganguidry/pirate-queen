@@ -150,37 +150,49 @@ namespace PirateQueen
                 velocity.Y = 0;
                 onGround = true;
             }
-            
+
             // Attack:
-            if (kbState.IsKeyDown(Keys.Space))
-                Attack();
+            if (msState.LeftButton == ButtonState.Pressed)
+                SwingSword();
+            if (msState.RightButton == ButtonState.Pressed)
+                FireGun();
         }
 
-        // Attack:
-        public void Attack ()
+        // Swing sword:
+        public void SwingSword()
         {
             if (Game1.currentFrameTime - lastAttackTime >= attackDelay)
             {
                 lastAttackTime = Game1.currentFrameTime;
-                string dir = "Right";
-                if (facingLeft)
-                    dir = "Left";
-                Console.WriteLine("Player attacking to the " + dir + " with " + weapon + ".");
-
-                // Swing sword:
-                if (weapon == "Cutlass")
+                Console.WriteLine("Player swinging sword.");
+                
+                // Damage close enemies:
+                foreach (Enemy enemy in Game1.Enemies)
                 {
-                    foreach (Enemy enemy in Game1.Enemies)
-                    {
-                        bool inFrontOfPlayer = false;
-                        if (facingLeft)
-                            inFrontOfPlayer = enemy.position.X <= position.X;
-                        else
-                            inFrontOfPlayer = enemy.position.X >= position.X;
-                        if (Tools.Distance(enemy.position, position) <= SWORD_REACH && inFrontOfPlayer)
-                            enemy.Damage(rgen.Next(20, 40));
-                    }
+                    bool inFrontOfPlayer = false;
+                    if (facingLeft)
+                        inFrontOfPlayer = enemy.position.X <= position.X;
+                    else
+                        inFrontOfPlayer = enemy.position.X >= position.X;
+                    if (Tools.Distance(enemy.position, position) <= SWORD_REACH && inFrontOfPlayer)
+                        enemy.Damage(rgen.Next(20, 40));
                 }
+            }
+        }
+
+        // Fire gun:
+        public void FireGun()
+        {
+            if (Game1.currentFrameTime - lastAttackTime >= attackDelay)
+            {
+                lastAttackTime = Game1.currentFrameTime;
+                Console.WriteLine("Player firing gun.");
+
+                // Create a bullet object:
+                if (facingLeft)
+                    Bullet.globalBullets.Add(new Bullet(position, new Vector2(-20, 0)));
+                else
+                    Bullet.globalBullets.Add(new Bullet(position, new Vector2(20, 0)));
             }
         }
 

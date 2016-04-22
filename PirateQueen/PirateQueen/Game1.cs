@@ -45,6 +45,7 @@ namespace PirateQueen
         // Public static content:
         static public Texture2D white2x2square;
         static public Texture2D healthBarSprite;
+        static public Texture2D healthPickupSprite;
         static public SpriteFont basicFont;
 
         // Public static variables:
@@ -86,6 +87,7 @@ namespace PirateQueen
         UI ui;
         Rectangle playButton;
         Rectangle settingsButton;
+        List<HealthPickup> pickups;
 
         // User input:
         KeyboardState kbState;
@@ -130,6 +132,7 @@ namespace PirateQueen
             ui = new UI();
             spawnedEnemies = 0;
             DamagePopups = new List<DamagePopup>();
+            pickups = new List<HealthPickup>();
 
             // Create player:
             player = new Player(
@@ -164,6 +167,7 @@ namespace PirateQueen
             vignetteSprite = Content.Load<Texture2D>("Vignette");
             white2x2square = Content.Load<Texture2D>("White");
             healthBarSprite = Content.Load<Texture2D>("HealthBar");
+            healthPickupSprite = Content.Load<Texture2D>("White");
         }
         
         protected override void UnloadContent()
@@ -225,6 +229,10 @@ namespace PirateQueen
                     if (paused)
                         break;
 
+                    // Move health pickups:
+                    foreach (HealthPickup pickup in pickups)
+                        pickup.Move();
+
                     // Control the player:
                     player.Move(kbState);
                     player.Animate(gameTime);
@@ -262,7 +270,10 @@ namespace PirateQueen
                             deadEnemies.Add(enemy);
                     }
                     foreach (Enemy enemy in deadEnemies)
+                    {
+                        pickups.Add(new HealthPickup(enemy.position));
                         Enemies.Remove(enemy);
+                    }
                     deadEnemies.Clear();
 
                     // All enemies killed:
@@ -333,6 +344,9 @@ namespace PirateQueen
                     }
                     else
                         spriteBatch.Draw(frameBackgrounds[currentLevelStage], new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
+                    // Draw health pickups:
+                    foreach (HealthPickup pickup in pickups)
+                        pickup.Draw(spriteBatch);
                     // Draw player:
                     player.Draw(
                         spriteBatch,

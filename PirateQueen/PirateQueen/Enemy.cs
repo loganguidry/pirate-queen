@@ -119,7 +119,7 @@ namespace PirateQueen
                 velocity.Y += Game1.GRAVITY;
 
             // Move enemy:
-            position += new Vector2(velocity.X * (float)Game1.dt, velocity.Y * (float)Game1.dt);
+            position += new Vector2(velocity.X, velocity.Y);
 
             // Keep on-screen:
             if (Game1.currentLevel == 1 && Game1.currentLevelStage == 0)
@@ -135,11 +135,6 @@ namespace PirateQueen
             {
                 position.X = debugSprite.Width / 2;
                 velocity.X = velocity.X = Math.Max(1, velocity.X);
-            }
-            if (position.X >= Game1.screenSize.X - (debugSprite.Width / 2))
-            {
-                position.X = Game1.screenSize.X - (debugSprite.Width / 2);
-                velocity.X = velocity.X = Math.Min(-1, velocity.X);
             }
 
             // Keep on ground:

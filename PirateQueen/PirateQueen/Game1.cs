@@ -54,7 +54,6 @@ namespace PirateQueen
         static public Vector2 screenSize;
         static public Vector2 center;
         static public float groundPosition;
-        static public double dt;
         static public double currentFrameTime;
         static public Player player;
         static public List<Enemy> Enemies;
@@ -73,7 +72,6 @@ namespace PirateQueen
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         GameState state;
-        double lastFrameTime;
         bool paused = false;
         float leftFrameBackgroundPosition;
         float leftFrameBackgroundPositionTarget;
@@ -88,6 +86,7 @@ namespace PirateQueen
         Rectangle playButton;
         Rectangle settingsButton;
         List<HealthPickup> pickups;
+        double pauseStartTime;
 
         // User input:
         KeyboardState kbState;
@@ -128,11 +127,12 @@ namespace PirateQueen
             rightFrameBackgroundPosition = screenSize.X;
             rightFrameBackgroundPositionTarget = rightFrameBackgroundPosition;
             rgen = new Random();
-            enemySpawnDelay = 2;
+            enemySpawnDelay = 2000;
             ui = new UI();
             spawnedEnemies = 0;
             DamagePopups = new List<DamagePopup>();
             pickups = new List<HealthPickup>();
+            currentFrameTime = 0;
 
             // Create player:
             player = new Player(
@@ -180,10 +180,8 @@ namespace PirateQueen
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // Get delta time for smooth movement:
-            lastFrameTime = currentFrameTime;
-            currentFrameTime = gameTime.TotalGameTime.TotalSeconds;
-            dt = ((currentFrameTime - lastFrameTime) / (1 / 60.0));
+            // Get time:
+            currentFrameTime += gameTime.ElapsedGameTime.TotalMilliseconds;
 
             // Get keyboard input:
             oldKbState = kbState;
@@ -229,13 +227,26 @@ namespace PirateQueen
                     if (paused)
                         break;
 
-                    // Move health pickups:
-                    foreach (HealthPickup pickup in pickups)
-                        pickup.Move();
-
                     // Control the player:
                     player.Move(kbState, mCurrState);
                     player.Animate(gameTime);
+
+                    // Move health pickups:
+                    List<HealthPickup> deadPickups = new List<HealthPickup>();
+                    foreach (HealthPickup pickup in pickups)
+                    {
+                        pickup.Move();
+                        if (pickup.Touching())
+                        {
+                            deadPickups.Add(pickup);
+                            player.health += 200;
+                            if (player.health > 1000)
+                                player.health = 1000;
+                        }
+                    }
+                    foreach (HealthPickup pickup in deadPickups)
+                        pickups.Remove(pickup);
+                    deadPickups.Clear();
 
                     // Spawn new enemies:
                     SpawnEnemy();
@@ -254,9 +265,7 @@ namespace PirateQueen
 
                     // Animate damage indicators:
                     foreach (DamagePopup popup in DamagePopups)
-                    {
                         popup.Move();
-                    }
 
                     // Check if the player is dead:
                     if (player.health <= 0)
@@ -271,7 +280,8 @@ namespace PirateQueen
                     }
                     foreach (Enemy enemy in deadEnemies)
                     {
-                        pickups.Add(new HealthPickup(enemy.position));
+                        if (rgen.Next(10) == 1)
+                            pickups.Add(new HealthPickup(enemy.position - new Vector2(0, enemy.debugSprite.Height / 2)));
                         Enemies.Remove(enemy);
                     }
                     deadEnemies.Clear();
@@ -355,6 +365,8 @@ namespace PirateQueen
                     // Draw enemies:
                     foreach (Enemy enemy in Enemies)
                         enemy.Draw(spriteBatch, enemy.position - new Vector2(player.debugSprite.Width + 5, player.debugSprite.Height + 30));
+                    // Draw bullets:
+                    Bullet.DrawBullets(spriteBatch);
                     // Draw damage indicators:
                     foreach (DamagePopup popup in DamagePopups)
                         spriteBatch.DrawString(basicFont, popup.text, popup.position, new Color(0f, 0f, 0f, popup.transparency));
@@ -387,7 +399,16 @@ namespace PirateQueen
 
         public void TogglePause ()
         {
-            paused = !paused;
+            if (paused)
+            {
+                paused = false;
+                currentFrameTime -= (currentFrameTime - pauseStartTime);
+            }
+            else
+            {
+                paused = true;
+                pauseStartTime = currentFrameTime;
+            }
         }
 
         public void StartGame()
@@ -485,9 +506,8 @@ namespace PirateQueen
                 Enemy newEnemy = new Enemy(
                         Content.Load<Texture2D>("Player"),
                         Content.Load<Texture2D>("Animations/NormalEnemy/Walk"),
-                        new Vector2(screenSize.X + rgen.Next(0, (int)screenSize.X), groundPosition),
-                        rgen.Next(0, 99999),
-                        "normal"
+                        new Vector2(screenSize.X + 100, groundPosition),
+                        rgen.Next(0, 99999), "normal"
                     );
                 Enemies.Add(newEnemy);
             }

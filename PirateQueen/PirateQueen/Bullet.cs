@@ -33,5 +33,18 @@ namespace PirateQueen
             if (new Rectangle(0, 0, (int)Game1.screenSize.X, (int)Game1.screenSize.Y).Intersects(new Rectangle((int)position.X, (int)position.Y, 1, 1)))
                 globalBullets.Remove(this);
         }
+
+        // Draw:
+        public void Draw(SpriteBatch sb)
+        {
+
+        }
+
+        // Static public method to draw all bullets:
+        static public void DrawBullets(SpriteBatch sb)
+        {
+            foreach (Bullet bullet in globalBullets)
+                bullet.Draw(sb);
+        }
     }
 }

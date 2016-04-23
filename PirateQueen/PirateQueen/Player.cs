@@ -25,7 +25,7 @@ namespace PirateQueen
         AnimatedSprite animAttackWalk;
         string currentAnimation;
         double lastAttackTime;
-        double attackDelay = 0.5;
+        double attackDelay = 500;
         bool facingLeft;
         public string weapon;
         Random rgen;
@@ -120,7 +120,7 @@ namespace PirateQueen
                 velocity.Y += Game1.GRAVITY;
 
             // Move player:
-            position += new Vector2(velocity.X * (float)Game1.dt, velocity.Y * (float)Game1.dt);
+            position += new Vector2(velocity.X, velocity.Y);
 
             // Keep on-screen:
             if (Game1.currentLevel == 1 && Game1.currentLevelStage == 0)
@@ -223,7 +223,7 @@ namespace PirateQueen
             else if (currentAnimation == "Idle")
                 animIdle.Update(gt);
 
-            if (Game1.currentFrameTime - lastAttackTime <= 0.15)
+            if (Game1.currentFrameTime - lastAttackTime <= 150)
             {
                 if (currentAnimation == "Walk" || currentAnimation == "Run")
                 {

@@ -11,18 +11,20 @@ namespace PirateQueen
         // Attributes:
         Vector2 position;
         Vector2 velocity;
-        int width = 40;
-        int height = 40;
+        int width = 60;
+        int height = 60;
+        double spawnTime;
 
         // Constructor:
         public HealthPickup(Vector2 pos)
         {
-            // Set position:
+            // Set attributes:
             position = pos;
+            spawnTime = Game1.currentFrameTime;
 
             // Set randomized upwards velocity:
             Random rgen = new Random();
-            velocity = new Vector2(rgen.Next(-15, 15), -30f);
+            velocity = new Vector2(rgen.Next(-15, 15), -20f);
         }
 
         // Movement:
@@ -53,7 +55,16 @@ namespace PirateQueen
         // Draw:
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(Game1.healthPickupSprite, new Rectangle((int)position.X - (width / 2), (int)position.Y - (height / 2), width, height), Color.White);
+            sb.Draw(Game1.healthPickupSprite, new Rectangle((int)position.X - (width / 2), (int)position.Y - (height / 2), width, height), Color.Red);
+        }
+
+        // Check if being touched by player:
+        public bool Touching()
+        {
+            Rectangle pickup = new Rectangle((int)position.X - (width / 2), (int)position.Y, width, height);
+            Rectangle player = new Rectangle((int)Game1.player.position.X, (int)(Game1.player.position.Y - Game1.player.debugSprite.Height), Game1.player.debugSprite.Width, Game1.player.debugSprite.Height);
+            bool canBePickedUp = Game1.currentFrameTime - spawnTime >= 500;
+            return pickup.Intersects(player) && canBePickedUp;
         }
     }
 }

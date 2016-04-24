@@ -99,6 +99,8 @@ namespace PirateQueen
         Texture2D startScreen;
         Texture2D cursorSprite;
         Texture2D vignetteSprite;
+        Texture2D winScreen;
+        Texture2D lossScreen;
 
         // Frames:
         Texture2D[] frameBackgrounds;
@@ -168,6 +170,8 @@ namespace PirateQueen
             white2x2square = Content.Load<Texture2D>("White");
             healthBarSprite = Content.Load<Texture2D>("HealthBar");
             healthPickupSprite = Content.Load<Texture2D>("White");
+            winScreen = Content.Load<Texture2D>("NewWinScreen");
+            lossScreen = Content.Load<Texture2D>("LossScreen");
         }
         
         protected override void UnloadContent()
@@ -319,6 +323,13 @@ namespace PirateQueen
                     break;
 
                 case (GameState.Win):
+                    // Draw win screen:
+                    spriteBatch.Draw(winScreen, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
+                    break;
+
+                case (GameState.Lose):
+                    // Draw loss screen:
+                    spriteBatch.Draw(lossScreen, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
                     break;
 
                 case (GameState.Menu):

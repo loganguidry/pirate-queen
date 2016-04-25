@@ -190,9 +190,9 @@ namespace PirateQueen
 
                 // Create a bullet object:
                 if (facingLeft)
-                    Bullet.globalBullets.Add(new Bullet(position, new Vector2(-20, 0)));
+                    Bullet.globalBullets.Add(new Bullet(position - new Vector2(0, debugSprite.Height / 2), new Vector2(-20, 0), "player"));
                 else
-                    Bullet.globalBullets.Add(new Bullet(position, new Vector2(20, 0)));
+                    Bullet.globalBullets.Add(new Bullet(position - new Vector2(0, debugSprite.Height / 2), new Vector2(20, 0), "player"));
             }
         }
 

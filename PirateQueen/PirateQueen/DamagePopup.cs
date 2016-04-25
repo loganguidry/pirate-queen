@@ -26,10 +26,11 @@ namespace PirateQueen
         }
 
         // Movement:
-        public void Move()
+        public bool Move()
         {
             position.Y += (targetY - position.Y) * 0.1f;
             transparency -= 0.03f;
+            return transparency <= 0;
         }
     }
 }

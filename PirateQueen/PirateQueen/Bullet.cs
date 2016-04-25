@@ -16,28 +16,67 @@ namespace PirateQueen
         // Attributes:
         Vector2 position;
         Vector2 velocity;
+        int width = 6;
+        int height = 6;
+        string owner;
+        Random rgen;
         
         // Constructor:
-        public Bullet(Vector2 pos, Vector2 vel)
+        public Bullet(Vector2 pos, Vector2 vel, string own)
         {
             position = pos;
             velocity = vel;
+            owner = own;
+            rgen = new Random();
         }
 
         // Move:
-        public void Move()
+        public bool Move()
         {
+            // Move bullet:
             position += velocity;
 
+            // Check collisions:
+            Rectangle bulletRect = new Rectangle((int)position.X - (width / 2), (int)position.Y - (height / 2), width, height);
+            bool deleteThis = false;
+            if (owner == "player")
+            {
+                foreach (Enemy enemy in Game1.Enemies)
+                {
+                    Rectangle enemyRect = new Rectangle((int)enemy.position.X, (int)(enemy.position.Y - (enemy.debugSprite.Height / 2)), enemy.debugSprite.Width, enemy.debugSprite.Height);
+                    if (enemyRect.Intersects(bulletRect))
+                    {
+                        deleteThis = true;
+                        enemy.Damage(rgen.Next(15, 25));
+                        break;
+                    }
+                }
+            }
+            if (deleteThis)
+                return false;
+
             // Delete when off screen:
-            if (new Rectangle(0, 0, (int)Game1.screenSize.X, (int)Game1.screenSize.Y).Intersects(new Rectangle((int)position.X, (int)position.Y, 1, 1)))
-                globalBullets.Remove(this);
+            return new Rectangle(0, 0, (int)Game1.screenSize.X, (int)Game1.screenSize.Y).Intersects(bulletRect);
         }
 
         // Draw:
         public void Draw(SpriteBatch sb)
         {
+            sb.Draw(Game1.healthPickupSprite, new Rectangle((int)position.X - (width / 2), (int)position.Y - (height / 2), width, height), Color.Red);
+        }
 
+        // Static public method to move all bullets:
+        static public void MoveBullets()
+        {
+            List<Bullet> deadBullets = new List<Bullet>();
+            foreach (Bullet bullet in globalBullets)
+            {
+                if (!bullet.Move())
+                    deadBullets.Add(bullet);
+            }
+            foreach (Bullet bullet in deadBullets)
+                globalBullets.Remove(bullet);
+            deadBullets.Clear();
         }
 
         // Static public method to draw all bullets:

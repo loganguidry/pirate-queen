@@ -9,9 +9,12 @@ using System.Collections.Generic;
  * Logan Guidry, Ron Dodge, Andrew Harding, Siddie Schrock
  *
  * Controls:
- *  WASD/Arrows - Move
+ *  WASD - Move
+ *  Shift - Sprint
  *  Space - Jump
- *  E - Advance to next 'stage' (debugging)
+ *  Left Click - Swing Cutlass Sword
+ *  Right Click - Fire Flintlock Pistol
+ *  E - Advance to next 'stage' (debugging mode only)
  *  Enter - Advance to next screen (intro -> main menu -> game)
 */
 
@@ -252,6 +255,9 @@ namespace PirateQueen
                         pickups.Remove(pickup);
                     deadPickups.Clear();
 
+                    // Move bullets:
+                    Bullet.MoveBullets();
+
                     // Spawn new enemies:
                     SpawnEnemy();
 
@@ -268,8 +274,15 @@ namespace PirateQueen
                     rightFrameBackgroundPosition += (rightFrameBackgroundPositionTarget - rightFrameBackgroundPosition) * 0.2f;
 
                     // Animate damage indicators:
+                    List<DamagePopup> deadDamageIndicators = new List<DamagePopup>();
                     foreach (DamagePopup popup in DamagePopups)
-                        popup.Move();
+                    {
+                        if (popup.Move())
+                            deadDamageIndicators.Add(popup);
+                    }
+                    foreach (DamagePopup popup in deadDamageIndicators)
+                        DamagePopups.Remove(popup);
+                    deadDamageIndicators.Clear();
 
                     // Check if the player is dead:
                     if (player.health <= 0)
@@ -339,12 +352,12 @@ namespace PirateQueen
                     // Draw vignette:
                     spriteBatch.Draw(vignetteSprite, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.White);
 
-                    //Creating the button rectangles
+                    // Creating the button rectangles
                     playButton = new Rectangle(325, 275, 675, 175);
                     settingsButton = new Rectangle(650, 725, 450, 125);
                     Point mousePosition = mCurrState.Position;
-                    //Is a button being clicked
-                    if(playButton.Contains(mousePosition))
+                    // Is a button being clicked
+                    if (playButton.Contains(mousePosition))
                     {
                         if(mCurrState.LeftButton == ButtonState.Pressed && 
                             mPrevState.LeftButton == ButtonState.Released)
@@ -353,7 +366,6 @@ namespace PirateQueen
                         }
                         mPrevState = mCurrState;
                     }
-
                     break;
 
                 case (GameState.Gameplay):
@@ -395,7 +407,11 @@ namespace PirateQueen
                     "Player health: " + (player.health / (double)Player.MAX_HEALTH * 100).ToString() + "% [" + player.health + "/" + Player.MAX_HEALTH + "]\n" +
                     "Current time: " + currentFrameTime + "\n" +
                     "Level " + currentLevel + ", stage " + currentLevelStage + "\n" +
-                    "State: " + state.ToString(),
+                    "State: " + state.ToString() + "\n" +
+                    "#Bullets: " + Bullet.globalBullets.Count.ToString() + "\n" +
+                    "#Enemies: " + Enemies.Count.ToString() + "\n" +
+                    "#DamagePopups: " + DamagePopups.Count.ToString() + "\n" +
+                    "#HealthPickups: " + pickups.Count.ToString(),
                     Vector2.Zero, Color.Green);
 
             spriteBatch.End();
@@ -428,6 +444,8 @@ namespace PirateQueen
             currentLevel = 0;
             currentLevelStage = 0;
             Enemies.Clear();
+            DamagePopups.Clear();
+            Bullet.globalBullets.Clear();
             spawnedEnemies = 0;
 
             // Reset player:

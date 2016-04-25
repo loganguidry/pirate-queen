@@ -46,7 +46,7 @@ namespace PirateQueen
 
             // Load animations:
             animIdle = new AnimatedSprite(anims, 1, 1, 1, new Vector2(72, 72), 50);
-            animWalk = new AnimatedSprite(anims, 3, 3, 2, new Vector2(72, 72), 150);
+            animWalk = new AnimatedSprite(anims, 3, 3, 2, new Vector2(72, 72), 50);
             animRun = new AnimatedSprite(anims, 3, 3, 2, new Vector2(72, 72), 35);
             animAttack = new AnimatedSprite(anims, 3, 3, 1, new Vector2(72, 72), 50);
             animAttackWalk = new AnimatedSprite(anims, 3, 3, 1, new Vector2(72, 72), 50);

@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
+using System.Media;
 
 /*
  * Team LASR
@@ -50,6 +52,7 @@ namespace PirateQueen
         static public Texture2D healthBarSprite;
         static public Texture2D healthPickupSprite;
         static public SpriteFont basicFont;
+        static public Song bgMusic;
 
         // Public static variables:
         static public int currentLevel;
@@ -161,6 +164,9 @@ namespace PirateQueen
             // Load fonts:
             basicFont = Content.Load<SpriteFont>("Arial");
 
+            // Load Music:
+            bgMusic = Content.Load<Song>("PirateMusic");
+
             // Load sprites:
             lasrLogo = Content.Load<Texture2D>("Intro");
             startScreen = Content.Load<Texture2D>("ActualStartScreen");
@@ -216,7 +222,10 @@ namespace PirateQueen
 
                 case (GameState.Menu):
                     if (KeyPress(Keys.Enter))
+                    {
                         StartGame();
+                        MediaPlayer.Play(bgMusic);
+                    }
                     break;
 
                 case (GameState.Gameplay):

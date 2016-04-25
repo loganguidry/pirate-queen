@@ -29,10 +29,9 @@ namespace PirateQueen
         bool facingLeft;
         public string weapon;
         Random rgen;
-        
 
         // Constructor:
-        public Player (Texture2D debug, Texture2D idle, Texture2D walk, Texture2D run, Texture2D attack, Texture2D attackWalk, Vector2 pos)
+        public Player (Texture2D debug, Texture2D anims, Vector2 pos)
         {
             // Set attributes:
             debugSprite = debug;
@@ -46,11 +45,11 @@ namespace PirateQueen
             rgen = new Random();
 
             // Load animations:
-            animIdle = new AnimatedSprite(idle, 1, 1, 1, new Vector2(72, 72), 50);
-            animWalk = new AnimatedSprite(walk, 3, 3, 1, new Vector2(72, 72), 50);
-            animRun = new AnimatedSprite(run, 3, 3, 1, new Vector2(72, 72), 35);
-            animAttack = new AnimatedSprite(attack, 3, 3, 1, new Vector2(72, 72), 50);
-            animAttackWalk = new AnimatedSprite(attackWalk, 3, 3, 1, new Vector2(72, 72), 50);
+            animIdle = new AnimatedSprite(anims, 1, 1, 1, new Vector2(72, 72), 50);
+            animWalk = new AnimatedSprite(anims, 3, 3, 2, new Vector2(72, 72), 150);
+            animRun = new AnimatedSprite(anims, 3, 3, 2, new Vector2(72, 72), 35);
+            animAttack = new AnimatedSprite(anims, 3, 3, 1, new Vector2(72, 72), 50);
+            animAttackWalk = new AnimatedSprite(anims, 3, 3, 1, new Vector2(72, 72), 50);
         }
 
         // Reset:
@@ -123,13 +122,22 @@ namespace PirateQueen
             position += new Vector2(velocity.X, velocity.Y);
 
             // Keep on-screen:
-            if (Game1.currentLevel == 1 && Game1.currentLevelStage == 0)
+            if (Game1.currentLevelStage == 0)
             {
-                // Can't walk into the ocean on level 1, frame 1:
+                // Can't walk into the ocean on frame 1:
                 if (position.X <= 425)
                 {
                     position.X = 425;
-                    velocity.X = Math.Max (1, velocity.X);
+                    velocity.X = Math.Max(1, velocity.X);
+                }
+            }
+            if (Game1.currentLevelStage == 4)
+            {
+                // Can't walk into the wall on frame 5:
+                if (position.X >= 800)
+                {
+                    position.X = 800;
+                    velocity.X = Math.Min(-1, velocity.X);
                 }
             }
             if (position.X <= debugSprite.Width / 2)
@@ -199,22 +207,6 @@ namespace PirateQueen
         // Animation:
         public void Animate (GameTime gt)
         {
-            // Change animation:
-            /*
-            if (velocity.X <= -0.1f && onGround)
-            {
-                currentAnimation = "Walk";
-                facingLeft = true;
-            }
-            else if (velocity.X >= 0.1f && onGround)
-            {
-                currentAnimation = "Walk";
-                facingLeft = false;
-            }
-            else
-                currentAnimation = "Idle";
-            */
-
             // Update animations:
             if (currentAnimation == "Walk")
                 animWalk.Update(gt);

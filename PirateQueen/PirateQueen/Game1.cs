@@ -142,11 +142,7 @@ namespace PirateQueen
             // Create player:
             player = new Player(
                 Content.Load<Texture2D>("Player"),
-                Content.Load<Texture2D>("Animations/Player/Walk"),
-                Content.Load<Texture2D>("Animations/Player/Walk"),
-                Content.Load<Texture2D>("Animations/Player/Walk"),
-                Content.Load<Texture2D>("Animations/Player/WalkSwing"),
-                Content.Load<Texture2D>("Animations/Player/WalkSwing"),
+                Content.Load<Texture2D>("Animations/Player/PlayerAnims"),
                 new Vector2(screenSize.X / 2, groundPosition)
             );
 

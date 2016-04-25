@@ -156,3 +156,4 @@ C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Level5\BG5.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\LossScreen.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\NewWinScreen.xnb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Animations\Player\PlayerAnims.xnb

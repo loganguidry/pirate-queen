@@ -16,8 +16,8 @@ namespace PirateQueen
         // Attributes:
         Vector2 position;
         Vector2 velocity;
-        int width = 6;
-        int height = 6;
+        int width = 22;
+        int height = 4;
         string owner;
         Random rgen;
         
@@ -62,7 +62,8 @@ namespace PirateQueen
         // Draw:
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(Game1.healthPickupSprite, new Rectangle((int)position.X - (width / 2), (int)position.Y - (height / 2), width, height), Color.Red);
+            sb.Draw(Game1.healthPickupSprite, new Rectangle((int)position.X - (width / 2), (int)position.Y - (height / 2) + 1, width, height), Color.Black);
+            sb.Draw(Game1.healthPickupSprite, new Rectangle((int)position.X - (width / 2), (int)position.Y - (height / 2), width, height), Color.White);
         }
 
         // Static public method to move all bullets:

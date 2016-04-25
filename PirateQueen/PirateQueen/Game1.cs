@@ -35,7 +35,7 @@ namespace PirateQueen
     public class Game1 : Game
     {
         // Debug mode:
-        static public bool Debugging = true;
+        static public bool Debugging = false;
 
         // Constants:
         static public float GRAVITY = 1f;

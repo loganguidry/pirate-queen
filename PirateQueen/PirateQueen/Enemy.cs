@@ -178,7 +178,7 @@ namespace PirateQueen
         }
 
         // Draw animation:
-        public void Draw(SpriteBatch sb, Vector2 pos)
+        public virtual void Draw(SpriteBatch sb, Vector2 pos)
         {
             // Draw hitbox:
             if (Game1.Debugging)

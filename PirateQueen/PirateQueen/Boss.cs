@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace PirateQueen
 {
-    class Boss:Enemy 
+    public class Boss:Enemy 
     {
         // Settings:
         //int ATTACK_DELAY = 30;

@@ -165,7 +165,7 @@ namespace PirateQueen
             basicFont = Content.Load<SpriteFont>("Arial");
 
             // Load Music:
-            bgMusic = Content.Load<Song>("PirateMusic");
+            //bgMusic = Content.Load<Song>("PirateMusic");
 
             // Load sprites:
             lasrLogo = Content.Load<Texture2D>("Intro");

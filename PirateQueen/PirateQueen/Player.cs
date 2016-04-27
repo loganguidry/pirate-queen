@@ -11,6 +11,7 @@ namespace PirateQueen
     public class Player : Game
     {
         // Attributes:
+        bool takeDamage;
         static public int MAX_HEALTH = 1000;
         static public int SWORD_REACH = 175;
         public int health;
@@ -237,6 +238,11 @@ namespace PirateQueen
             if (Game1.Debugging)
                 sb.Draw(debugSprite, position - new Vector2(debugSprite.Width / 2, debugSprite.Height), Color.White);
 
+            if (takeDamage)
+            {
+                sb.Draw(debugSprite, position - new Vector2(debugSprite.Width / 2, debugSprite.Height), Color.Red);
+                takeDamage = false;
+            }
             // Draw player (animation):
             if (currentAnimation == "Walk")
                 animWalk.Draw(sb, pos, facingLeft);
@@ -250,9 +256,11 @@ namespace PirateQueen
                 animAttackWalk.Draw(sb, pos, facingLeft);
         }
 
+
         // Take damage:
         public void Damage (int amount)
         {
+            takeDamage = true;
             health -= amount;
             Game1.DamagePopups.Add(new DamagePopup(position + new Vector2(-debugSprite.Width / 4, -debugSprite.Height - 50), amount.ToString()));
         }

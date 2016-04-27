@@ -23,8 +23,8 @@ namespace OptionSetter
     public partial class Form1 : Form
     {
         // Attributes:
-        int walkingSpeed = 3;
-        int runningSpeed = 5;
+        int walkingSpeed = 5;
+        int runningSpeed = 8;
 
         // Constructor:
         public Form1()

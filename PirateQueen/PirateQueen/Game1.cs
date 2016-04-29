@@ -262,9 +262,18 @@ namespace PirateQueen
 
                     // Move bullets:
                     Bullet.MoveBullets();
+                    
+                    if(currentLevelStage<=3)
+                    {
+                        // Spawn new enemies:
+                        SpawnEnemy();
+                    }
 
-                    // Spawn new enemies:
-                    SpawnEnemy();
+                    else if(currentLevelStage==4)
+                    {
+                        //spawn Boss
+                    }
+                    
 
                     // Enemy AI:
                     foreach (Enemy enemy in Enemies)
@@ -315,7 +324,6 @@ namespace PirateQueen
                     // Debug: Move on to the next frame:
                     if (KeyPress(Keys.E))
                         NextFrame();
-
                     break;
             }
 

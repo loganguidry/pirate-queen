@@ -238,7 +238,7 @@ namespace PirateQueen
             if (Game1.Debugging)
                 sb.Draw(debugSprite, position - new Vector2(debugSprite.Width / 2, debugSprite.Height), Color.White);
 
-            if (takeDamage)
+            if (takeDamage==true)
             {
                 sb.Draw(debugSprite, position - new Vector2(debugSprite.Width / 2, debugSprite.Height), Color.Red);
                 takeDamage = false;

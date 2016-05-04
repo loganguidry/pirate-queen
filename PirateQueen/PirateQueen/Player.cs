@@ -184,7 +184,7 @@ namespace PirateQueen
                     else
                         inFrontOfPlayer = enemy.position.X >= position.X;
                     if (Tools.Distance(enemy.position, position) <= SWORD_REACH && inFrontOfPlayer)
-                        enemy.Damage(rgen.Next(20, 40));
+                        enemy.Damage(rgen.Next(50, 70));
                 }
             }
         }

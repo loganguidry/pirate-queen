@@ -158,6 +158,10 @@ namespace PirateQueen
                     attackStep = 0;
                 }
             }
+            if(nextToPlayer == false)
+            {
+                attackStep = 1;
+            }
 
             // Attack:
             if (nextToPlayer && attackStep == 0)

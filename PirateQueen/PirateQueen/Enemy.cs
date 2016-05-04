@@ -149,14 +149,19 @@ namespace PirateQueen
         // Attack:
         public void Attack()
         {
-            // Increase attack timer:
-            attackStep++;
-            if (attackStep >= ATTACK_DELAY)
-                attackStep = 0;
+            // increase attack timer when enemy is next to player
+            if (nextToPlayer)
+            {
+                attackStep++;
+                if(attackStep >= ATTACK_DELAY)
+                {
+                    attackStep = 0;
+                }
+            }
 
             // Attack:
             if (nextToPlayer && attackStep == 0)
-                Game1.player.Damage(rgen.Next(damageMin, damageMax));
+                Game1.player.Damage(rgen.Next(damageMin, damageMax) + 50);
         }
 
         // Animation:

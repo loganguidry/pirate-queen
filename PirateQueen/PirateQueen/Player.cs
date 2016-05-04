@@ -24,6 +24,8 @@ namespace PirateQueen
         AnimatedSprite animRun;
         AnimatedSprite animAttack;
         AnimatedSprite animAttackWalk;
+        AnimatedSprite animFirePistol;
+        AnimatedSprite animBulletPath;
         string currentAnimation;
         double lastAttackTime;
         double attackDelay = 500;
@@ -32,7 +34,7 @@ namespace PirateQueen
         Random rgen;
 
         // Constructor:
-        public Player (Texture2D debug, Texture2D anims, Vector2 pos)
+        public Player(Texture2D debug, Texture2D anims, Vector2 pos)
         {
             // Set attributes:
             debugSprite = debug;
@@ -46,15 +48,17 @@ namespace PirateQueen
             rgen = new Random();
 
             // Load animations:
-            animIdle = new AnimatedSprite(anims, 1, 1, 1, new Vector2(72, 72), 50);
-            animWalk = new AnimatedSprite(anims, 3, 3, 2, new Vector2(72, 72), 50);
-            animRun = new AnimatedSprite(anims, 3, 3, 2, new Vector2(72, 72), 35);
-            animAttack = new AnimatedSprite(anims, 3, 3, 1, new Vector2(72, 72), 50);
-            animAttackWalk = new AnimatedSprite(anims, 3, 3, 1, new Vector2(72, 72), 50);
+            animIdle = new AnimatedSprite(anims, 1, 0, 0, new Vector2(72, 72), 50);
+            animWalk = new AnimatedSprite(anims, 4, 0, 0, new Vector2(72, 72), 50);
+            animRun = new AnimatedSprite(anims, 4, 0, 0, new Vector2(72, 72), 35);
+            animAttack = new AnimatedSprite(anims, 3, 0, 1, new Vector2(72, 72), 100);
+            animAttackWalk = new AnimatedSprite(anims, 3, 0, 1, new Vector2(72, 72), 100);
+            animFirePistol = new AnimatedSprite(anims, 3, 0, 2, new Vector2(72, 72), 75);
+            animBulletPath = new AnimatedSprite(anims, 1, 1, 3, new Vector2(72, 72), 50);
         }
 
         // Reset:
-        public void Reset ()
+        public void Reset()
         {
             position = new Vector2(Game1.screenSize.X / 2, Game1.groundPosition);
             velocity = Vector2.Zero;
@@ -63,7 +67,7 @@ namespace PirateQueen
         }
 
         // Movement:
-        public void Move (KeyboardState kbState, MouseState msState)
+        public void Move(KeyboardState kbState, MouseState msState)
         {
             // Friction for horizontal movement:
             if (!kbState.IsKeyDown(Keys.A) && !kbState.IsKeyDown(Keys.D) && onGround)
@@ -174,7 +178,7 @@ namespace PirateQueen
             {
                 lastAttackTime = Game1.currentFrameTime;
                 Console.WriteLine("Player swinging sword.");
-                
+
                 // Damage close enemies:
                 foreach (Enemy enemy in Game1.Enemies)
                 {
@@ -206,7 +210,7 @@ namespace PirateQueen
         }
 
         // Animation:
-        public void Animate (GameTime gt)
+        public void Animate(GameTime gt, MouseState msState)
         {
             // Update animations:
             if (currentAnimation == "Walk")
@@ -218,27 +222,32 @@ namespace PirateQueen
 
             if (Game1.currentFrameTime - lastAttackTime <= 150)
             {
-                if (currentAnimation == "Walk" || currentAnimation == "Run")
+                if ((currentAnimation == "Walk" || currentAnimation == "Run") && msState.LeftButton == ButtonState.Pressed)
                 {
                     animAttackWalk.Update(gt);
                     currentAnimation = "AttackWalk";
                 }
-                else
+                else if (msState.LeftButton == ButtonState.Pressed)
                 {
                     animAttack.Update(gt);
                     currentAnimation = "Attack";
+                }
+                else if (msState.RightButton == ButtonState.Pressed)
+                {
+                    animFirePistol.Update(gt);
+                    currentAnimation = "FirePistol";
                 }
             }
         }
 
         // Draw animation:
-        public void Draw (SpriteBatch sb, Vector2 pos)
+        public void Draw(SpriteBatch sb, Vector2 pos)
         {
             // Draw hitbox:
             if (Game1.Debugging)
                 sb.Draw(debugSprite, position - new Vector2(debugSprite.Width / 2, debugSprite.Height), Color.White);
 
-            if (takeDamage==true)
+            if (takeDamage == true)
             {
                 sb.Draw(debugSprite, position - new Vector2(debugSprite.Width / 2, debugSprite.Height), Color.Red);
                 takeDamage = false;
@@ -254,11 +263,13 @@ namespace PirateQueen
                 animAttack.Draw(sb, pos, facingLeft);
             else if (currentAnimation == "AttackWalk")
                 animAttackWalk.Draw(sb, pos, facingLeft);
+            else if (currentAnimation == "FirePistol")
+                animFirePistol.Draw(sb, pos, facingLeft);
         }
 
 
         // Take damage:
-        public void Damage (int amount)
+        public void Damage(int amount)
         {
             takeDamage = true;
             health -= amount;

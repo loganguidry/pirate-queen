@@ -20,7 +20,7 @@ namespace PirateQueen
         int timeSinceLastFrame;
         int stepDelay;
         Vector2 frameSize;
-        Vector2 currentFrameRect;
+        Rectangle currentFrameRect;
 
         // Constructor:
         public AnimatedSprite (Texture2D img, int frms, int cl, int rw, Vector2 size, int spd)
@@ -32,7 +32,7 @@ namespace PirateQueen
             columns = cl;
             stepDelay = spd;
             frameSize = size;
-            currentFrameRect = new Vector2(0, 0);
+            currentFrameRect = new Rectangle(0, 0, (int)size.X, (int)size.Y);
         }
 
         // Animate:
@@ -48,10 +48,12 @@ namespace PirateQueen
                     frame = 0;
 
                 // Get location of frame in spritesheet:
-                int row = (int)Math.Floor(frame / (double)columns);
-                int column = frame - (row * columns);
-                currentFrameRect.X = column * frameSize.X;
-                currentFrameRect.Y = row * frameSize.Y;
+                // int row = (int)Math.Floor(frame / (double)columns);
+                // int column = frame - (row * columns);
+                currentFrameRect = new Rectangle(columns * (int)frameSize.X + frame * (int)frameSize.X, 
+                                                 rows * (int)frameSize.Y,
+                                                 (int)frameSize.X,
+                                                 (int)frameSize.Y);
             }
         }
 
@@ -59,13 +61,25 @@ namespace PirateQueen
         public void Draw(SpriteBatch sb, Vector2 pos, bool flipped)
         {
             if (flipped)
-                sb.Draw(spriteSheet, pos,
-                   new Rectangle((int)currentFrameRect.X - 5, (int)currentFrameRect.Y, (int)frameSize.X, (int)frameSize.Y),
-                   Color.White, 0, Vector2.Zero, 2f, SpriteEffects.FlipHorizontally, 0);
+                sb.Draw(spriteSheet, 
+                        pos,
+                        currentFrameRect, 
+                        Color.White, 
+                        0, 
+                        Vector2.Zero, 
+                        2f, 
+                        SpriteEffects.FlipHorizontally, 
+                        0);
             else
-                sb.Draw(spriteSheet, pos,
-                   new Rectangle((int)currentFrameRect.X, (int)currentFrameRect.Y, (int)frameSize.X, (int)frameSize.Y),
-                   Color.White, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
+                sb.Draw(spriteSheet, 
+                        pos,
+                        currentFrameRect, 
+                        Color.White, 
+                        0, 
+                        Vector2.Zero, 
+                        2f, 
+                        SpriteEffects.None, 
+                        0);
 
            
         }

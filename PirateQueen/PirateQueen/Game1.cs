@@ -107,6 +107,7 @@ namespace PirateQueen
         Texture2D vignetteSprite;
         Texture2D winScreen;
         Texture2D lossScreen;
+        Texture2D enemy;
 
         // Frames:
         Texture2D[] frameBackgrounds;
@@ -177,6 +178,7 @@ namespace PirateQueen
             healthPickupSprite = Content.Load<Texture2D>("White");
             winScreen = Content.Load<Texture2D>("NewWinScreen");
             lossScreen = Content.Load<Texture2D>("LossScreen");
+            enemy = Content.Load<Texture2D>();
         }
         
         protected override void UnloadContent()
@@ -241,7 +243,7 @@ namespace PirateQueen
 
                     // Control the player:
                     player.Move(kbState, mCurrState);
-                    player.Animate(gameTime);
+                    player.Animate(gameTime, mCurrState);
 
                     // Move health pickups:
                     List<HealthPickup> deadPickups = new List<HealthPickup>();

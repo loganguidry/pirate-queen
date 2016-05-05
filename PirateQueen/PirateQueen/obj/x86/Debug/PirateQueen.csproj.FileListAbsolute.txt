@@ -243,7 +243,6 @@ J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\Content\Level5\BG3.xnb
 J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\Content\Level5\BG4.xnb
 J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\Content\Level5\BG5.xnb
 J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\Content\Animations\Player\PlayerAnims.xnb
-J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\NVorbis.dll
 F:\sourcetree\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.exe
 F:\sourcetree\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.pdb
 F:\sourcetree\PirateQueen\PirateQueen\bin\Debug\Content\PirateMusic.ogg
@@ -305,3 +304,4 @@ F:\sourcetree\PirateQueen\PirateQueen\bin\Debug\MonoGame.Framework.dll
 F:\sourcetree\PirateQueen\PirateQueen\bin\Debug\NVorbis.dll
 F:\sourcetree\PirateQueen\PirateQueen\bin\Debug\OpenTK.dll
 F:\sourcetree\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.csprojResolveAssemblyReference.cache
+J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\NVorbis.dll

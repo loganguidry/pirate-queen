@@ -178,7 +178,7 @@ namespace PirateQueen
             healthPickupSprite = Content.Load<Texture2D>("White");
             winScreen = Content.Load<Texture2D>("NewWinScreen");
             lossScreen = Content.Load<Texture2D>("LossScreen");
-            enemy = Content.Load<Texture2D>();
+            //enemy = Content.Load<Texture2D>();
         }
         
         protected override void UnloadContent()
@@ -412,9 +412,10 @@ namespace PirateQueen
                     ui.Draw(spriteBatch);
                     break;
             }
-            
+
+            // - new Vector2(cursorSprite.Width / 2f, cursorSprite.Height / 2f)
             // Draw the cursor:
-            spriteBatch.Draw(cursorSprite, new Vector2(mCurrState.Position.X, mCurrState.Position.Y) - new Vector2(cursorSprite.Width / 2f, cursorSprite.Height / 2f), Color.White);
+            spriteBatch.Draw(cursorSprite, new Vector2(mCurrState.X + 180, mCurrState.Y + 130), Color.White);
 
             // Debugging information:
             if (Debugging)

@@ -66,7 +66,7 @@ namespace PirateQueen
             }
 
             // Load animations:
-            animWalk = new AnimatedSprite(walk, 6, 3, 2, new Vector2(72, 72), 100);
+            animWalk = new AnimatedSprite(walk, 4, 0, 0, new Vector2(72, 72), 100);
         }
 
         // Reset:
@@ -172,16 +172,16 @@ namespace PirateQueen
         {
             // Change animation:
             if (velocity.X <= -0.1f && onGround)
-                currentAnimation = "Walk Left";
-            else if (velocity.X >= 0.1f && onGround)
                 currentAnimation = "Walk Right";
+            else if (velocity.X >= 0.1f && onGround)
+                currentAnimation = "Walk Left";
             else
                 currentAnimation = "Idle";
 
             // Update animations:
-            if (currentAnimation == "Walk Left")
-                animWalk.Update(gt);
             if (currentAnimation == "Walk Right")
+                animWalk.Update(gt);
+            if (currentAnimation == "Walk Left")
                 animWalk.Update(gt);
         }
 

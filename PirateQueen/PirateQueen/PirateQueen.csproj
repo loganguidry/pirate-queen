@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Animations\NormalEnemy\badguys.png" />
     <Content Include="Content\piratemusic.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

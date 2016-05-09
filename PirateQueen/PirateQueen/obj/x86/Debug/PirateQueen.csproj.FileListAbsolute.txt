@@ -305,3 +305,7 @@ F:\sourcetree\PirateQueen\PirateQueen\bin\Debug\NVorbis.dll
 F:\sourcetree\PirateQueen\PirateQueen\bin\Debug\OpenTK.dll
 F:\sourcetree\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.csprojResolveAssemblyReference.cache
 J:\sourcetree\PirateQueen\PirateQueen\bin\Debug\NVorbis.dll
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\PirateMusic.ogg
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\PirateMusic.xnb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\piratemusic.mp3
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Animations\NormalEnemy\BadGuys.xnb

@@ -74,7 +74,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Animations\NormalEnemy\badguys.png" />
     <Content Include="Content\piratemusic.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -317,6 +316,11 @@
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\test.mgcb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Animations\NormalEnemy\BadGuys.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

@@ -550,7 +550,7 @@ namespace PirateQueen
                 lastEnemySpawnTime = currentFrameTime;
                 Enemy newEnemy = new Enemy(
                         Content.Load<Texture2D>("Player"),
-                        Content.Load<Texture2D>("Animations/NormalEnemy/badguys"),
+                        Content.Load<Texture2D>("Animations/NormalEnemy/BadGuys"),
                         new Vector2(screenSize.X + 100, groundPosition),
                         rgen.Next(0, 99999), "normal"
                     );

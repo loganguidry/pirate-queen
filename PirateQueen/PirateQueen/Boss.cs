@@ -11,37 +11,41 @@ namespace PirateQueen
 {
     public class Boss:Enemy 
     {
-        // Settings:
-        //int ATTACK_DELAY = 30;
+		// Settings:
+		//int ATTACK_DELAY = 30;
 
-        // Attributes:
-        public Texture2D blackbeard;
-        //public Vector2 position;
-        //public int health;
-        //private int damageMin;
-        //private int damageMax;
-        //private Vector2 velocity;
-        //private bool onGround;
-        //private AnimatedSprite animIdle;
-        private AnimatedSprite animWalk;
-        //private AnimatedSprite animAttack;
-        private string currentAnimation;
-        //private float speed;
-        //private string type;
-        //private Random rgen;
-        //private int attackStep;
-        //private bool nextToPlayer;
+		// Attributes:
+		//private AnimatedSprite animWalk;
+		//private AnimatedSprite animAttack;
+		//private string currentAnimation;
+		//private float speed;
+		//private string type;
+		//private Random rgen;
+		//private int attackStep;
+		//private bool nextToPlayer;
+		double spawnTime;
         
-        public Boss(Texture2D sprt, Texture2D walk, Vector2 pos, int randomSeed, string kind, Texture2D bb): base (sprt, walk, pos, randomSeed, kind)
+        public Boss(Texture2D sprt, Texture2D anims, Vector2 pos, int randomSeed): base (sprt, anims, pos, randomSeed, "boss")
         {
-            
-        }
+			// Wait 2 seconds before moving):
+			spawnTime = Game1.currentFrameTime;
+			canMove = false;
+
+			// Set attributes:
+			speed = rgen.Next(12, 18) / 10f;
+			damageMin = 75;
+			damageMax = 200;
+		}
 
         public override void Draw(SpriteBatch sb, Vector2 pos)
         {
+			// Automatically start moving after 2 seconds:
+			if (Game1.currentFrameTime - spawnTime > 2000 && !canMove)
+				canMove = true;
+
             // Draw hitbox:
             if (Game1.Debugging)
-                sb.Draw(blackbeard, position - new Vector2(blackbeard.Width / 2, blackbeard.Height), Color.MonoGameOrange);
+                sb.Draw(debugSprite, new Rectangle((int)(position.X - (debugSprite.Width / 2.0f)), (int)(position.Y - debugSprite.Height), debugSprite.Width, debugSprite.Height), Color.MonoGameOrange);
             
             // Draw enemy (animation):
             if (currentAnimation == "Walk Left")

@@ -15,22 +15,23 @@ namespace PirateQueen
         public Texture2D debugSprite;
         public Vector2 position;
         public int health;
-        private int damageMin;
-        private int damageMax;
-        private Vector2 velocity;
-        private bool onGround;
-        private AnimatedSprite animIdle;
-        private AnimatedSprite animWalk;
-        private AnimatedSprite animAttack;
-        private string currentAnimation;
-        private float speed;
-        private string type;
-        private Random rgen;
-        private int attackStep;
-        private bool nextToPlayer;
+		public int damageMin;
+		public int damageMax;
+		public Vector2 velocity;
+        public bool onGround;
+        public AnimatedSprite animIdle;
+		public AnimatedSprite animWalk;
+		public AnimatedSprite animAttack;
+		public string currentAnimation;
+		public float speed;
+		public string type;
+		public Random rgen;
+		public int attackStep;
+		public bool nextToPlayer;
+		public bool canMove;
 
         // Constructor:
-        public Enemy(Texture2D sprt, Texture2D walk, Vector2 pos, int randomSeed, string kind)
+        public Enemy(Texture2D sprt, Texture2D anims, Vector2 pos, int randomSeed, string kind)
         {
             // Set attributes:
             debugSprite = sprt;
@@ -43,6 +44,7 @@ namespace PirateQueen
             rgen = new Random(randomSeed);
             nextToPlayer = false;
             attackStep = 0;
+			canMove = true;
 
             // Load enemy attributes:
             switch (type)
@@ -66,7 +68,7 @@ namespace PirateQueen
             }
 
             // Load animations:
-            animWalk = new AnimatedSprite(walk, 4, 0, 0, new Vector2(72, 72), 100);
+            animWalk = new AnimatedSprite(anims, 4, 0, 0, new Vector2(72, 72), 100);
         }
 
         // Reset:
@@ -83,7 +85,7 @@ namespace PirateQueen
             // Get information:
             bool playerToLeft = Game1.player.position.X + (Game1.player.debugSprite.Width / 2f) < position.X - (debugSprite.Width / 2f);
             bool playerToRight = Game1.player.position.X - (Game1.player.debugSprite.Width / 2f) > position.X + (debugSprite.Width / 2f);
-            bool jump = rgen.Next(0, 1000) == 1;
+            bool jump = rgen.Next(0, 1000) == 1 && canMove;
 
             // Friction for horizontal movement:
             if (!playerToLeft && !playerToRight && onGround)
@@ -91,20 +93,23 @@ namespace PirateQueen
 
             // Acceleration for horizontal movement:
             nextToPlayer = false;
-            if (playerToLeft)
-            {
-                velocity.X -= Game1.PLAYER_ACCELERATION;
-                if (velocity.X < -speed)
-                    velocity.X = -speed;
-            }
-            else if (playerToRight)
-            {
-                velocity.X += Game1.PLAYER_ACCELERATION;
-                if (velocity.X > speed)
-                    velocity.X = speed;
-            }
-            else
-                nextToPlayer = true;
+			if (canMove)
+			{
+				if (playerToLeft)
+				{
+					velocity.X -= Game1.PLAYER_ACCELERATION;
+					if (velocity.X < -speed)
+						velocity.X = -speed;
+				}
+				else if (playerToRight)
+				{
+					velocity.X += Game1.PLAYER_ACCELERATION;
+					if (velocity.X > speed)
+						velocity.X = speed;
+				}
+				else
+					nextToPlayer = true;
+			}
 
             // Check if on ground:
             onGround = position.Y >= Game1.groundPosition;
@@ -147,9 +152,13 @@ namespace PirateQueen
 
         // Attack:
         public void Attack()
-        {
-            // increase attack timer when enemy is next to player
-            if (nextToPlayer)
+		{
+			// If the boss just recently spawned, they can't attack:
+			if (!canMove)
+				return;
+
+			// increase attack timer when enemy is next to player
+			if (nextToPlayer)
             {
                 attackStep++;
                 if(attackStep >= ATTACK_DELAY)

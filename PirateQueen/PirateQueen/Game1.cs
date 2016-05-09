@@ -37,7 +37,7 @@ namespace PirateQueen
     public class Game1 : Game
     {
         // Debug mode:
-        static public bool Debugging = false;
+        static public bool Debugging = true;
 
         // Constants:
         static public float GRAVITY = 1f;
@@ -46,9 +46,10 @@ namespace PirateQueen
         static public float PLAYER_FRICTION = 0.8f;
         static public float PLAYER_ACCELERATION = 1f;
         static public float PLAYER_JUMP_FORCE = 16f;
+		static public double ENEMY_SPAWN_DELAY = 2;//2000;
 
-        // Public static content:
-        static public Texture2D white2x2square;
+		// Public static content:
+		static public Texture2D white2x2square;
         static public Texture2D healthBarSprite;
         static public Texture2D healthPickupSprite;
         static public SpriteFont basicFont;
@@ -136,7 +137,7 @@ namespace PirateQueen
             rightFrameBackgroundPosition = screenSize.X;
             rightFrameBackgroundPositionTarget = rightFrameBackgroundPosition;
             rgen = new Random();
-            enemySpawnDelay = 2000;
+            enemySpawnDelay = ENEMY_SPAWN_DELAY;
             ui = new UI();
             spawnedEnemies = 0;
             DamagePopups = new List<DamagePopup>();
@@ -264,17 +265,10 @@ namespace PirateQueen
 
                     // Move bullets:
                     Bullet.MoveBullets();
-                    
-                    if(currentLevelStage<=3)
-                    {
-                        // Spawn new enemies:
-                        SpawnEnemy();
-                    }
 
-                    else if(currentLevelStage==4)
-                    {
-                        //spawn Boss
-                    }
+					// Spawn new enemies:
+					if (currentLevelStage <= 3)
+                        SpawnEnemy();
                     
 
                     // Enemy AI:
@@ -320,12 +314,13 @@ namespace PirateQueen
                     deadEnemies.Clear();
 
                     // All enemies killed:
-                    if (Enemies.Count == 0 && spawnedEnemies == stageEnemies)
+                    if (Enemies.Count == 0 && (spawnedEnemies == stageEnemies || currentLevelStage == 4))
                         NextFrame();
 
                     // Debug: Move on to the next frame:
-                    if (KeyPress(Keys.E))
+                    if (KeyPress(Keys.E) && Debugging)
                         NextFrame();
+
                     break;
             }
 
@@ -534,6 +529,10 @@ namespace PirateQueen
             lastEnemySpawnTime = currentFrameTime;
             stageEnemies = 5;
             spawnedEnemies = 0;
+
+			// Spawn boss:
+			if (currentLevelStage == 4)
+				SpawnBoss();
         }
 
         public void WinGame ()
@@ -557,5 +556,17 @@ namespace PirateQueen
                 Enemies.Add(newEnemy);
             }
         }
+
+		public void SpawnBoss()
+		{
+			// Create a boss above the screen:
+			Boss newEnemy = new Boss(
+						Content.Load<Texture2D>("BossDebug"),
+						Content.Load<Texture2D>("Animations/NormalEnemy/BadGuys"),
+						new Vector2(screenSize.X / 2f, 0),
+						rgen.Next(0, 99999)
+					);
+			Enemies.Add(newEnemy);
+		}
     }
 }

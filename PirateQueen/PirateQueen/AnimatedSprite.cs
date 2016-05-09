@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace PirateQueen
 {
-    class AnimatedSprite
+    public class AnimatedSprite
     {
         // Attributes:
         Texture2D spriteSheet;

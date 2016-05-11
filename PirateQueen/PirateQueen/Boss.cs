@@ -42,12 +42,14 @@ namespace PirateQueen
             hp = 300;
             health = 100;
 
+
+
             // load animation
             animIdle = new AnimatedSprite(anims, 1, 0, 0, new Vector2(128, 128), 50);
-            animWalk = new AnimatedSprite(anims, 4, 0, 0, new Vector2(128, 128), 100);
+            animWalk = new AnimatedSprite(anims, 4, 0, 0, new Vector2(128, 128), 50);
             animAttack = new AnimatedSprite(anims, 3, 0, 1, new Vector2(128, 128), 100);
-            animFireCannon = new AnimatedSprite(anims, 5, 0, 2, new Vector2(128, 128), 75);
-            animBullet = new AnimatedSprite(anims, 1, 0, 3, new Vector2(128, 128), 50);
+            //animFireCannon = new AnimatedSprite(anims, 5, 0, 2, new Vector2(128, 128), 75);
+            //animBullet = new AnimatedSprite(anims, 1, 0, 3, new Vector2(128, 128), 50);
         }
 
         public override void Move(KeyboardState kbState)
@@ -140,7 +142,7 @@ namespace PirateQueen
         public override void Damage(int amount)
         {
             hp -= amount;
-            Game1.DamagePopups.Add(new DamagePopup(position + new Vector2(-debugSprite.Width / 4, -debugSprite.Height - 50), amount.ToString()));
+            Game1.DamagePopups.Add(new DamagePopup(position + new Vector2(-debugSprite.Width / 3, -debugSprite.Height - 50), amount.ToString()));
         }
 
     }

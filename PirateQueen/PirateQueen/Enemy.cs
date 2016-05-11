@@ -188,20 +188,17 @@ namespace PirateQueen
             else if (velocity.X >= 0.1f && onGround)
                 currentAnimation = "Walk Left";
             else if (nextToPlayer && attackStep == 0)
-            {
-                animAttack.Update(gt);
                 currentAnimation = "Attack";
-            }
             else
                 currentAnimation = "Idle";
 
             // Update animations:
             if (currentAnimation == "Walk Right")
-                animWalk.Update(gt);
+                this.animWalk.Update(gt);
             if (currentAnimation == "Walk Left")
-                animWalk.Update(gt);
+                this.animWalk.Update(gt);
             if (currentAnimation == "Attack")
-                animAttack.Update(gt);
+                this.animAttack.Update(gt);
 
             }
 
@@ -214,13 +211,13 @@ namespace PirateQueen
 
             // Draw enemy (animation):
             if (currentAnimation == "Walk Left")
-                animWalk.Draw(sb, pos, true);
+                this.animWalk.Draw(sb, pos, true);
             else if (currentAnimation == "Walk Right")
-                animWalk.Draw(sb, pos, false);
+                this.animWalk.Draw(sb, pos, false);
             else if (currentAnimation == "Attack")
-                animAttack.Draw(sb, pos, false);
+                this.animAttack.Draw(sb, pos, false);
             else
-                animWalk.Draw(sb, pos, false);
+                this.animWalk.Draw(sb, pos, false);
         }
 
         // Take damage:

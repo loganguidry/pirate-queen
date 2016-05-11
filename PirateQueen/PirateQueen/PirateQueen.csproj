@@ -74,6 +74,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\ActualStartScreen2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Animations\Boss\blackbeard.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -39,7 +39,7 @@ namespace PirateQueen
 			speed = rgen.Next(12, 18) / 10f;
 			damageMin = 75;
 			damageMax = 200;
-            hp = 300;
+            hp = 275;
             health = 100;
 
 

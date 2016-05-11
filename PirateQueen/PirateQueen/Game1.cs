@@ -46,7 +46,7 @@ namespace PirateQueen
         static public float PLAYER_FRICTION = 0.8f;
         static public float PLAYER_ACCELERATION = 1f;
         static public float PLAYER_JUMP_FORCE = 16f;
-		static public double ENEMY_SPAWN_DELAY = 2;//2000;
+		static public double ENEMY_SPAWN_DELAY = 2000;
 
 		// Public static content:
 		static public Texture2D white2x2square;
@@ -171,7 +171,7 @@ namespace PirateQueen
 
             // Load sprites:
             lasrLogo = Content.Load<Texture2D>("Intro");
-            startScreen = Content.Load<Texture2D>("ActualStartScreen");
+            startScreen = Content.Load<Texture2D>("ActualStartScreen2");
             cursorSprite = Content.Load<Texture2D>("Crosshair");
             vignetteSprite = Content.Load<Texture2D>("Vignette");
             white2x2square = Content.Load<Texture2D>("White");
@@ -190,7 +190,7 @@ namespace PirateQueen
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+                Environment.Exit(0);
 
             // Get time:
             currentFrameTime += gameTime.ElapsedGameTime.TotalMilliseconds;

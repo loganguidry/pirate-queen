@@ -69,7 +69,7 @@ namespace PirateQueen
 
             // Load animations:
             animWalk = new AnimatedSprite(anims, 4, 0, 0, new Vector2(72, 72), 100);
-            animAttack = new AnimatedSprite(anims, 4, 0, 2, new Vector2(72, 72), 50);
+            animAttack = new AnimatedSprite(anims, 4, 0, 1, new Vector2(72, 72), 100);
         }
 
         // Reset:
@@ -81,7 +81,7 @@ namespace PirateQueen
         }
 
         // Movement:
-        public void Move(KeyboardState kbState)
+        public virtual void Move(KeyboardState kbState)
         {
             // Get information:
             bool playerToLeft = Game1.player.position.X + (Game1.player.debugSprite.Width / 2f) < position.X - (debugSprite.Width / 2f);
@@ -187,6 +187,11 @@ namespace PirateQueen
                 currentAnimation = "Walk Right";
             else if (velocity.X >= 0.1f && onGround)
                 currentAnimation = "Walk Left";
+            else if (nextToPlayer && attackStep == 0)
+            {
+                animAttack.Update(gt);
+                currentAnimation = "Attack";
+            }
             else
                 currentAnimation = "Idle";
 
@@ -195,32 +200,31 @@ namespace PirateQueen
                 animWalk.Update(gt);
             if (currentAnimation == "Walk Left")
                 animWalk.Update(gt);
+            if (currentAnimation == "Attack")
+                animAttack.Update(gt);
 
-            if (attackStep == 0)
-            { 
-                    animAttack.Update(gt);
-                    currentAnimation = "Attack";
-                }
             }
 
         // Draw animation:
         public virtual void Draw(SpriteBatch sb, Vector2 pos)
         {
             // Draw hitbox:
-            if (Game1.Debugging)
-                sb.Draw(debugSprite, position - new Vector2(debugSprite.Width / 2, debugSprite.Height), Color.MonoGameOrange);
+            //if (Game1.Debugging)
+                //sb.Draw(debugSprite, position - new Vector2(debugSprite.Width / 2, debugSprite.Height), Color.MonoGameOrange);
 
             // Draw enemy (animation):
             if (currentAnimation == "Walk Left")
                 animWalk.Draw(sb, pos, true);
             else if (currentAnimation == "Walk Right")
                 animWalk.Draw(sb, pos, false);
+            else if (currentAnimation == "Attack")
+                animAttack.Draw(sb, pos, false);
             else
                 animWalk.Draw(sb, pos, false);
         }
 
         // Take damage:
-        public void Damage(int amount)
+        public virtual void Damage(int amount)
         {
             health -= amount;
             Game1.DamagePopups.Add(new DamagePopup(position + new Vector2(-debugSprite.Width / 4, -debugSprite.Height - 50), amount.ToString()));

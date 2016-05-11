@@ -244,8 +244,8 @@ namespace PirateQueen
         public void Draw(SpriteBatch sb, Vector2 pos)
         {
             // Draw hitbox:
-            if (Game1.Debugging)
-                sb.Draw(debugSprite, position - new Vector2(debugSprite.Width / 2, debugSprite.Height), Color.White);
+            //if (Game1.Debugging)
+                //sb.Draw(debugSprite, position - new Vector2(debugSprite.Width / 2, debugSprite.Height), Color.White);
 
             if (takeDamage == true)
             {

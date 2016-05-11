@@ -302,8 +302,17 @@ namespace PirateQueen
                     List<Enemy> deadEnemies = new List<Enemy>();
                     foreach (Enemy enemy in Enemies)
                     {
-                        if (enemy.health <= 0)
-                            deadEnemies.Add(enemy);
+                        if (enemy is Boss)
+                        {
+                            Boss boss = (Boss)enemy;
+                            if (boss.hp <= 0)
+                                deadEnemies.Add(enemy);
+                        }
+                        else
+                        {
+                            if (enemy.health <= 0)
+                                deadEnemies.Add(enemy);
+                        }
                     }
                     foreach (Enemy enemy in deadEnemies)
                     {
@@ -313,9 +322,14 @@ namespace PirateQueen
                     }
                     deadEnemies.Clear();
 
+
+
+
                     // All enemies killed:
                     if (Enemies.Count == 0 && (spawnedEnemies == stageEnemies || currentLevelStage == 4))
                         NextFrame();
+
+
 
                     // Debug: Move on to the next frame:
                     if (KeyPress(Keys.E) && Debugging)
@@ -413,6 +427,7 @@ namespace PirateQueen
             spriteBatch.Draw(cursorSprite, new Vector2(mCurrState.X + 180, mCurrState.Y + 130), Color.White);
 
             // Debugging information:
+            /*
             if (Debugging)
                 spriteBatch.DrawString(basicFont,
                     "Player health: " + (player.health / (double)Player.MAX_HEALTH * 100).ToString() + "% [" + player.health + "/" + Player.MAX_HEALTH + "]\n" +
@@ -424,6 +439,7 @@ namespace PirateQueen
                     "#DamagePopups: " + DamagePopups.Count.ToString() + "\n" +
                     "#HealthPickups: " + pickups.Count.ToString(),
                     Vector2.Zero, Color.Green);
+            */
 
             spriteBatch.End();
 

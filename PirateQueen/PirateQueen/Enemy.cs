@@ -69,6 +69,7 @@ namespace PirateQueen
 
             // Load animations:
             animWalk = new AnimatedSprite(anims, 4, 0, 0, new Vector2(72, 72), 100);
+            animAttack = new AnimatedSprite(anims, 4, 0, 2, new Vector2(72, 72), 50);
         }
 
         // Reset:
@@ -173,7 +174,9 @@ namespace PirateQueen
 
             // Attack:
             if (nextToPlayer && attackStep == 0)
+            {
                 Game1.player.Damage(rgen.Next(damageMin, damageMax) + 50);
+            }
         }
 
         // Animation:
@@ -192,7 +195,13 @@ namespace PirateQueen
                 animWalk.Update(gt);
             if (currentAnimation == "Walk Left")
                 animWalk.Update(gt);
-        }
+
+            if (attackStep == 0)
+            { 
+                    animAttack.Update(gt);
+                    currentAnimation = "Attack";
+                }
+            }
 
         // Draw animation:
         public virtual void Draw(SpriteBatch sb, Vector2 pos)

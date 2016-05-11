@@ -562,7 +562,7 @@ namespace PirateQueen
 			// Create a boss above the screen:
 			Boss newEnemy = new Boss(
 						Content.Load<Texture2D>("BossDebug"),
-						Content.Load<Texture2D>("Animations/NormalEnemy/BadGuys"),
+						Content.Load<Texture2D>("Animations/Boss/blackbeard.png"),
 						new Vector2(screenSize.X / 2f, 0),
 						rgen.Next(0, 99999)
 					);

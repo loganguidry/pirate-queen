@@ -11,12 +11,16 @@ namespace PirateQueen
 {
     public class Boss:Enemy 
     {
-		// Settings:
-		//int ATTACK_DELAY = 30;
+        // Settings:
+        //int ATTACK_DELAY = 30;
 
-		// Attributes:
-		//private AnimatedSprite animWalk;
-		//private AnimatedSprite animAttack;
+        // Attributes:
+        private AnimatedSprite animIdle;
+		private AnimatedSprite animWalk;
+		private AnimatedSprite animAttack;
+        private AnimatedSprite animFireCannon;
+        private AnimatedSprite animBullet;
+        private int health;
 		//private string currentAnimation;
 		//private float speed;
 		//private string type;
@@ -35,7 +39,17 @@ namespace PirateQueen
 			speed = rgen.Next(12, 18) / 10f;
 			damageMin = 75;
 			damageMax = 200;
-		}
+            this.health = 400;
+
+            // load animation
+            animIdle = new AnimatedSprite(anims, 1, 0, 0, new Vector2(128, 128), 50);
+            animWalk = new AnimatedSprite(anims, 4, 0, 0, new Vector2(128, 128), 100);
+            animAttack = new AnimatedSprite(anims, 3, 0, 1, new Vector2(128, 128), 100);
+            animFireCannon = new AnimatedSprite(anims, 5, 0, 2, new Vector2(128, 128), 75);
+            animBullet = new AnimatedSprite(anims, 1, 0, 3, new Vector2(128, 128), 50);
+        }
+
+        
 
         public override void Draw(SpriteBatch sb, Vector2 pos)
         {
@@ -54,7 +68,8 @@ namespace PirateQueen
                 animWalk.Draw(sb, pos, false);
             else
                 animWalk.Draw(sb, pos, false);
-        }    
+        }
+
     }
 
 }

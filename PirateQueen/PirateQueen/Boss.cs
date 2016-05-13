@@ -42,8 +42,6 @@ namespace PirateQueen
             hp = 275;
             health = 100;
 
-
-
             // load animation
             animIdle = new AnimatedSprite(anims, 1, 0, 0, new Vector2(128, 128), 50);
             animWalk = new AnimatedSprite(anims, 4, 0, 0, new Vector2(128, 128), 50);

@@ -89,7 +89,6 @@ C:\Users\Siddie\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\SharpDX
 C:\Users\Siddie\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.csprojResolveAssemblyReference.cache
 C:\Users\Siddie\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.exe
 C:\Users\Siddie\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.pdb
-C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\ActualStartScreen.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Debug_5x5.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\White.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\HealthBar.xnb
@@ -439,3 +438,6 @@ D:\Users\rcd7972\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\OpenTK
 D:\Users\rcd7972\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.exe
 D:\Users\rcd7972\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.pdb
 D:\Users\rcd7972\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\ActualStartScreen2.png
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\ActualStartScreen2.xnb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\cursorGauntlet_blue.xnb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Animations\Boss\blackbeard.xnb

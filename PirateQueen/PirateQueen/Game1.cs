@@ -172,7 +172,7 @@ namespace PirateQueen
             // Load sprites:
             lasrLogo = Content.Load<Texture2D>("Intro");
             startScreen = Content.Load<Texture2D>("ActualStartScreen2");
-            cursorSprite = Content.Load<Texture2D>("Crosshair");
+            cursorSprite = Content.Load<Texture2D>("cursorGauntlet_blue");
             vignetteSprite = Content.Load<Texture2D>("Vignette");
             white2x2square = Content.Load<Texture2D>("White");
             healthBarSprite = Content.Load<Texture2D>("HealthBar");
@@ -578,7 +578,7 @@ namespace PirateQueen
 			// Create a boss above the screen:
 			Boss newEnemy = new Boss(
 						Content.Load<Texture2D>("BossDebug"),
-						Content.Load<Texture2D>("Animations/Boss/blackbeard.png"),
+						Content.Load<Texture2D>("Animations/Boss/blackbeard"),
 						new Vector2(screenSize.X / 2f, 0),
 						rgen.Next(0, 99999)
 					);

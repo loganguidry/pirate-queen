@@ -55,33 +55,60 @@ namespace PirateQueen
                                                  (int)frameSize.X,
                                                  (int)frameSize.Y);
             }
-        }
+		}
 
-        // Draw:
-        public void Draw(SpriteBatch sb, Vector2 pos, bool flipped)
-        {
-            if (flipped)
-                sb.Draw(spriteSheet, 
-                        pos,
-                        currentFrameRect, 
-                        Color.White, 
-                        0, 
-                        Vector2.Zero, 
-                        2f, 
-                        SpriteEffects.FlipHorizontally, 
-                        0);
-            else
-                sb.Draw(spriteSheet, 
-                        pos,
-                        currentFrameRect, 
-                        Color.White, 
-                        0, 
-                        Vector2.Zero, 
-                        2f, 
-                        SpriteEffects.None, 
-                        0);
+		// Draw:
+		public void Draw(SpriteBatch sb, Vector2 pos, bool flipped)
+		{
+			if (flipped)
+				sb.Draw(spriteSheet,
+						pos,
+						currentFrameRect,
+						Color.White,
+						0,
+						Vector2.Zero,
+						2f,
+						SpriteEffects.FlipHorizontally,
+						0);
+			else
+				sb.Draw(spriteSheet,
+						pos,
+						currentFrameRect,
+						Color.White,
+						0,
+						Vector2.Zero,
+						2f,
+						SpriteEffects.None,
+						0);
 
-           
-        }
-    }
+
+		}
+
+		// Draw with offset:
+		public void Draw(SpriteBatch sb, Vector2 pos, bool flipped, Vector2 offset)
+		{
+			if (flipped)
+				sb.Draw(spriteSheet,
+						pos,
+						currentFrameRect,
+						Color.White,
+						0,
+						offset,
+						2f,
+						SpriteEffects.FlipHorizontally,
+						0);
+			else
+				sb.Draw(spriteSheet,
+						pos,
+						currentFrameRect,
+						Color.White,
+						0,
+						offset,
+						2f,
+						SpriteEffects.None,
+						0);
+
+
+		}
+	}
 }

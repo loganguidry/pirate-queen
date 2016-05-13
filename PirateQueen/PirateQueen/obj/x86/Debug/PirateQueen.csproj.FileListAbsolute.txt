@@ -441,3 +441,4 @@ D:\Users\rcd7972\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Conten
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\ActualStartScreen2.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\cursorGauntlet_blue.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Animations\Boss\blackbeard.xnb
+C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\PalatinoLinotype_26.xnb

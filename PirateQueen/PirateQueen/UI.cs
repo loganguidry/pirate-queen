@@ -18,7 +18,7 @@ namespace PirateQueen
             sb.Draw(Game1.white2x2square, new Rectangle(175, 25, (int)(350 * (Game1.player.health / (double)Player.MAX_HEALTH)), 60), Color.DarkSeaGreen);
 
 			// Draw level:
-			sb.DrawString(Game1.basicFont, "Level\r\n   " + Game1.currentLevel, new Vector2(45, 45), Color.White);
+			sb.DrawString(Game1.uiFont, "Level\r\n    " + Game1.currentLevel, new Vector2(35, 40), Color.White);
         }
     }
 }

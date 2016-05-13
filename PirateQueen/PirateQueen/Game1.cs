@@ -37,7 +37,7 @@ namespace PirateQueen
     public class Game1 : Game
     {
         // Debug mode:
-        static public bool Debugging = true;
+        static public bool Debugging = false;
 
         // Constants:
         static public float GRAVITY = 1f;
@@ -53,6 +53,7 @@ namespace PirateQueen
         static public Texture2D healthBarSprite;
         static public Texture2D healthPickupSprite;
         static public SpriteFont basicFont;
+		static public SpriteFont uiFont;
         static public Song bgMusic;
 
         // Public static variables:
@@ -165,6 +166,7 @@ namespace PirateQueen
 
             // Load fonts:
             basicFont = Content.Load<SpriteFont>("Arial");
+			uiFont = Content.Load<SpriteFont>("PalatinoLinotype_26");
 
             // Load Music:
             bgMusic = Content.Load<Song>("piratemusic");
@@ -270,7 +272,6 @@ namespace PirateQueen
 					if (currentLevelStage <= 3)
                         SpawnEnemy();
                     
-
                     // Enemy AI:
                     foreach (Enemy enemy in Enemies)
                     {
@@ -321,16 +322,11 @@ namespace PirateQueen
                         Enemies.Remove(enemy);
                     }
                     deadEnemies.Clear();
-
-
-
-
+					
                     // All enemies killed:
                     if (Enemies.Count == 0 && (spawnedEnemies == stageEnemies || currentLevelStage == 4))
                         NextFrame();
-
-
-
+					
                     // Debug: Move on to the next frame:
                     if (KeyPress(Keys.E) && Debugging)
                         NextFrame();

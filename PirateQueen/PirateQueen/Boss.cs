@@ -49,7 +49,7 @@ namespace PirateQueen
             //animFireCannon = new AnimatedSprite(anims, 5, 0, 2, new Vector2(128, 128), 75);
             //animBullet = new AnimatedSprite(anims, 1, 0, 3, new Vector2(128, 128), 50);
         }
-
+		/*
         public override void Move(KeyboardState kbState)
         {
             // Get information:
@@ -115,6 +115,7 @@ namespace PirateQueen
                 onGround = true;
             }
         }
+		*/
 
         public override void Draw(SpriteBatch sb, Vector2 pos)
         {
@@ -123,8 +124,8 @@ namespace PirateQueen
 				canMove = true;
 
             // Draw hitbox:
-            //if (Game1.Debugging)
-                //sb.Draw(debugSprite, new Rectangle((int)(position.X - (debugSprite.Width / 2.0f)), (int)(position.Y - debugSprite.Height / 2.0f), debugSprite.Width * 2, debugSprite.Height ), Color.MonoGameOrange);
+            if (Game1.Debugging)
+                sb.Draw(debugSprite, new Rectangle((int)(position.X - (debugSprite.Width / 2.0f)), (int)(position.Y - debugSprite.Height / 2.0f), debugSprite.Width * 2, debugSprite.Height ), Color.MonoGameOrange);
             
             // Draw enemy (animation):
             if (currentAnimation == "Walk Left")
@@ -137,11 +138,13 @@ namespace PirateQueen
                 animWalk.Draw(sb, pos, false);
         }
 
+		/*
         public override void Damage(int amount)
         {
             hp -= amount;
             Game1.DamagePopups.Add(new DamagePopup(position + new Vector2(-debugSprite.Width / 3, -debugSprite.Height - 50), amount.ToString()));
         }
+		*/
 
     }
 

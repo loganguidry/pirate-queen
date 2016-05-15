@@ -326,7 +326,6 @@ C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\
 C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\MainMenuBackground.xnb
 C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\PlayButton.xnb
 C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\PirateQueenHeader.xnb
-C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\ActualStartScreen.xnb
 C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Debug_5x5.xnb
 C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\White.xnb
 C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\HealthBar.xnb
@@ -372,7 +371,6 @@ C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\
 C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.csprojResolveAssemblyReference.cache
 C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.exe
 C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.pdb
-C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Animations\Boss\blackbeard.png
 D:\Users\rcd7972\Documents\pirate-queen\PirateQueen\PirateQueen\obj\x86\Debug\PirateQueen.csprojResolveAssemblyReference.cache
 D:\Users\rcd7972\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\BossDebug.png
 D:\Users\rcd7972\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\PirateMusic.ogg
@@ -446,3 +444,11 @@ C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\SimSun.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Vani_24.xnb
 C:\Users\Logan\Documents\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Vani_48.xnb
+C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\ActualStartScreen2.xnb
+C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\cursorGauntlet_blue.xnb
+C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\PalatinoLinotype_26.xnb
+C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\hp.xnb
+C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Animations\Boss\blackbeard.xnb
+C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\SimSun.xnb
+C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Vani_24.xnb
+C:\Users\Melanie\Documents\Visual Studio 2015\Projects\pirate-queen\PirateQueen\PirateQueen\bin\Debug\Content\Vani_48.xnb

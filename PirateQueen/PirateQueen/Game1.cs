@@ -236,6 +236,7 @@ namespace PirateQueen
 					{
 						StartGame();
 						MediaPlayer.Play(bgMusic);
+                        MediaPlayer.IsRepeating = true;
 					}
 					break;
 

@@ -54,9 +54,7 @@ namespace PirateQueen
         static public Texture2D healthPickupSprite;
         static public SpriteFont basicFont;
 		static public SpriteFont uiFont;
-		static public SpriteFont uiFontLarge;
-		static public SpriteFont uiFontPopup;
-		static public Song bgMusic;
+        static public Song bgMusic;
 
         // Public static variables:
         static public int currentLevel;
@@ -68,7 +66,6 @@ namespace PirateQueen
         static public Player player;
         static public List<Enemy> Enemies;
         static public List<DamagePopup> DamagePopups;
-		static public int displayHealth;
 
         //Constants(ButtonState):
         const int NUM_OF_BUTTONS = 2,
@@ -154,10 +151,9 @@ namespace PirateQueen
                 Content.Load<Texture2D>("Animations/Player/PlayerAnims"),
                 new Vector2(screenSize.X / 2, groundPosition)
             );
-			displayHealth = player.health;
 
-			// Load data:
-			Saving.LoadData();
+            // Load data:
+            Saving.LoadData();
 
             IsMouseVisible = true;
             base.Initialize();
@@ -170,12 +166,10 @@ namespace PirateQueen
 
             // Load fonts:
             basicFont = Content.Load<SpriteFont>("Arial");
-			uiFont = Content.Load<SpriteFont>("Vani_24");
-			uiFontLarge = Content.Load<SpriteFont>("Vani_48");
-			uiFontPopup = Content.Load<SpriteFont>("SimSun");
+			uiFont = Content.Load<SpriteFont>("PalatinoLinotype_26");
 
-			// Load Music:
-			bgMusic = Content.Load<Song>("piratemusic");
+            // Load Music:
+            bgMusic = Content.Load<Song>("piratemusic");
 
             // Load sprites:
             lasrLogo = Content.Load<Texture2D>("Intro");
@@ -273,9 +267,6 @@ namespace PirateQueen
 
                     // Move bullets:
                     Bullet.MoveBullets();
-
-					// Move health bar:
-					displayHealth += (int)(Math.Round((player.health - displayHealth) * 0.1f));
 
 					// Spawn new enemies:
 					if (currentLevelStage <= 3)
@@ -421,7 +412,7 @@ namespace PirateQueen
                     Bullet.DrawBullets(spriteBatch);
                     // Draw damage indicators:
                     foreach (DamagePopup popup in DamagePopups)
-                        spriteBatch.DrawString(uiFontPopup, popup.text, popup.position, new Color(0f, 0f, 0f, popup.transparency));
+                        spriteBatch.DrawString(basicFont, popup.text, popup.position, new Color(0f, 0f, 0f, popup.transparency));
                     // Draw UI:
                     ui.Draw(spriteBatch);
                     break;

@@ -32,7 +32,7 @@ namespace PirateQueen
         bool facingLeft;
         public string weapon;
         Random rgen;
-		public double lastDamageTime;
+		double lastDamageTime;
 
 		// Constructor:
 		public Player(Texture2D debug, Texture2D anims, Vector2 pos)

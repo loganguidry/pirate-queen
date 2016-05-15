@@ -29,9 +29,12 @@ namespace PirateQueen
 		public int attackStep;
 		public bool nextToPlayer;
 		public bool canMove;
+		public Vector2 offset;
+		public bool takeDamage;
+		public double lastDamageTime;
 
-        // Constructor:
-        public Enemy(Texture2D sprt, Texture2D anims, Vector2 pos, int randomSeed, string kind)
+		// Constructor:
+		public Enemy(Texture2D sprt, Texture2D anims, Vector2 pos, int randomSeed, string kind)
         {
             // Set attributes:
             debugSprite = sprt;
@@ -45,9 +48,12 @@ namespace PirateQueen
             nextToPlayer = false;
             attackStep = 0;
 			canMove = true;
+			offset = new Vector2(0, -4);
+			takeDamage = false;
+			lastDamageTime = -500;
 
-            // Load enemy attributes:
-            switch (type)
+			// Load enemy attributes:
+			switch (type)
             {
                 case "normal":
                 default:
@@ -200,30 +206,36 @@ namespace PirateQueen
             if (currentAnimation == "Attack")
                 animAttack.Update(gt);
 
-            }
+        }
 
-        // Draw animation:
-        public virtual void Draw(SpriteBatch sb, Vector2 pos)
+		// Draw animation:
+		public virtual void Draw(SpriteBatch sb, Vector2 pos)
         {
             // Draw hitbox:
-            //if (Game1.Debugging)
-                //sb.Draw(debugSprite, position - new Vector2(debugSprite.Width / 2, debugSprite.Height), Color.MonoGameOrange);
+            if (Game1.Debugging)
+                sb.Draw(debugSprite, position - new Vector2(debugSprite.Width / 2, debugSprite.Height), Color.MonoGameOrange);
 
-            // Draw enemy (animation):
-            if (currentAnimation == "Walk Left")
-                animWalk.Draw(sb, pos, true, new Vector2(0, -4));
+			// Flash red when hurt:
+			if (takeDamage && Game1.currentFrameTime - lastDamageTime >= 100)
+				takeDamage = false;
+
+			// Draw enemy (animation):
+			if (currentAnimation == "Walk Left")
+                animWalk.Draw(sb, pos, true, offset, takeDamage);
             else if (currentAnimation == "Walk Right")
-                animWalk.Draw(sb, pos, false, new Vector2(0, -4));
+                animWalk.Draw(sb, pos, false, offset, takeDamage);
             else if (currentAnimation == "Attack")
-                animAttack.Draw(sb, pos, false, new Vector2(0, -4));
+                animAttack.Draw(sb, pos, false, offset, takeDamage);
             else
-                animWalk.Draw(sb, pos, false, new Vector2(0, -4));
+                animWalk.Draw(sb, pos, false, offset, takeDamage);
         }
 
         // Take damage:
         public virtual void Damage(int amount)
         {
-            health -= amount;
+			takeDamage = true;
+			lastDamageTime = Game1.currentFrameTime;
+			health -= amount;
             Game1.DamagePopups.Add(new DamagePopup(position + new Vector2(-debugSprite.Width / 4, -debugSprite.Height - 50), amount.ToString()));
         }
     }

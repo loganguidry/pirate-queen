@@ -62,8 +62,8 @@ namespace PirateQueen
         // Draw:
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(Game1.healthPickupSprite, new Rectangle((int)position.X - (width / 2), (int)position.Y - (height / 2) + 1, width, height), Color.Black);
-            sb.Draw(Game1.healthPickupSprite, new Rectangle((int)position.X - (width / 2), (int)position.Y - (height / 2), width, height), Color.White);
+            sb.Draw(Game1.white2x2square, new Rectangle((int)position.X - (width / 2), (int)position.Y - (height / 2) + 1, width, height), Color.Black);
+            sb.Draw(Game1.white2x2square, new Rectangle((int)position.X - (width / 2), (int)position.Y - (height / 2), width, height), Color.White);
         }
 
         // Static public method to move all bullets:

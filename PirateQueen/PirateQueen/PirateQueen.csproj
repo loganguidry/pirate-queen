@@ -331,12 +331,17 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Animations\Boss\blackbeard.xnb">
+    <Content Include="Content\PalatinoLinotype_26.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\PalatinoLinotype_26.xnb">
+    <Content Include="Content\hp.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Animations\Boss\blackbeard.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -107,8 +107,64 @@ namespace PirateQueen
 						2f,
 						SpriteEffects.None,
 						0);
+		}
 
+		// Draw with red flash:
+		public void Draw(SpriteBatch sb, Vector2 pos, bool flipped, bool flash)
+		{
+			Color col = Color.White;
+			if (flash)
+				col = Color.Red;
 
+			if (flipped)
+				sb.Draw(spriteSheet,
+						pos,
+						currentFrameRect,
+						col,
+						0,
+						Vector2.Zero,
+						2f,
+						SpriteEffects.FlipHorizontally,
+						0);
+			else
+				sb.Draw(spriteSheet,
+						pos,
+						currentFrameRect,
+						col,
+						0,
+						Vector2.Zero,
+						2f,
+						SpriteEffects.None,
+						0);
+		}
+
+		// Draw with red flash with offset:
+		public void Draw(SpriteBatch sb, Vector2 pos, bool flipped, Vector2 offset, bool flash)
+		{
+			Color col = Color.White;
+			if (flash)
+				col = Color.Red;
+
+			if (flipped)
+				sb.Draw(spriteSheet,
+						pos,
+						currentFrameRect,
+						col,
+						0,
+						offset,
+						2f,
+						SpriteEffects.FlipHorizontally,
+						0);
+			else
+				sb.Draw(spriteSheet,
+						pos,
+						currentFrameRect,
+						col,
+						0,
+						offset,
+						2f,
+						SpriteEffects.None,
+						0);
 		}
 	}
 }

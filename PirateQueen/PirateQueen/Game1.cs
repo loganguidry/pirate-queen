@@ -178,7 +178,7 @@ namespace PirateQueen
             vignetteSprite = Content.Load<Texture2D>("Vignette");
             white2x2square = Content.Load<Texture2D>("White");
             healthBarSprite = Content.Load<Texture2D>("HealthBar");
-            healthPickupSprite = Content.Load<Texture2D>("White");
+            healthPickupSprite = Content.Load<Texture2D>("hp");
             winScreen = Content.Load<Texture2D>("NewWinScreen");
             lossScreen = Content.Load<Texture2D>("LossScreen");
             //enemy = Content.Load<Texture2D>();

@@ -32,9 +32,10 @@ namespace PirateQueen
         bool facingLeft;
         public string weapon;
         Random rgen;
+		double lastDamageTime;
 
-        // Constructor:
-        public Player(Texture2D debug, Texture2D anims, Vector2 pos)
+		// Constructor:
+		public Player(Texture2D debug, Texture2D anims, Vector2 pos)
         {
             // Set attributes:
             debugSprite = debug;
@@ -46,9 +47,11 @@ namespace PirateQueen
             facingLeft = false;
             weapon = "Cutlass";
             rgen = new Random();
+			takeDamage = false;
+			lastDamageTime = -500;
 
-            // Load animations:
-            animIdle = new AnimatedSprite(anims, 1, 0, 0, new Vector2(72, 72), 50);
+			// Load animations:
+			animIdle = new AnimatedSprite(anims, 1, 0, 0, new Vector2(72, 72), 50);
             animWalk = new AnimatedSprite(anims, 4, 0, 0, new Vector2(72, 72), 50);
             animRun = new AnimatedSprite(anims, 4, 0, 0, new Vector2(72, 72), 35);
             animAttack = new AnimatedSprite(anims, 3, 0, 1, new Vector2(72, 72), 100);
@@ -244,27 +247,26 @@ namespace PirateQueen
         public void Draw(SpriteBatch sb, Vector2 pos)
         {
             // Draw hitbox:
-            //if (Game1.Debugging)
-                //sb.Draw(debugSprite, position - new Vector2(debugSprite.Width / 2, debugSprite.Height), Color.White);
+            if (Game1.Debugging)
+                sb.Draw(debugSprite, position - new Vector2(debugSprite.Width / 2, debugSprite.Height), Color.White);
 
-            if (takeDamage == true)
-            {
-                sb.Draw(debugSprite, position - new Vector2(debugSprite.Width / 2, debugSprite.Height), Color.Red);
-                takeDamage = false;
-            }
+			// Flash red when hurt:
+			if (takeDamage && Game1.currentFrameTime - lastDamageTime >= 100)
+				takeDamage = false;
+
             // Draw player (animation):
             if (currentAnimation == "Walk")
-                animWalk.Draw(sb, pos, facingLeft);
+                animWalk.Draw(sb, pos, facingLeft, takeDamage);
             else if (currentAnimation == "Run")
-                animRun.Draw(sb, pos, facingLeft);
+                animRun.Draw(sb, pos, facingLeft, takeDamage);
             else if (currentAnimation == "Idle")
-                animIdle.Draw(sb, pos, facingLeft);
+                animIdle.Draw(sb, pos, facingLeft, takeDamage);
             else if (currentAnimation == "Attack")
-                animAttack.Draw(sb, pos, facingLeft);
+                animAttack.Draw(sb, pos, facingLeft, takeDamage);
             else if (currentAnimation == "AttackWalk")
-                animAttackWalk.Draw(sb, pos, facingLeft);
+                animAttackWalk.Draw(sb, pos, facingLeft, takeDamage);
             else if (currentAnimation == "FirePistol")
-                animFirePistol.Draw(sb, pos, facingLeft);
+                animFirePistol.Draw(sb, pos, facingLeft, takeDamage);
         }
 
 
@@ -272,7 +274,8 @@ namespace PirateQueen
         public void Damage(int amount)
         {
             takeDamage = true;
-            health -= amount;
+			lastDamageTime = Game1.currentFrameTime;
+			health -= amount;
             Game1.DamagePopups.Add(new DamagePopup(position + new Vector2(-debugSprite.Width / 4, -debugSprite.Height - 50), amount.ToString()));
         }
     }

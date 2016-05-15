@@ -15,12 +15,6 @@ namespace PirateQueen
         //int ATTACK_DELAY = 30;
 
         // Attributes:
-        private AnimatedSprite animIdle;
-		private AnimatedSprite animWalk;
-		private AnimatedSprite animAttack;
-        private AnimatedSprite animFireCannon;
-        private AnimatedSprite animBullet;
-        public int hp;
 		//private string currentAnimation;
 		//private float speed;
 		//private string type;
@@ -39,16 +33,13 @@ namespace PirateQueen
 			speed = rgen.Next(12, 18) / 10f;
 			damageMin = 75;
 			damageMax = 200;
-            hp = 275;
-            health = 100;
-			offset = new Vector2(0, 20);
+            health = 275;
+			offset = new Vector2(35, 50);
 
 			// load animation
-			animIdle = new AnimatedSprite(anims, 3, 0, 0, new Vector2(144, 144), 50);
-            animWalk = new AnimatedSprite(anims, 4, 0, 0, new Vector2(144, 144), 50);
+			animIdle = new AnimatedSprite(anims, 3, 0, 0, new Vector2(144, 144), 75);
+            animWalk = new AnimatedSprite(anims, 4, 0, 0, new Vector2(144, 144), 75);
             animAttack = new AnimatedSprite(anims, 3, 0, 1, new Vector2(144, 144), 100);
-            //animFireCannon = new AnimatedSprite(anims, 5, 0, 2, new Vector2(128, 128), 75);
-            //animBullet = new AnimatedSprite(anims, 1, 0, 3, new Vector2(128, 128), 50);
         }
 		
         public override void Draw(SpriteBatch sb, Vector2 pos)

@@ -32,6 +32,8 @@ namespace PirateQueen
 		public Vector2 offset;
 		public bool takeDamage;
 		public double lastDamageTime;
+		public double lastAttackTime;
+		public bool facingRight;
 
 		// Constructor:
 		public Enemy(Texture2D sprt, Texture2D anims, Vector2 pos, int randomSeed, string kind)
@@ -51,6 +53,7 @@ namespace PirateQueen
 			offset = new Vector2(0, -4);
 			takeDamage = false;
 			lastDamageTime = -500;
+			facingRight = false;
 
 			// Load enemy attributes:
 			switch (type)
@@ -182,31 +185,37 @@ namespace PirateQueen
             if (nextToPlayer && attackStep == 0)
             {
                 Game1.player.Damage(rgen.Next(damageMin, damageMax) + 50);
-            }
+				lastAttackTime = Game1.currentFrameTime;
+			}
         }
 
         // Animation:
         public void Animate(GameTime gt)
         {
-            // Change animation:
-            if (velocity.X <= -0.1f && onGround)
-                currentAnimation = "Walk Right";
-            else if (velocity.X >= 0.1f && onGround)
-                currentAnimation = "Walk Left";
-            else if (nextToPlayer && attackStep == 0)
+			// Change animation:
+			currentAnimation = "Idle";
+			if (velocity.X <= -0.1f && onGround)
+			{
+				currentAnimation = "Walk Right";
+				facingRight = true;
+			}
+			if (velocity.X >= 0.1f && onGround)
+			{
+				currentAnimation = "Walk Left";
+				facingRight = false;
+			}
+            if (Game1.currentFrameTime - lastAttackTime <= 300)
                 currentAnimation = "Attack";
-            else
-                currentAnimation = "Idle";
 
             // Update animations:
             if (currentAnimation == "Walk Right")
                 animWalk.Update(gt);
-            if (currentAnimation == "Walk Left")
+            else if (currentAnimation == "Walk Left")
                 animWalk.Update(gt);
-            if (currentAnimation == "Attack")
+            else if (currentAnimation == "Attack")
                 animAttack.Update(gt);
 
-        }
+		}
 
 		// Draw animation:
 		public virtual void Draw(SpriteBatch sb, Vector2 pos)
@@ -225,9 +234,9 @@ namespace PirateQueen
             else if (currentAnimation == "Walk Right")
                 animWalk.Draw(sb, pos, false, offset, takeDamage);
             else if (currentAnimation == "Attack")
-                animAttack.Draw(sb, pos, false, offset, takeDamage);
+                animAttack.Draw(sb, pos, !facingRight, offset, takeDamage);
             else
-                animWalk.Draw(sb, pos, false, offset, takeDamage);
+				animWalk.Draw(sb, pos, !facingRight, offset, takeDamage);
         }
 
         // Take damage:

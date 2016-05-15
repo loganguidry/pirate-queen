@@ -36,13 +36,13 @@ namespace PirateQueen
 
     public class Game1 : Game
     {
-        // Debug mode:
-        static public bool Debugging = false;
+		// Debug mode:
+		static public bool Debugging = false;
 
         // Constants:
         static public float GRAVITY = 1f;
-        static public float PLAYER_WALKING_SPEED = 3f;
-        static public float PLAYER_RUNNING_SPEED = 5f;
+        static public float PLAYER_WALKING_SPEED = 6f;
+        static public float PLAYER_RUNNING_SPEED = 10f;
         static public float PLAYER_FRICTION = 0.8f;
         static public float PLAYER_ACCELERATION = 1f;
         static public float PLAYER_JUMP_FORCE = 16f;
@@ -306,7 +306,7 @@ namespace PirateQueen
                         if (enemy is Boss)
                         {
                             Boss boss = (Boss)enemy;
-                            if (boss.hp <= 0)
+                            if (boss.health <= 0)
                                 deadEnemies.Add(enemy);
                         }
                         else

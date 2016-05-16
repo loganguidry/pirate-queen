@@ -187,7 +187,6 @@ namespace PirateQueen
 			healthPickupSprite = Content.Load<Texture2D>("hp");
 			winScreen = Content.Load<Texture2D>("NewWinScreen");
 			lossScreen = Content.Load<Texture2D>("LossScreen");
-			//enemy = Content.Load<Texture2D>();
 		}
 
 		protected override void UnloadContent()
@@ -433,7 +432,7 @@ namespace PirateQueen
 			spriteBatch.Draw(cursorSprite, new Vector2(mCurrState.X + 180, mCurrState.Y + 130), Color.White);
 
 			// Debugging information:
-			/*
+			
             if (Debugging)
                 spriteBatch.DrawString(basicFont,
                     "Player health: " + (player.health / (double)Player.MAX_HEALTH * 100).ToString() + "% [" + player.health + "/" + Player.MAX_HEALTH + "]\n" +
@@ -445,7 +444,7 @@ namespace PirateQueen
                     "#DamagePopups: " + DamagePopups.Count.ToString() + "\n" +
                     "#HealthPickups: " + pickups.Count.ToString(),
                     Vector2.Zero, Color.Green);
-            */
+            
 
 			spriteBatch.End();
 
